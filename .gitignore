@@ -1,0 +1,57 @@
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+*.sw?
+*~ 
+*.bak
+
+# Logs
+*.log
+
+# Node / Gradle / Maven lock or build files (if accidentally copied here)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+build/
+dist/
+node_modules/
+target/
+.gradle/
+.classpath
+.project
+.settings/
+
+# System junk
+*.tmp
+*.temp
+
+# Global config
+.env
+.env.local
+
+# Build output
+.build/
+
+# Logs
+*.log
+
+# Vite cache
+/.vite/
+
+# Editor settings
+.vscode/
+.idea/
+
+# Mac & OS junk
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
