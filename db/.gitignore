@@ -1,0 +1,25 @@
+# Ignore all persistent Oracle DB data files
+oracle-data/
+
+# Specifically ignore common Oracle DB data files (in case structure changes)
+*.dbf
+*.ctl
+*.log
+*.trc
+*.aud
+*.dmp
+
+# Docker database volumes and metadata
+*.pid
+*.lck
+*.bak
+
+# Ignore any potential backup or temp files
+*.tmp
+*.swp
+*.old
+*.sav
+
+# IntelliJ or IDE-specific junk (optional)
+.idea/
+*.iml

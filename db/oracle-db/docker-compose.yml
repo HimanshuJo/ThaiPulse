@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  oracle-db:
+    image: container-registry.oracle.com/database/enterprise:19.3.0.0
+    container_name: oracle-db
+    environment:
+      - ORACLE_SID=ORCL
+      - ORACLE_PDB=ORCLPDB1
+      - ORACLE_PWD=oracle
+      - ORACLE_CHARACTERSET=AL32UTF8
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    volumes:
+      - /mnt/c/Imps/Repos/ThaiPulse/db/oracle-data:/opt/oracle/oradata
+    restart: always
+
+volumes:
+  oracle-data:
