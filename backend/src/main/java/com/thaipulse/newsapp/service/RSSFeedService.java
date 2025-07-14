@@ -80,10 +80,12 @@ public class RSSFeedService {
                         String imageUrl = extractImageFromHtml(html);
                         if (imageUrl != null) {
                             news.setImage(imageUrl);
+                            imageSet = true;
                             break;
                         }
                     }
                 }
+                if (!imageSet) continue;
                 newsList.add(news);
             }
         } catch (Exception e) {

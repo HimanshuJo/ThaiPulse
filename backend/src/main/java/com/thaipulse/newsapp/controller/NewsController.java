@@ -2,7 +2,6 @@ package com.thaipulse.newsapp.controller;
 
 import com.thaipulse.newsapp.dto.NewsDto;
 import com.thaipulse.newsapp.service.RSSFeedService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

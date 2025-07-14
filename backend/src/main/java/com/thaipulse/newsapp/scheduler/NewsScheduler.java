@@ -18,7 +18,7 @@ public class NewsScheduler {
     private final RSSFeedService rssFeedService;
     private final NewsRepository newsRepository;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 300000)
     public void refreshNews() {
         List<News> fetchedNews = new ArrayList<>();
         fetchedNews.addAll(rssFeedService.getNewsFromRss("https://thediplomat.com/feed"));
