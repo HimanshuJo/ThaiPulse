@@ -17,13 +17,25 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <ul className="nav-links">
-        {cities.map((city, index) => (
-          <li key={index}>
-            <a href={`/city/${city.toLowerCase().replace(/\s+/g, "-")}`}>
-              {city}
-            </a>
-          </li>
-        ))}
+        {cities.map((city, index) => {
+          const formattedCity = city.toLowerCase().replace(/\s+/g, "-");
+          const cityPath = `/city/${formattedCity}`;
+
+          return (
+            <li key={index}>
+              <a
+                href={cityPath}
+                onClick={(e) => {
+                  if (window.location.pathname === cityPath) {
+                    e.preventDefault();
+                  }
+                }}
+              >
+                {city}
+              </a>
+            </li>
+          );
+        })}
       </ul>
       <div className="burger-menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>
         <div className="bar"></div>

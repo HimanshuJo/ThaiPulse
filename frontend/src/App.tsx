@@ -1,13 +1,18 @@
-import './App.css'
-import NewsList from './services/newsService.tsx'
+import "./App.css";
+import NewsList from "./services/newsService";
+import PattayaNewsService from "./services/pattayaNewsService";
 
 function App() {
+  const path = window.location.pathname;
 
-  return (
-      <div className="App">
-        <NewsList />
-      </div>
-  );
+  let ComponentToRender;
+  if (path === "/city/pattaya") {
+    ComponentToRender = <PattayaNewsService />;
+  } else {
+    ComponentToRender = <NewsList />;
+  }
+
+  return <div className="App">{ComponentToRender}</div>;
 }
 
 export default App;

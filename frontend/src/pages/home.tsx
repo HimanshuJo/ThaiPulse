@@ -3,6 +3,7 @@ import type { Article } from "../services/newsService";
 import BreakingNews from "../components/breakingNews";
 import Navbar from "../components/navbar";
 import "../resources/home.css";
+import Footer from "../components/footer";
 
 interface HomeProps {
   articles: Article[];
@@ -55,6 +56,7 @@ const Home: React.FC<HomeProps> = ({
           Next
         </button>
       </div>
+      <Footer />
     </div>
   );
 };
