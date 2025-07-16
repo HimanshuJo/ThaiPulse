@@ -1,5 +1,8 @@
 import React from "react";
 import type { PattayaArticle } from "../services/pattayaNewsService";
+import Navbar from "../components/navbar";
+import Footer from "../components/footer";
+import "../resources/pattayaNews.css";
 
 interface PattayaNewsProps {
   articles: PattayaArticle[];
@@ -20,6 +23,7 @@ const PattayaNews: React.FC<PattayaNewsProps> = ({
 
   return (
     <div className="pattaya-container">
+    <Navbar />
       <h1 className="pattaya-header">Pattaya News</h1>
 
       {breaking && (
@@ -33,18 +37,39 @@ const PattayaNews: React.FC<PattayaNewsProps> = ({
       )}
 
       <div className="news-list">
-        {articles.slice(1).map((article, index) => (
-          <div className="news-card" key={index}>
-            <img src={article.imageUrl} alt={article.title} />
-            <div>
-              <a href={article.link} target="_blank" rel="noopener noreferrer">
-                <h3>{article.title}</h3>
-              </a>
-              <p>{article.description}</p>
-              <p className="source">{article.publishedDate}</p>
-            </div>
-          </div>
-        ))}
+        {articles.slice(1).map((article, index) => {
+          const wordCount = article.description?.split(/\s+/).length || 0;
+          const formattedDate = article.publishedDate
+            ? new Date(article.publishedDate).toLocaleDateString("en-GB")
+            : "Unknown date";
+
+          return (
+            <React.Fragment key={index}>
+              <div className="news-card">
+                <img src={article.imageUrl} alt={article.title} />
+                <div>
+                  <a
+                    href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <h3>{article.title}</h3>
+                  </a>
+                  {wordCount >= 10 ? (
+                    <>
+                      <p>{article.description}</p>
+                      <p className="source">Posted on: {formattedDate}</p>
+                    </>
+                  ) : (
+                    <p className="source">Posted on: {formattedDate}</p>
+                  )}
+                </div>
+              </div>
+
+              {index < articles.length - 2 && <hr className="news-divider" />}
+            </React.Fragment>
+          );
+        })}
       </div>
 
       <div className="pagination">
@@ -58,6 +83,7 @@ const PattayaNews: React.FC<PattayaNewsProps> = ({
           Next
         </button>
       </div>
+      <Footer />
     </div>
   );
 };

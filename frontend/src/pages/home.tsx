@@ -2,8 +2,8 @@ import React from "react";
 import type { Article } from "../services/newsService";
 import BreakingNews from "../components/breakingNews";
 import Navbar from "../components/navbar";
-import "../resources/home.css";
 import Footer from "../components/footer";
+import "../resources/home.css";
 
 interface HomeProps {
   articles: Article[];

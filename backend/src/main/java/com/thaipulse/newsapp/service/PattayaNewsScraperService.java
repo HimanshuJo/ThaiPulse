@@ -62,12 +62,6 @@ public class PattayaNewsScraperService {
                     System.err.println("Failed to scrape article page: " + link);
                 }
 
-                System.out.println("####### ------- ####### -------");
-                System.out.println(title);
-                System.out.println(description);
-                System.out.println(pubDate);
-                System.out.println("####### ------- ####### -------");
-
                 PattayaNews news = new PattayaNews();
                 news.setTitle(title);
                 news.setDescription(description);
