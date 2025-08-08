@@ -1,6 +1,7 @@
 import "./App.css";
 import NewsList from "./services/newsService";
 import PattayaNewsService from "./services/pattayaNewsService";
+import BangkokNewsService from "./services/bangkokNewsService";
 
 function App() {
   const path = window.location.pathname;
@@ -8,6 +9,8 @@ function App() {
   let ComponentToRender;
   if (path === "/city/pattaya") {
     ComponentToRender = <PattayaNewsService />;
+  } else if(path==="/city/bangkok"){
+    ComponentToRender=<BangkokNewsService />;
   } else {
     ComponentToRender = <NewsList />;
   }
