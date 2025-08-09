@@ -3,3 +3,43 @@ DB:
     docker exec -it oracle-db bash
 
     sqlplus system/oracle@"(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCLPDB1)))"
+
+    BklRrVzgmeu+R_zA+TRI
+
+-------
+
+Oracle:
+
+    Show Current Database (Container) Name:
+
+        SHOW CON_NAME;
+
+    -------
+
+    List All Tables Created by the Current User:
+
+        SELECT table_name FROM user_tables;
+
+    -------
+
+    Show Tables from All Users:
+
+        SELECT owner, table_name FROM all_tables;
+
+    -------
+
+    Check if the news table exists in your schema:
+
+        SELECT table_name FROM user_tables WHERE table_name = 'NEWS';
+
+    -------
+
+    To get all columns and their metadata for news table:
+
+        SELECT column_name, data_type, data_length, nullable, data_default FROM user_tab_columns WHERE table_name = 'NEWS' ORDER BY column_id;
+
+    -------
+
+    Get constraints on news table (like primary key):
+
+        SELECT constraint_name, constraint_type, status FROM user_constraints WHERE table_name = 'NEWS';

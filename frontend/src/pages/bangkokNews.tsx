@@ -45,7 +45,7 @@ const BangkokNews: React.FC<BangkokNewsProps> = ({
                     const wordCount = article.description?.split(/\s+/).length || 0;
                     const formattedDate = article.publishedDate
                     ? new Date(article.publishedDate).toLocaleDateString("en-GB")
-                    : "Unknown date";
+                    : "";
 
                       return (
                         <React.Fragment key={index}>
