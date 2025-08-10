@@ -12,6 +12,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -31,6 +32,9 @@ public class PattayaNewsScraperService {
     @Transactional
     public void fetchAndStoreLatestNews() {
         try {
+            pattayaNewsRepository.deleteAll();
+            System.out.println("Cleared table: " + "Pattaya repo");
+            Thread.sleep(2000);
             Document doc = Jsoup.connect(BASE_URL).userAgent("Mozilla").get();
             Elements articles = doc.select("div.td-module-thumb a");
 
@@ -70,8 +74,8 @@ public class PattayaNewsScraperService {
                 news.setPublishedDate(pubDate);
                 pattayaNewsRepository.save(news);
             }
-        } catch (Exception exp) {
-            System.err.println("Scraping failed: " + exp.getMessage());
+        } catch (IOException | InterruptedException e) {
+            System.err.println("Scraping failed: " + e.getMessage());
         }
     }
 

@@ -32,6 +32,9 @@ public class PhuketNewsScraperService {
     @Transactional
     public void fetchAndStoreLatestNews() {
         try {
+            phuketNewsRepository.deleteAll();
+            System.out.println("Cleared table: " + "Phuket Repo");
+            Thread.sleep(2000);
             Document doc = Jsoup.connect(BASE_URL).userAgent("Mozilla").get();
             Elements articles = doc.select("div.td-module-thumb a");
             for (Element articleLink : articles) {
@@ -68,7 +71,7 @@ public class PhuketNewsScraperService {
                 news.setPublishedDate(pubDate);
                 phuketNewsRepository.save(news);
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

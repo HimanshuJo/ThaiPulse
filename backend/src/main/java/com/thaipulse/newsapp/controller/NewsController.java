@@ -1,13 +1,7 @@
 package com.thaipulse.newsapp.controller;
 
-import com.thaipulse.newsapp.dto.NewsDto;
-import com.thaipulse.newsapp.dto.BangkokNewsDto;
-import com.thaipulse.newsapp.dto.PattayaNewsDto;
-import com.thaipulse.newsapp.dto.PhuketNewsDto;
-import com.thaipulse.newsapp.service.BangkokNewsScraperService;
-import com.thaipulse.newsapp.service.PattayaNewsScraperService;
-import com.thaipulse.newsapp.service.PhuketNewsScraperService;
-import com.thaipulse.newsapp.service.RSSFeedService;
+import com.thaipulse.newsapp.dto.*;
+import com.thaipulse.newsapp.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +15,8 @@ public class NewsController {
 
     private final RSSFeedService rssFeedService;
 
+    private final BangkokScoopRssFeedService bangkokScoopRssFeedService;
+
     private final BangkokNewsScraperService bangkokNewsScraperService;
 
     private final PattayaNewsScraperService pattayaNewsScraperService;
@@ -28,10 +24,12 @@ public class NewsController {
     private final PhuketNewsScraperService phuketNewsScraperService;
 
     public NewsController(RSSFeedService rssFeedService,
+                          BangkokScoopRssFeedService bangkokScoopRssFeedService,
                           BangkokNewsScraperService bangkokNewsScraperService,
                           PattayaNewsScraperService pattayaNewsScraperService,
                           PhuketNewsScraperService phuketNewsScraperService) {
         this.rssFeedService = rssFeedService;
+        this.bangkokScoopRssFeedService = bangkokScoopRssFeedService;
         this.bangkokNewsScraperService = bangkokNewsScraperService;
         this.pattayaNewsScraperService = pattayaNewsScraperService;
         this.phuketNewsScraperService = phuketNewsScraperService;
@@ -49,6 +47,21 @@ public class NewsController {
             return ResponseEntity.ok().body(pagedResult);
         } else {
             List<NewsDto> allNews = rssFeedService.getPaginatedNews(0, (int) totalNews).getContent();
+            return ResponseEntity.ok().body(allNews);
+        }
+    }
+
+    @GetMapping(value = "/bangkokScoopNews")
+    public ResponseEntity<?> getAllBangkokScoopNews(@RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "20") int size) {
+        if (size < 1) size = 20;
+        long totalNews = bangkokScoopRssFeedService.countAllNews();
+        if (totalNews > 1000) {
+            Page<BangkokScoopNewsDto> pagedResult = bangkokScoopRssFeedService.getPaginatedNews(page, size);
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            List<BangkokScoopNewsDto> allNews =
+                    bangkokScoopRssFeedService.getPaginatedNews(0, (int) totalNews).getContent();
             return ResponseEntity.ok().body(allNews);
         }
     }

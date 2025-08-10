@@ -17,6 +17,17 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
         <ul className="nav-links">
+            <li>
+              <a
+                href="/"
+                onClick={(e) => {
+                  const currentPath = window.location.pathname;
+                  if (currentPath === "/") e.preventDefault();
+                }}
+              >
+                Home
+              </a>
+            </li>
           {cities.map((city, index) => {
             const formattedCity = city.toLowerCase().replace(/\s+/g, "-");
             const cityPath = `/city/${formattedCity}`;

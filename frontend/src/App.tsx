@@ -1,5 +1,6 @@
 import "./App.css";
-import NewsList from "./services/newsService";
+import NewsService from "./services/newsService";
+import BangkokScoopNewsService from "./services/bangkokScoopNewsService";
 import BangkokNewsService from "./services/bangkokNewsService";
 import PattayaNewsService from "./services/pattayaNewsService";
 import PhuketNewsService from "./services/phuketNewsService";
@@ -14,8 +15,10 @@ function App() {
     ComponentToRender=<PattayaNewsService />;
   } else if(path === "/city/phuket"){
     ComponentToRender = <PhuketNewsService />;
+  } else if(path === "/bangkokScoopNews"){
+    ComponentToRender = <BangkokScoopNewsService />
   } else {
-    ComponentToRender = <NewsList />;
+    ComponentToRender = <NewsService />;
   }
 
   return <div className="App">{ComponentToRender}</div>;

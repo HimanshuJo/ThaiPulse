@@ -18,24 +18,30 @@ public class BangkokNewsScheduler {
         this.scraperService = scraperService;
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void scheduleScraping() {
         scheduler.schedule(this::runAndReschedule, 1, TimeUnit.MINUTES);
     }
 
+    private String getTableName(){
+        return "Bangkok News";
+    }
+
     private void runAndReschedule() {
-        try {
+        try{
             scraperService.fetchAndStoreLatestNews();
-        } catch (Exception e) {
+            System.out.println("Initial fetch completed for: "+ getTableName());
+
+            scheduler.scheduleAtFixedRate(()->{
+                try{
+                    scraperService.fetchAndStoreLatestNews();
+                    System.out.println("Scheduled fetch completed for: "+ getTableName());
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+            }, 5, 3, TimeUnit.MINUTES);
+        } catch(Exception e){
             e.printStackTrace();
         }
-
-        scheduler.scheduleAtFixedRate(() -> {
-            try {
-                scraperService.fetchAndStoreLatestNews();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }, 2, 4, TimeUnit.MINUTES);
     }
 }

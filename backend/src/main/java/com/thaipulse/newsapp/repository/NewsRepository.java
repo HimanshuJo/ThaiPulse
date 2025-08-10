@@ -10,5 +10,7 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
     Page<News> findAll(Pageable pageable);
+
+    boolean existsByLink(String link);
 }
 

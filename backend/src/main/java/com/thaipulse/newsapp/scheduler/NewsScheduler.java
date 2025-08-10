@@ -25,13 +25,17 @@ public class NewsScheduler {
         fetchedNews.addAll(rssFeedService.getNewsFromRss("https://asiatimes.com/feed"));
         fetchedNews.addAll(rssFeedService.getNewsFromRss("https://southeastasiaglobe.com/feed"));
         Collections.shuffle(fetchedNews);
-
+        List<News> uniqueNews = fetchedNews.stream()
+                .filter(news -> !newsRepository.existsByLink(news.getLink()))
+                .toList();
         long count = newsRepository.count();
         if (count < 2000) {
-            newsRepository.saveAll(fetchedNews);
+            if (!uniqueNews.isEmpty()) {
+                newsRepository.saveAll(uniqueNews);
+            }
         } else {
             newsRepository.deleteAllInBatch();
-            newsRepository.saveAll(fetchedNews);
+            newsRepository.saveAll(uniqueNews);
         }
     }
 }
