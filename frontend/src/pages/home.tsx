@@ -4,7 +4,7 @@ import BreakingNews from "../components/breakingNews";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import "../resources/home.css";
-import LeftTable from "../components/leftTable";
+import OtherFeeds from "../components/otherFeeds";
 
 interface HomeProps {
   articles: Article[];
@@ -26,7 +26,7 @@ const Home: React.FC<HomeProps> = ({
       <Navbar />
       <h1 className="header">THAI PULSE</h1>
       <div className="content-wrapper">
-        <LeftTable />
+        <OtherFeeds />
         <div className="main-content">
           <BreakingNews articles={articles} />
           <div className="grid">
