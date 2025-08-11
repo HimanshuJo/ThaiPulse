@@ -29,11 +29,14 @@ public class PattayaNewsScraperService {
         this.pattayaNewsRepository = pattayaNewsRepository;
     }
 
+    public boolean newsCheck() {
+        return pattayaNewsRepository.count() >= 10;
+    }
+
     @Transactional
     public void fetchAndStoreLatestNews() {
         try {
             pattayaNewsRepository.deleteAll();
-            System.out.println("Cleared table: " + "Pattaya repo");
             Thread.sleep(2000);
             Document doc = Jsoup.connect(BASE_URL).userAgent("Mozilla").get();
             Elements articles = doc.select("div.td-module-thumb a");
@@ -73,6 +76,8 @@ public class PattayaNewsScraperService {
                 news.setImageUrl(imageUrl);
                 news.setPublishedDate(pubDate);
                 pattayaNewsRepository.save(news);
+                System.out.println("Added Pattaya news " + news.getTitle());
+                if (pattayaNewsRepository.count() >= 10) break;
             }
         } catch (IOException | InterruptedException e) {
             System.err.println("Scraping failed: " + e.getMessage());
@@ -94,4 +99,5 @@ public class PattayaNewsScraperService {
     public long countAllPattyaNews() {
         return pattayaNewsRepository.count();
     }
+
 }

@@ -8,7 +8,7 @@ interface BlogLink {
 
 const blogLinks: BlogLink[] = [
   { name: "Bangkok Scoop News", path: "/bangkokScoopNews" },
-  { name: "Bangkok Life", path: "/bangkokLife" },
+  { name: "Thailand Islands", path: "/thailandIslandNews" },
   { name: "Pattaya News", path: "/pattayaNews" },
   { name: "Phuket News", path: "/phuketNews" },
   { name: "Chiang Mai News", path: "/chiangMaiNews" },

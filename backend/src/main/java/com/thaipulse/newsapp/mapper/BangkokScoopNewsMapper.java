@@ -1,12 +1,11 @@
 package com.thaipulse.newsapp.mapper;
 
 import com.thaipulse.newsapp.dto.BangkokScoopNewsDto;
-import com.thaipulse.newsapp.dto.NewsDto;
 import com.thaipulse.newsapp.model.BangkokScoopNews;
 
 public class BangkokScoopNewsMapper {
 
-    public static BangkokScoopNews toEntity(NewsDto dto) {
+    public static BangkokScoopNews toEntity(BangkokScoopNewsDto dto) {
         BangkokScoopNews news = new BangkokScoopNews();
         news.setTitle(dto.getTitle());
         news.setLink(dto.getLink());

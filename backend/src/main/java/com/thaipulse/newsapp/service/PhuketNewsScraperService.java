@@ -22,18 +22,21 @@ import java.util.stream.Collectors;
 @Service
 public class PhuketNewsScraperService {
 
-    private static final String BASE_URL = "https://thethaiger.com/news/phuket";
+    private static final String BASE_URL = "https://thephuketexpress.com/";
     private final PhuketNewsRepository phuketNewsRepository;
 
     public PhuketNewsScraperService(PhuketNewsRepository phuketNewsRepository) {
         this.phuketNewsRepository = phuketNewsRepository;
     }
 
+    public boolean newsCheck() {
+        return phuketNewsRepository.count() >= 10;
+    }
+
     @Transactional
     public void fetchAndStoreLatestNews() {
         try {
             phuketNewsRepository.deleteAll();
-            System.out.println("Cleared table: " + "Phuket Repo");
             Thread.sleep(2000);
             Document doc = Jsoup.connect(BASE_URL).userAgent("Mozilla").get();
             Elements articles = doc.select("div.td-module-thumb a");
@@ -70,6 +73,8 @@ public class PhuketNewsScraperService {
                 news.setImageUrl(imageUrl);
                 news.setPublishedDate(pubDate);
                 phuketNewsRepository.save(news);
+                System.out.println("Added Phuket news " + news.getTitle());
+                if (phuketNewsRepository.count() >= 10) break;
             }
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
@@ -91,4 +96,5 @@ public class PhuketNewsScraperService {
     public long countAllPhuketNews() {
         return phuketNewsRepository.count();
     }
+
 }

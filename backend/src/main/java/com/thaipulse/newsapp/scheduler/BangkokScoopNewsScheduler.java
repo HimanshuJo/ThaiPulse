@@ -18,11 +18,9 @@ public class BangkokScoopNewsScheduler {
     private final BangkokScoopRssFeedService bangkokScoopRssFeedService;
     private final BangkokScoopNewsRepository bangkokScoopNewsRepository;
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 500000)
     public void refereshNews() {
-        List<BangkokScoopNews> fetchedNews = new ArrayList<>(bangkokScoopRssFeedService.getNewsFromRss("https://feeds" +
-                ".feedburner" +
-                ".com/bangkokscoop/UIwo"));
+        List<BangkokScoopNews> fetchedNews = new ArrayList<>(bangkokScoopRssFeedService.getNewsFromRss("https://www.thailand-island.info/feed/"));
         Collections.shuffle(fetchedNews);
         List<BangkokScoopNews> uniqueNews = fetchedNews.stream()
                 .filter(news -> !bangkokScoopNewsRepository.existsByLink(news.getLink()))
