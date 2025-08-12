@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Bangkok News -->
+    <changeSet id="2-create-bangkok-news" author="himanshh">
+        <createTable tableName="bangkok_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(100000)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Pattaya News -->
+    <changeSet id="3-create-pattaya-news" author="himanshh">
+        <createTable tableName="pattaya_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(100000)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image_url" type="VARCHAR(500)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="4-create-phuket-news" author="himanshh">
+        <createTable tableName="phuket_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(100000)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image_url" type="VARCHAR(500)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="5-create-news" author="himanshh">
+        <createTable tableName="news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="6-create-bangkok-scoop-news" author="himanshh">
+        <createTable tableName="bangkok_scoop_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="7-create-thailand-island-news" author="himanshh">
+        <createTable tableName="thailand_island_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="8-create-thai-lady-date-finder" author="himanshh">
+        <createTable tableName="thai_lady_date_finder">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="9-create-find-thai-property" author="himanshh">
+        <createTable tableName="find_thai_property">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="10-create-legally-married-in-thailand" author="himanshh">
+        <createTable tableName="legally_married_in_thailand">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="11-create-wedding-boutique-phuket" author="himanshh">
+        <createTable tableName="wedding_boutique_phuket">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="12-create-trailhead-thailand" author="himanshh">
+        <createTable tableName="trailhead_thailand">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
