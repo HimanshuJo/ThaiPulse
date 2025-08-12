@@ -10,16 +10,23 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Component
 @RequiredArgsConstructor
 public class ThailandIslandNewsScheduler {
 
+    private static final Logger logger = LoggerFactory.getLogger(ThailandIslandNewsScheduler.class);
+
     private final ThailandIslandNewsRssFeedService thailandIslandNewsRssFeedService;
     private final ThailandIslandNewsRepository thailandIslandNewsRepository;
 
-    @Scheduled(fixedRate = 400000)
+    @Scheduled(fixedRate = 700000)
     public void refereshNews() {
-        List<ThailandIslandNews> fetchedNews = new ArrayList<>(thailandIslandNewsRssFeedService.getNewsFromRss("https://www.thailand-island.info/feed/"));
+        logger.info("running scheduler in ThailandIslandNewsScheduler");
+        List<ThailandIslandNews> fetchedNews = new ArrayList<>(thailandIslandNewsRssFeedService.getNewsFromRss("https" +
+                "://www.thailand-island.info/feed/"));
         List<ThailandIslandNews> uniqueNews = fetchedNews.stream()
                 .filter(news -> !thailandIslandNewsRepository.existsByLink(news.getLink()))
                 .toList();

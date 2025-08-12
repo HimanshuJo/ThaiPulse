@@ -94,8 +94,8 @@ public class NewsController {
         if (size < 1) {
             size = 20;
         }
-        boolean areNewsAvailable=bangkokNewsScraperService.newsCheck();
-        if(!areNewsAvailable){
+        boolean areNewsAvailable = bangkokNewsScraperService.newsCheck();
+        if (!areNewsAvailable) {
             bangkokNewsScraperService.fetchAndStoreLatestNews();
         }
         long totalNews = bangkokNewsScraperService.countAllBangkokNews();
@@ -116,8 +116,8 @@ public class NewsController {
         if (size < 1) {
             size = 20;
         }
-        boolean areNewsAvailable=pattayaNewsScraperService.newsCheck();
-        if(!areNewsAvailable){
+        boolean areNewsAvailable = pattayaNewsScraperService.newsCheck();
+        if (!areNewsAvailable) {
             pattayaNewsScraperService.fetchAndStoreLatestNews();
         }
         long totalNews = pattayaNewsScraperService.countAllPattyaNews();
@@ -137,8 +137,8 @@ public class NewsController {
         if (size < 1) {
             size = 20;
         }
-        boolean areNewsAvailable=phuketNewsScraperService.newsCheck();
-        if(!areNewsAvailable){
+        boolean areNewsAvailable = phuketNewsScraperService.newsCheck();
+        if (!areNewsAvailable) {
             phuketNewsScraperService.fetchAndStoreLatestNews();
         }
         long totalNews = phuketNewsScraperService.countAllPhuketNews();

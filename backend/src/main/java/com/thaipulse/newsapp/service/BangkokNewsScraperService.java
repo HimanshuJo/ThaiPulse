@@ -1,82 +1,80 @@
 package com.thaipulse.newsapp.service;
 
+import com.rometools.modules.mediarss.MediaEntryModule;
+import com.rometools.rome.feed.module.Module;
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.SyndFeedInput;
+import com.rometools.rome.io.XmlReader;
 import com.thaipulse.newsapp.dto.BangkokNewsDto;
 import com.thaipulse.newsapp.mapper.BangkokNewsMapper;
 import com.thaipulse.newsapp.model.BangkokNews;
 import com.thaipulse.newsapp.repository.BangkokNewsRepository;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class BangkokNewsScraperService {
 
-    private static final String BASE_URL = "https://www.independent.co.uk/topic/bangkok";
+    private static final Logger logger = LoggerFactory.getLogger(BangkokNewsScraperService.class);
+
     private final BangkokNewsRepository bangkokNewsRepository;
 
     public BangkokNewsScraperService(BangkokNewsRepository bangkokNewsRepository) {
         this.bangkokNewsRepository = bangkokNewsRepository;
     }
 
-    public boolean newsCheck() {
-        return bangkokNewsRepository.count() >= 10;
+    public long countAllBangkokNews() {
+        return bangkokNewsRepository.count();
     }
 
-    @Transactional
+    public boolean newsCheck() {
+        return bangkokNewsRepository.count() >= 1;
+    }
+
     public void fetchAndStoreLatestNews() {
-        try {
-            bangkokNewsRepository.deleteAll();
-            Document doc = Jsoup.connect(BASE_URL).userAgent("Mozilla").get();
-            Elements articles = doc.select("div.td-module-thumb a");
-            for (Element articleLink : articles) {
-                String link = articleLink.absUrl("href");
-                String title = articleLink.attr("title");
-                Optional<BangkokNews> existing = bangkokNewsRepository.findByLink(link);
-                if (existing.isPresent()) continue;
-                String imageUrl = "";
-                Element img = articleLink.selectFirst("img");
-                if (img != null) {
-                    imageUrl = img.hasAttr("data-img-url") ? img.attr("data-img-url") : img.attr("src");
-                }
-                String description = "";
-                LocalDateTime pubDate = LocalDateTime.now();
-                try {
-                    Document articlePage = Jsoup.connect(link).userAgent("Mozilla").get();
-                    Element p = articlePage.selectFirst("div.td-post-content p");
-                    if (p != null) {
-                        description = p.text();
+        List<BangkokNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://www.indothainews.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<BangkokNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !bangkokNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = bangkokNewsRepository.count();
+        if (count < 2000) {
+            if (!uniqueNews.isEmpty()) {
+                for (BangkokNews news : uniqueNews) {
+                    try {
+                        bangkokNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
                     }
-                    Element time = articlePage.selectFirst("time.entry-date");
-                    if (time != null && time.hasAttr("datetime")) {
-                        ZonedDateTime zdt = ZonedDateTime.parse(time.attr("datetime"));
-                        pubDate = zdt.toLocalDateTime();
-                    }
-                } catch (Exception innerEx) {
-                    System.err.println("Failed to scrape article page: " + link);
                 }
-                BangkokNews news = new BangkokNews();
-                news.setTitle(title);
-                news.setDescription(description);
-                news.setLink(link);
-                news.setImageUrl(imageUrl);
-                news.setPublishedDate(pubDate);
-                bangkokNewsRepository.save(news);
-                System.out.println("Added Bangkok news " + news.getTitle());
-                if (bangkokNewsRepository.count() >= 10) break;
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } else {
+            bangkokNewsRepository.deleteAllInBatch();
+            for (BangkokNews news : uniqueNews) {
+                try {
+                    bangkokNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
         }
     }
 
@@ -92,8 +90,71 @@ public class BangkokNewsScraperService {
         return new PageImpl<>(newsDto, pageable, newsPage.getTotalElements());
     }
 
-    public long countAllBangkokNews() {
-        return bangkokNewsRepository.count();
+    private String extractImageFromHtml(String html) {
+        if (html == null) return null;
+        Matcher matcher = Pattern.compile("<img[^>]+src=[\"']([^\"']+)[\"']").matcher(html);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
+    }
+
+    public List<BangkokNews> getNewsFromRss(String rssUrl) {
+        List<BangkokNews> newsList = new ArrayList<>();
+        try {
+            URL url = new URL(rssUrl);
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(url));
+            for (SyndEntry entry : feed.getEntries()) {
+                BangkokNews news = new BangkokNews();
+                news.setTitle(entry.getTitle());
+                news.setSource(feed.getTitle());
+                news.setLink(entry.getLink());
+
+                boolean imageSet = false;
+                if (entry.getModules() != null) {
+                    for (Module module : entry.getModules()) {
+                        if (module instanceof MediaEntryModule mediaModule) {
+                            if (mediaModule.getMediaContents() != null && mediaModule.getMediaContents().length > 0) {
+                                news.setImage(mediaModule.getMediaContents()[0].getReference().toString());
+                                imageSet = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!imageSet && entry.getDescription() != null) {
+                    String desc = entry.getDescription().getValue();
+                    String imageUrl = extractImageFromHtml(desc);
+                    if (imageUrl != null) {
+                        news.setImage(imageUrl);
+                        imageSet = true;
+                    }
+                }
+
+                if (!imageSet && entry.getContents() != null) {
+                    for (SyndContent content : entry.getContents()) {
+                        String html = content.getValue();
+                        String imageUrl = extractImageFromHtml(html);
+                        if (imageUrl != null) {
+                            news.setImage(imageUrl);
+                            imageSet = true;
+                            break;
+                        }
+                    }
+                }
+                if (!imageSet) {
+                    continue;
+                }
+                logger.info("Bangkok News Added: " + news.getTitle());
+                newsList.add(news);
+                if (newsList.size() >= 10) break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newsList;
     }
 
 }

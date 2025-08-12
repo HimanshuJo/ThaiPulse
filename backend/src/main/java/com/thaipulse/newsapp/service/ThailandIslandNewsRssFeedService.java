@@ -23,8 +23,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class ThailandIslandNewsRssFeedService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ThailandIslandNewsRssFeedService.class);
 
     private final ThailandIslandNewsRepository thailandIslandNewsRepository;
 
@@ -34,7 +39,7 @@ public class ThailandIslandNewsRssFeedService {
 
     private String extractImageFromHtml(String html) {
         if (html == null) return null;
-        Matcher matcher = Pattern.compile("<img[^>]+src[\"']([^\"']+)[\"']").matcher(html);
+        Matcher matcher = Pattern.compile("<img[^>]+src=[\"']([^\"']+)[\"']").matcher(html);
         if (matcher.find()) {
             return matcher.group(1);
         }
@@ -64,6 +69,7 @@ public class ThailandIslandNewsRssFeedService {
                         }
                     }
                 }
+
                 if (!imageSet && entry.getDescription() != null) {
                     String desc = entry.getDescription().getValue();
                     String imageUrl = extractImageFromHtml(desc);
@@ -72,6 +78,7 @@ public class ThailandIslandNewsRssFeedService {
                         imageSet = true;
                     }
                 }
+
                 if (!imageSet && entry.getContents() != null) {
                     for (SyndContent content : entry.getContents()) {
                         String html = content.getValue();
@@ -85,6 +92,7 @@ public class ThailandIslandNewsRssFeedService {
                 }
                 if (!imageSet) continue;
                 newsList.add(news);
+                logger.info("Added ThailandIslandNews: " + news.getTitle());
             }
         } catch (IOException | FeedException e) {
             throw new RuntimeException(e);

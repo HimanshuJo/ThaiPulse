@@ -20,7 +20,8 @@ public class BangkokScoopNewsScheduler {
 
     @Scheduled(fixedRate = 500000)
     public void refereshNews() {
-        List<BangkokScoopNews> fetchedNews = new ArrayList<>(bangkokScoopRssFeedService.getNewsFromRss("https://www.thailand-island.info/feed/"));
+        List<BangkokScoopNews> fetchedNews = new ArrayList<>(bangkokScoopRssFeedService.getNewsFromRss("https://feeds" +
+                ".feedburner.com/bangkokscoop/UIwo"));
         Collections.shuffle(fetchedNews);
         List<BangkokScoopNews> uniqueNews = fetchedNews.stream()
                 .filter(news -> !bangkokScoopNewsRepository.existsByLink(news.getLink()))

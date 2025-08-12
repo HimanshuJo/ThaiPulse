@@ -19,8 +19,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class PattayaNewsScraperService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PattayaNewsScraperService.class);
 
     private static final String BASE_URL = "https://thepattayanews.com/";
     private final PattayaNewsRepository pattayaNewsRepository;
@@ -66,7 +71,7 @@ public class PattayaNewsScraperService {
                         pubDate = zdt.toLocalDateTime();
                     }
                 } catch (Exception innerEx) {
-                    System.err.println("Failed to scrape article page: " + link);
+                    logger.debug("Failed to scrape article page: " + link);
                 }
 
                 PattayaNews news = new PattayaNews();
@@ -76,11 +81,11 @@ public class PattayaNewsScraperService {
                 news.setImageUrl(imageUrl);
                 news.setPublishedDate(pubDate);
                 pattayaNewsRepository.save(news);
-                System.out.println("Added Pattaya news " + news.getTitle());
+                logger.info("Added Pattaya news " + news.getTitle());
                 if (pattayaNewsRepository.count() >= 10) break;
             }
         } catch (IOException | InterruptedException e) {
-            System.err.println("Scraping failed: " + e.getMessage());
+            logger.debug("Scraping failed: " + e.getMessage());
         }
     }
 

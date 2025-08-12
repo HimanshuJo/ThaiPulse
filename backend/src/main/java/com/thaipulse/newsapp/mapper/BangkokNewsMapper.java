@@ -8,8 +8,9 @@ public class BangkokNewsMapper {
     public static BangkokNews toEntity(BangkokNewsDto dto) {
         BangkokNews news = new BangkokNews();
         news.setTitle(dto.getTitle());
-        news.setDescription(dto.getDescription());
-        news.setImageUrl(dto.getImageUrl());
+        news.setSource(dto.getSource());
+        news.setLink(dto.getLink());
+        news.setImage(dto.getImage());
         news.setPublishedDate(dto.getPublishedDate());
         return news;
     }
@@ -17,8 +18,9 @@ public class BangkokNewsMapper {
     public static BangkokNewsDto toDto(BangkokNews bangkokNews) {
         BangkokNewsDto dto = new BangkokNewsDto();
         dto.setTitle(bangkokNews.getTitle());
-        dto.setDescription(bangkokNews.getDescription());
-        dto.setImageUrl(bangkokNews.getImageUrl());
+        dto.setSource(bangkokNews.getSource());
+        dto.setLink(bangkokNews.getLink());
+        dto.setImage(bangkokNews.getImage());
         dto.setPublishedDate(bangkokNews.getPublishedDate());
         return dto;
     }

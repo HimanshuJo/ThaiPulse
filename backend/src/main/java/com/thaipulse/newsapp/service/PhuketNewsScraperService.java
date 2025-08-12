@@ -19,8 +19,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class PhuketNewsScraperService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PhuketNewsScraperService.class);
 
     private static final String BASE_URL = "https://thephuketexpress.com/";
     private final PhuketNewsRepository phuketNewsRepository;
@@ -64,7 +69,7 @@ public class PhuketNewsScraperService {
                         pubDate = zdt.toLocalDateTime();
                     }
                 } catch (Exception e) {
-                    System.err.println("Failed to scrape article page: " + link);
+                    logger.debug("Failed to scrape article page: " + link);
                 }
                 PhuketNews news = new PhuketNews();
                 news.setTitle(title);
@@ -73,7 +78,7 @@ public class PhuketNewsScraperService {
                 news.setImageUrl(imageUrl);
                 news.setPublishedDate(pubDate);
                 phuketNewsRepository.save(news);
-                System.out.println("Added Phuket news " + news.getTitle());
+                logger.info("Added Phuket news " + news.getTitle());
                 if (phuketNewsRepository.count() >= 10) break;
             }
         } catch (IOException | InterruptedException e) {

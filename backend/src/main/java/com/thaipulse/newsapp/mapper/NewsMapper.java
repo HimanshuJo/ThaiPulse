@@ -8,8 +8,8 @@ public class NewsMapper {
     public static News toEntity(NewsDto dto) {
         News news = new News();
         news.setTitle(dto.getTitle());
-        news.setLink(dto.getLink());
         news.setSource(dto.getSource());
+        news.setLink(dto.getLink());
         news.setImage(dto.getImage());
         return news;
     }
@@ -17,8 +17,8 @@ public class NewsMapper {
     public static NewsDto toDto(News news) {
         NewsDto dto = new NewsDto();
         dto.setTitle(news.getTitle());
-        dto.setLink(news.getLink());
         dto.setSource(news.getSource());
+        dto.setLink(news.getLink());
         dto.setImage(news.getImage());
         return dto;
     }

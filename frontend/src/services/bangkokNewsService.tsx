@@ -4,9 +4,9 @@ import BangkokNews from "../pages/bangkokNews";
 
 export type BangkokArticle={
     title:string;
-    description:string;
+    source:string;
     link:string;
-    imageUrl?:string;
+    image?:string;
     publishedDate?:string;
 };
 
