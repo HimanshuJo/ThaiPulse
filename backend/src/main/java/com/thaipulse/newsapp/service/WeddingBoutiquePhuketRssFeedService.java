@@ -55,7 +55,7 @@ public class WeddingBoutiquePhuketRssFeedService {
             for (SyndEntry entry : feed.getEntries()) {
                 WeddingBoutiquePhuketNews news = new WeddingBoutiquePhuketNews();
                 news.setTitle(entry.getTitle());
-                news.setSource(entry.getTitle());
+                news.setSource(feed.getTitle());
                 news.setLink(entry.getLink());
                 boolean imageSet = false;
                 if (entry.getModules() != null) {

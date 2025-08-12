@@ -55,7 +55,7 @@ public class LegallyMarriedInThailandRssFeedService {
             for (SyndEntry entry : feed.getEntries()) {
                 LegallyMarriedInThailandNews news = new LegallyMarriedInThailandNews();
                 news.setTitle(entry.getTitle());
-                news.setSource(entry.getTitle());
+                news.setSource(feed.getTitle());
                 news.setLink(entry.getLink());
                 boolean imageSet = false;
                 if (entry.getModules() != null) {

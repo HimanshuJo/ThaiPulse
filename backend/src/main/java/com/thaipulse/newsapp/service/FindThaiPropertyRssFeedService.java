@@ -55,7 +55,7 @@ public class FindThaiPropertyRssFeedService {
             for (SyndEntry entry : feed.getEntries()) {
                 FindThaiPropertyNews news = new FindThaiPropertyNews();
                 news.setTitle(entry.getTitle());
-                news.setSource(entry.getTitle());
+                news.setSource(feed.getTitle());
                 news.setLink(entry.getLink());
                 boolean imageSet = false;
                 if (entry.getModules() != null) {

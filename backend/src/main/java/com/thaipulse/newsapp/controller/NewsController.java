@@ -19,6 +19,12 @@ public class NewsController {
 
     private final ThailandIslandNewsRssFeedService thailandIslandNewsRssFeedService;
 
+    private final FindThaiPropertyRssFeedService findThaiPropertyRssFeedService;
+
+    private final LegallyMarriedInThailandRssFeedService legallyMarriedInThailandRssFeedService;
+
+    private final ThaiLadyDateFinderRssFeedService thaiLadyDateFinderRssFeedService;
+
     private final BangkokNewsScraperService bangkokNewsScraperService;
 
     private final PattayaNewsScraperService pattayaNewsScraperService;
@@ -28,12 +34,18 @@ public class NewsController {
     public NewsController(RSSFeedService rssFeedService,
                           BangkokScoopRssFeedService bangkokScoopRssFeedService,
                           ThailandIslandNewsRssFeedService thailandIslandNewsRssFeedService,
+                          FindThaiPropertyRssFeedService findThaiPropertyRssFeedService,
+                          LegallyMarriedInThailandRssFeedService legallyMarriedInThailandRssFeedService,
+                          ThaiLadyDateFinderRssFeedService thaiLadyDateFinderRssFeedService,
                           BangkokNewsScraperService bangkokNewsScraperService,
                           PattayaNewsScraperService pattayaNewsScraperService,
                           PhuketNewsScraperService phuketNewsScraperService) {
         this.rssFeedService = rssFeedService;
         this.bangkokScoopRssFeedService = bangkokScoopRssFeedService;
         this.thailandIslandNewsRssFeedService = thailandIslandNewsRssFeedService;
+        this.findThaiPropertyRssFeedService=findThaiPropertyRssFeedService;
+        this.legallyMarriedInThailandRssFeedService=legallyMarriedInThailandRssFeedService;
+        this.thaiLadyDateFinderRssFeedService=thaiLadyDateFinderRssFeedService;
         this.bangkokNewsScraperService = bangkokNewsScraperService;
         this.pattayaNewsScraperService = pattayaNewsScraperService;
         this.phuketNewsScraperService = phuketNewsScraperService;
@@ -82,6 +94,57 @@ public class NewsController {
             return ResponseEntity.ok().body(pagedResult);
         } else {
             List<ThailandIslandNewsDto> allNews = thailandIslandNewsRssFeedService.getPaginatedNews(0,
+                    (int) totalNews).getContent();
+            return ResponseEntity.ok().body(allNews);
+        }
+    }
+
+    @GetMapping(value = "/findThaiProperty")
+    public ResponseEntity<?> getAllThailandPropertyNews(@RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "20") int size) {
+        if (size < 1) {
+            size = 20;
+        }
+        long totalNews = findThaiPropertyRssFeedService.countAllNews();
+        if (totalNews > 1000) {
+            Page<FindThaiPropertyNewsDto> pagedResult = findThaiPropertyRssFeedService.getPaginatedNews(page, size);
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            List<FindThaiPropertyNewsDto> allNews = findThaiPropertyRssFeedService.getPaginatedNews(0,
+                    (int) totalNews).getContent();
+            return ResponseEntity.ok().body(allNews);
+        }
+    }
+
+    @GetMapping(value = "/legallyMarriedInThailand")
+    public ResponseEntity<?> getLegallyMarriedInThailandNews(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "20") int size) {
+        if (size < 1) {
+            size = 20;
+        }
+        long totalNews = legallyMarriedInThailandRssFeedService.countAllNews();
+        if (totalNews > 1000) {
+            Page<LegallyMarriedInThailandNewsDto> pagedResult = legallyMarriedInThailandRssFeedService.getPaginatedNews(page, size);
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            List<LegallyMarriedInThailandNewsDto> allNews = legallyMarriedInThailandRssFeedService.getPaginatedNews(0,
+                    (int) totalNews).getContent();
+            return ResponseEntity.ok().body(allNews);
+        }
+    }
+
+    @GetMapping(value = "/thaiLadyDateFinder")
+    public ResponseEntity<?> getThaiLadyDateFinderNews(@RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "20") int size) {
+        if (size < 1) {
+            size = 20;
+        }
+        long totalNews = thaiLadyDateFinderRssFeedService.countAllNews();
+        if (totalNews > 1000) {
+            Page<ThaiLadyDateFinderNewsDto> pagedResult = thaiLadyDateFinderRssFeedService.getPaginatedNews(page, size);
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            List<ThaiLadyDateFinderNewsDto> allNews = thaiLadyDateFinderRssFeedService.getPaginatedNews(0,
                     (int) totalNews).getContent();
             return ResponseEntity.ok().body(allNews);
         }

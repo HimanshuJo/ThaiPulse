@@ -55,7 +55,7 @@ public class ThaiLadyDateFinderRssFeedService {
             for (SyndEntry entry : feed.getEntries()) {
                 ThaiLadyDateFinderNews news = new ThaiLadyDateFinderNews();
                 news.setTitle(entry.getTitle());
-                news.setSource(entry.getTitle());
+                news.setSource(feed.getTitle());
                 news.setLink(entry.getLink());
                 boolean imageSet = false;
                 if (entry.getModules() != null) {

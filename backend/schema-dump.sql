@@ -1,7 +1,7 @@
 -- H2 2.1.214;
 SET DB_CLOSE_DELAY -1;        
 ;             
-CREATE USER IF NOT EXISTS "SA" SALT 'b8113cdfe5331ba3' HASH '790bd01b328916ba220a6d4e2b863167946a71cac37f39d77674c3bb2d759762' ADMIN;         
+CREATE USER IF NOT EXISTS "SA" SALT '1349f44c42434f52' HASH '2b5b9ed6e255b9213e55d88f013ccb9cb948f1d20129c932709900af157d1e55' ADMIN;         
 CREATE MEMORY TABLE "PUBLIC"."DATABASECHANGELOGLOCK"(
     "ID" INTEGER NOT NULL,
     "LOCKED" BOOLEAN NOT NULL,
@@ -30,18 +30,18 @@ CREATE MEMORY TABLE "PUBLIC"."DATABASECHANGELOG"(
 );   
 -- 12 +/- SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOG;      
 INSERT INTO "PUBLIC"."DATABASECHANGELOG" VALUES
-('1-drop-tables', 'himanshh', 'db/changelog/db.changelog-drop-tables.xml', TIMESTAMP '2025-08-12 20:00:44.508972', 1, 'EXECUTED', '8:90b93fcd9b35379ecd1686ae470412c8', 'sql; sql; sql; sql; sql; sql; sql; sql; sql; sql; sql', '', NULL, '4.9.1', '(dev,test) AND (dev,test)', NULL, '5021644402'),
-('2-create-bangkok-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.519979', 2, 'EXECUTED', '8:da1140cf1f5e6e5480dc9eae90542abc', 'createTable tableName=bangkok_news', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('3-create-pattaya-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.524969', 3, 'EXECUTED', '8:dbbda07c4fe90490c17b46fa7b57b9c8', 'createTable tableName=pattaya_news', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('4-create-phuket-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.52997', 4, 'EXECUTED', '8:742134a864dc05cae6d9e46c38d4bf54', 'createTable tableName=phuket_news', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('5-create-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.534974', 5, 'EXECUTED', '8:5dfe50fd1b3cfcf22017cdf8f66a85f9', 'createTable tableName=news', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('6-create-bangkok-scoop-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.538984', 6, 'EXECUTED', '8:a25c0eee7ced9ae57bfd6825de36cb52', 'createTable tableName=bangkok_scoop_news', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('7-create-thailand-island-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.542974', 7, 'EXECUTED', '8:ca7ad93b005f52e4c7087b9e144ffeb0', 'createTable tableName=thailand_island_news', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('8-create-thai-lady-date-finder', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.548968', 8, 'EXECUTED', '8:cd430b7450148a0db6da8600e9b48e63', 'createTable tableName=thai_lady_date_finder', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('9-create-find-thai-property', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.552969', 9, 'EXECUTED', '8:4cd6ad99f17e592d2f3e78c7ba25a061', 'createTable tableName=find_thai_property', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('10-create-legally-married-in-thailand', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.556968', 10, 'EXECUTED', '8:74552159feab310a79d2e5f95fdb7e86', 'createTable tableName=legally_married_in_thailand', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('11-create-wedding-boutique-phuket', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.562977', 11, 'EXECUTED', '8:60d650cea8f41f7e063f285d26bb7b2c', 'createTable tableName=wedding_boutique_phuket', '', NULL, '4.9.1', NULL, NULL, '5021644402'),
-('12-create-trailhead-thailand', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 20:00:44.566979', 12, 'EXECUTED', '8:0fbb4b8737667ee68c8739626ccf8050', 'createTable tableName=trailhead_thailand', '', NULL, '4.9.1', NULL, NULL, '5021644402');              
+('1-drop-tables', 'himanshh', 'db/changelog/db.changelog-drop-tables.xml', TIMESTAMP '2025-08-12 21:41:55.784993', 1, 'EXECUTED', '8:90b93fcd9b35379ecd1686ae470412c8', 'sql; sql; sql; sql; sql; sql; sql; sql; sql; sql; sql', '', NULL, '4.9.1', '(dev,test) AND (dev,test)', NULL, '5027715653'),
+('2-create-bangkok-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.796998', 2, 'EXECUTED', '8:da1140cf1f5e6e5480dc9eae90542abc', 'createTable tableName=bangkok_news', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('3-create-pattaya-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.800995', 3, 'EXECUTED', '8:dbbda07c4fe90490c17b46fa7b57b9c8', 'createTable tableName=pattaya_news', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('4-create-phuket-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.806996', 4, 'EXECUTED', '8:742134a864dc05cae6d9e46c38d4bf54', 'createTable tableName=phuket_news', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('5-create-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.811992', 5, 'EXECUTED', '8:5dfe50fd1b3cfcf22017cdf8f66a85f9', 'createTable tableName=news', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('6-create-bangkok-scoop-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.816998', 6, 'EXECUTED', '8:a25c0eee7ced9ae57bfd6825de36cb52', 'createTable tableName=bangkok_scoop_news', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('7-create-thailand-island-news', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.823', 7, 'EXECUTED', '8:ca7ad93b005f52e4c7087b9e144ffeb0', 'createTable tableName=thailand_island_news', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('8-create-thai-lady-date-finder', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.832', 8, 'EXECUTED', '8:cd430b7450148a0db6da8600e9b48e63', 'createTable tableName=thai_lady_date_finder', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('9-create-find-thai-property', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.837993', 9, 'EXECUTED', '8:4cd6ad99f17e592d2f3e78c7ba25a061', 'createTable tableName=find_thai_property', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('10-create-legally-married-in-thailand', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.845992', 10, 'EXECUTED', '8:74552159feab310a79d2e5f95fdb7e86', 'createTable tableName=legally_married_in_thailand', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('11-create-wedding-boutique-phuket', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.851001', 11, 'EXECUTED', '8:60d650cea8f41f7e063f285d26bb7b2c', 'createTable tableName=wedding_boutique_phuket', '', NULL, '4.9.1', NULL, NULL, '5027715653'),
+('12-create-trailhead-thailand', 'himanshh', 'db/changelog/db.changelog-create-tables.xml', TIMESTAMP '2025-08-12 21:41:55.857001', 12, 'EXECUTED', '8:0fbb4b8737667ee68c8739626ccf8050', 'createTable tableName=trailhead_thailand', '', NULL, '4.9.1', NULL, NULL, '5027715653');   
 CREATE MEMORY TABLE "PUBLIC"."BANGKOK_NEWS"(
     "ID" BIGINT GENERATED BY DEFAULT AS IDENTITY(START WITH 1) NOT NULL,
     "TITLE" CHARACTER VARYING(500) NOT NULL,

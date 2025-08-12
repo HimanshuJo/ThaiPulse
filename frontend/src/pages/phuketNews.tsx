@@ -25,7 +25,7 @@ const PhuketNews: React.FC<PhuketNewsProps>=({
         <Navbar />
             <h1 className="phuket-header">Phuket News</h1>
             {breaking &&(
-                <div className="breaking-news">
+                <div className="breaking-news_phuket">
                     <img src={breaking.imageUrl} alt={breaking.title} />
                     <div>
                         <h2>{breaking.title}</h2>
@@ -56,10 +56,10 @@ const PhuketNews: React.FC<PhuketNewsProps>=({
                                         {wordCount>=10?(
                                             <>
                                             <p>{article.description}</p>
-                                            <p className="source"> Posted on: {formattedDate}</p>
+                                            <p className="source">{formattedDate}</p>
                                             </>
                                         ):(
-                                            <p className="source">Posted on: {formattedDate}</p>
+                                            <p className="source">{formattedDate}</p>
                                         )}
                                     </div>
                                 </div>
