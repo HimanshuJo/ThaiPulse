@@ -9,9 +9,11 @@ public class PattayaNewsDto {
 
     private String title;
 
-    private String description;
+    private String source;
 
-    private String imageUrl;
+    private String link;
+
+    private String image;
 
     private LocalDateTime publishedDate;
 }

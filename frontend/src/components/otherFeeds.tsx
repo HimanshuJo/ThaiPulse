@@ -12,14 +12,6 @@ const blogLinks: BlogLink[] = [
   { name: "Thailand Property", path: "/findThaiProperty" },
   { name: "Legally Married In Thailand", path: "/legallyMarriedInThailand" },
   { name: "Thai Lady Date Finder", path: "/thaiLadyDateFinder" },
-  { name: "Trailhead Thailand", path: "/thaiFood" },
-  { name: "Weeding Boutique Phuket", path: "/travelTips" },
-  { name: "Cultural Events", path: "/culturalEvents" },
-  { name: "Sports", path: "/sports" },
-  { name: "Music & Arts", path: "/musicArts" },
-  { name: "Business", path: "/business" },
-  { name: "Technology", path: "/technology" },
-  { name: "Lifestyle", path: "/lifestyle" },
 ];
 
 const SCROLL_STEP = 50;

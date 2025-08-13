@@ -7,10 +7,10 @@ import "../resources/bangkokNews.css";
 
 interface BangkokNewsProps{
     articles: BangkokArticle[];
-    onNext:()=>void;
-    onPrevious:()=>void;
-    currentPage:number;
-    totalPages:number;
+    onNext: () => void;
+    onPrevious: () => void;
+    currentPage: number;
+    totalPages: number;
 }
 
 const BangkokNews: React.FC<BangkokNewsProps> = ({
@@ -39,6 +39,7 @@ const BangkokNews: React.FC<BangkokNewsProps> = ({
                 src={article.image}
                 alt={article.title}
                 className="article-image"
+                loading="lazy"
               />
               <h3 className="article-title">{article.title}</h3>
               <p className="source">{article.publishedDate}</p>

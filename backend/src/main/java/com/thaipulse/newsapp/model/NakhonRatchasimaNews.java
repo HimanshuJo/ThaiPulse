@@ -1,30 +1,39 @@
 package com.thaipulse.newsapp.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "phuket_news")
-public class PhuketNews {
+@Table(name = "nakhonratchasima_news")
+public class NakhonRatchasimaNews {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
-
-    @Column(length = 5000)
     private String source;
-
-    @Column(unique = true)
     private String link;
-
     private String image;
 
-    private LocalDateTime publishedDate;
+    public NakhonRatchasimaNews() {
+    }
+
+    public NakhonRatchasimaNews(Long id, String title, String source, String link) {
+        this.id = id;
+        this.title = title;
+        this.source = source;
+        this.link = link;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getTitle() {
-        return this.title;
+        return title;
     }
 
     public void setTitle(String title) {
@@ -32,7 +41,7 @@ public class PhuketNews {
     }
 
     public String getSource() {
-        return this.source;
+        return source;
     }
 
     public void setSource(String source) {
@@ -40,7 +49,7 @@ public class PhuketNews {
     }
 
     public String getLink() {
-        return this.link;
+        return link;
     }
 
     public void setLink(String link) {
@@ -48,18 +57,10 @@ public class PhuketNews {
     }
 
     public String getImage() {
-        return this.image;
+        return image;
     }
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public LocalDateTime getPublishedDate() {
-        return this.publishedDate;
-    }
-
-    public void setPublishedDate(LocalDateTime publishedDate) {
-        this.publishedDate = publishedDate;
     }
 }

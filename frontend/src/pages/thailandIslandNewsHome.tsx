@@ -7,10 +7,10 @@ import "../resources/home.css";
 
 interface HomeProps{
     articles: Article[];
-    onNext:()=>void;
-    onPrevious:()=>void;
-    currentPage:number;
-    totalPages:number;
+    onNext: () => void;
+    onPrevious: () => void;
+    currentPage: number;
+    totalPages: number;
 }
 
 const ThailandIslandNewsHome:React.FC<HomeProps>=({
@@ -41,6 +41,7 @@ const ThailandIslandNewsHome:React.FC<HomeProps>=({
                                 src={article.image}
                                 alt={article.title}
                                 className="article-image"
+                                loading="lazy"
                             />
                             <h3 className="article-title">
                                 {article.title}

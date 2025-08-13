@@ -1,6 +1,6 @@
 package com.thaipulse.newsapp.scheduler;
 
-import com.thaipulse.newsapp.service.PattayaNewsScraperService;
+import com.thaipulse.newsapp.service.PattayaNewsRssFeedService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class PattayaNewsScheduler {
 
-    private final PattayaNewsScraperService scraperService;
+    private final PattayaNewsRssFeedService scraperService;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-    public PattayaNewsScheduler(PattayaNewsScraperService scraperService) {
+    public PattayaNewsScheduler(PattayaNewsRssFeedService scraperService) {
         this.scraperService = scraperService;
     }
 

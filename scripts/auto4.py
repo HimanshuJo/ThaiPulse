@@ -20,7 +20,7 @@ const {name}Service: React.FC = () => {{
 
     const fetchArticles = async (pageNumber: number) => {{
         try {{
-            const response = await axios.get(`http://localhost:8080/{lower}?page=${{pageNumber}}&size=500`);
+            const response = await axios.get(`http://localhost:8080/{lower}-news?page=${{pageNumber}}&size=500`);
             const data = response.data;
             setArticles(data.content || data);
             setTotalPages(data.totalPages || 1);
@@ -126,11 +126,10 @@ export default {name}Home;
 '''
 
 services = [
-    "FindThaiProperty",
-    "LegallyMarriedInThailand",
-    "ThaiLadyDateFinder",
-    "TrailheadThailand",
-    "WeddingBoutiquePhuket"
+    "ChiangMaiNews",
+    "HatYaiNews",
+    "KhonKaenNews",
+    "NakhonRatchasimaNews"
 ]
 
 output_dir_services = "./services"

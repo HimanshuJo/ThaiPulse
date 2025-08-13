@@ -1,13 +1,14 @@
 import React from "react";
 import type { PhuketArticle } from "../services/phuketNewsService";
+import BreakingNews from "../components/breakingNews";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import "../resources/phuketNews.css";
 
 interface PhuketNewsProps{
     articles: PhuketArticle[];
-    onNext:() => void;
-    onPrevious:() => void;
+    onNext: () => void;
+    onPrevious: () => void;
     currentPage: number;
     totalPages: number;
 }
@@ -19,56 +20,32 @@ const PhuketNews: React.FC<PhuketNewsProps>=({
     currentPage,
     totalPages,
 })=>{
-    const breaking=articles[0];
     return(
-        <div className="phuket-container">
-        <Navbar />
-            <h1 className="phuket-header">Phuket News</h1>
-            {breaking &&(
-                <div className="breaking-news_phuket">
-                    <img src={breaking.imageUrl} alt={breaking.title} />
-                    <div>
-                        <h2>{breaking.title}</h2>
-                        <p>{breaking.description}</p>
-                    </div>
-                </div>
-            )}
-
-            <div className="news-list">
-            {
-                articles.slice(1).map
-                (
-                    (article, index)=>
-                    {
-                        const wordCount=article.description?.split(/\s+/).length||0;
-                        const formattedDate=article.publishedDate
-                        ? new Date(article.publishedDate).toLocaleDateString("en-GB")
-                        :"";
-
-                        return(
-                            <React.Fragment key={index}>
-                                <div className="news-card">
-                                    <img src={article.imageUrl} alt={article.title} />
-                                    <div>
-                                        <a href={article.link} target="_blank" rel="noopener noreferrer">
-                                            <h3>{article.title}</h3>
-                                        </a>
-                                        {wordCount>=10?(
-                                            <>
-                                            <p>{article.description}</p>
-                                            <p className="source">{formattedDate}</p>
-                                            </>
-                                        ):(
-                                            <p className="source">{formattedDate}</p>
-                                        )}
-                                    </div>
-                                </div>
-                                {index<articles.length-2&&<hr className="news-divider" />}
-                            </React.Fragment>
-                        );
-                    }
-                )
-            }
+        <div className="container">
+          <Navbar />
+          <h1 className="header">THAI PULSE</h1>
+          <BreakingNews articles={articles} />
+          <div className="grid">
+            {articles.map((article, index) => (
+              <div className="card" key={index}>
+                <p className="source">{article.source}</p>
+                <a
+                  href={article.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="article-link"
+                >
+                  <img
+                    src={article.image}
+                    alt={article.title}
+                    className="article-image"
+                    loading="lazy"
+                  />
+                  <h3 className="article-title">{article.title}</h3>
+                  <p className="source">{article.publishedDate}</p>
+                </a>
+              </div>
+            ))}
             </div>
             <div className="pagination">
                 <button onClick={onPrevious} disabled={currentPage===0}>

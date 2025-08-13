@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import Home from '../pages/thaiLadyDateFinderHome';
+import Home from '../pages/nakhonRatchasimaNewsHome';
 
 export type Article = {
     title: string;
@@ -9,14 +9,14 @@ export type Article = {
     image?: string;
 }
 
-const ThaiLadyDateFinderService: React.FC = () => {
+const NakhonRatchasimaNewsService: React.FC = () => {
     const [articles, setArticles] = useState<Article[]>([]);
     const [page, setPage] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(1);
 
     const fetchArticles = async (pageNumber: number) => {
         try {
-            const response = await axios.get(`http://localhost:8080/thaiLadyDateFinder?page=${pageNumber}&size=500`);
+            const response = await axios.get(`http://localhost:8080/nakhonRatchasima-news?page=${pageNumber}&size=500`);
             const data = response.data;
             setArticles(data.content || data);
             setTotalPages(data.totalPages || 1);
@@ -48,4 +48,4 @@ const ThaiLadyDateFinderService: React.FC = () => {
     );
 };
 
-export default ThaiLadyDateFinderService;
+export default NakhonRatchasimaNewsService;

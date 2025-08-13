@@ -25,11 +25,19 @@ public class NewsController {
 
     private final ThaiLadyDateFinderRssFeedService thaiLadyDateFinderRssFeedService;
 
-    private final BangkokNewsScraperService bangkokNewsScraperService;
+    private final BangkokNewsRssFeedService bangkokNewsRssFeedService;
 
-    private final PattayaNewsScraperService pattayaNewsScraperService;
+    private final PattayaNewsRssFeedService pattayaNewsRssFeedService;
 
-    private final PhuketNewsScraperService phuketNewsScraperService;
+    private final PhuketNewsRssFeedService phuketNewsRssFeedService;
+
+    private final ChiangMaiNewsRssFeedService chiangMaiNewsRssFeedService;
+
+    private final HatYaiNewsRssFeedService hatYaiNewsRssFeedService;
+
+    private final KhonKaenNewsRssFeedService khonKaenNewsRssFeedService;
+
+    private final NakhonRatchasimaNewsRssFeedService nakhonRatchasimaNewsRssFeedService;
 
     public NewsController(RSSFeedService rssFeedService,
                           BangkokScoopRssFeedService bangkokScoopRssFeedService,
@@ -37,18 +45,26 @@ public class NewsController {
                           FindThaiPropertyRssFeedService findThaiPropertyRssFeedService,
                           LegallyMarriedInThailandRssFeedService legallyMarriedInThailandRssFeedService,
                           ThaiLadyDateFinderRssFeedService thaiLadyDateFinderRssFeedService,
-                          BangkokNewsScraperService bangkokNewsScraperService,
-                          PattayaNewsScraperService pattayaNewsScraperService,
-                          PhuketNewsScraperService phuketNewsScraperService) {
+                          BangkokNewsRssFeedService bangkokNewsRssFeedService,
+                          PattayaNewsRssFeedService pattayaNewsRssFeedService,
+                          PhuketNewsRssFeedService phuketNewsRssFeedService,
+                          ChiangMaiNewsRssFeedService chiangMaiNewsRssFeedService,
+                          HatYaiNewsRssFeedService hatYaiNewsRssFeedService,
+                          KhonKaenNewsRssFeedService khonKaenNewsRssFeedService,
+                          NakhonRatchasimaNewsRssFeedService nakhonRatchasimaNewsRssFeedService) {
         this.rssFeedService = rssFeedService;
         this.bangkokScoopRssFeedService = bangkokScoopRssFeedService;
         this.thailandIslandNewsRssFeedService = thailandIslandNewsRssFeedService;
-        this.findThaiPropertyRssFeedService=findThaiPropertyRssFeedService;
-        this.legallyMarriedInThailandRssFeedService=legallyMarriedInThailandRssFeedService;
-        this.thaiLadyDateFinderRssFeedService=thaiLadyDateFinderRssFeedService;
-        this.bangkokNewsScraperService = bangkokNewsScraperService;
-        this.pattayaNewsScraperService = pattayaNewsScraperService;
-        this.phuketNewsScraperService = phuketNewsScraperService;
+        this.findThaiPropertyRssFeedService = findThaiPropertyRssFeedService;
+        this.legallyMarriedInThailandRssFeedService = legallyMarriedInThailandRssFeedService;
+        this.thaiLadyDateFinderRssFeedService = thaiLadyDateFinderRssFeedService;
+        this.bangkokNewsRssFeedService = bangkokNewsRssFeedService;
+        this.pattayaNewsRssFeedService = pattayaNewsRssFeedService;
+        this.phuketNewsRssFeedService = phuketNewsRssFeedService;
+        this.chiangMaiNewsRssFeedService = chiangMaiNewsRssFeedService;
+        this.hatYaiNewsRssFeedService = hatYaiNewsRssFeedService;
+        this.khonKaenNewsRssFeedService = khonKaenNewsRssFeedService;
+        this.nakhonRatchasimaNewsRssFeedService = nakhonRatchasimaNewsRssFeedService;
     }
 
     @GetMapping(value = "/news")
@@ -101,7 +117,7 @@ public class NewsController {
 
     @GetMapping(value = "/findThaiProperty")
     public ResponseEntity<?> getAllThailandPropertyNews(@RequestParam(defaultValue = "0") int page,
-                                                      @RequestParam(defaultValue = "20") int size) {
+                                                        @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
             size = 20;
         }
@@ -118,13 +134,14 @@ public class NewsController {
 
     @GetMapping(value = "/legallyMarriedInThailand")
     public ResponseEntity<?> getLegallyMarriedInThailandNews(@RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "20") int size) {
+                                                             @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
             size = 20;
         }
         long totalNews = legallyMarriedInThailandRssFeedService.countAllNews();
         if (totalNews > 1000) {
-            Page<LegallyMarriedInThailandNewsDto> pagedResult = legallyMarriedInThailandRssFeedService.getPaginatedNews(page, size);
+            Page<LegallyMarriedInThailandNewsDto> pagedResult =
+                    legallyMarriedInThailandRssFeedService.getPaginatedNews(page, size);
             return ResponseEntity.ok().body(pagedResult);
         } else {
             List<LegallyMarriedInThailandNewsDto> allNews = legallyMarriedInThailandRssFeedService.getPaginatedNews(0,
@@ -135,7 +152,7 @@ public class NewsController {
 
     @GetMapping(value = "/thaiLadyDateFinder")
     public ResponseEntity<?> getThaiLadyDateFinderNews(@RequestParam(defaultValue = "0") int page,
-                                                             @RequestParam(defaultValue = "20") int size) {
+                                                       @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
             size = 20;
         }
@@ -152,65 +169,151 @@ public class NewsController {
 
     @GetMapping(value = "/bangkok-news")
     public ResponseEntity<?> getAllBangkokNews(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "20") int size) throws InterruptedException {
+                                               @RequestParam(defaultValue = "20") int size) {
 
         if (size < 1) {
             size = 20;
         }
-        boolean areNewsAvailable = bangkokNewsScraperService.newsCheck();
+        boolean areNewsAvailable = bangkokNewsRssFeedService.newsCheck();
         if (!areNewsAvailable) {
-            bangkokNewsScraperService.fetchAndStoreLatestNews();
+            bangkokNewsRssFeedService.fetchAndStoreLatestNews();
         }
-        long totalNews = bangkokNewsScraperService.countAllBangkokNews();
+        long totalNews = bangkokNewsRssFeedService.countAllBangkokNews();
         if (totalNews > 1000) {
-            Page<BangkokNewsDto> pagedResult = bangkokNewsScraperService.getPaginatedBangkokNews(page, size);
+            Page<BangkokNewsDto> pagedResult = bangkokNewsRssFeedService.getPaginatedBangkokNews(page, size);
             return ResponseEntity.ok().body(pagedResult);
         } else {
             List<BangkokNewsDto> allNews =
-                    bangkokNewsScraperService.getPaginatedBangkokNews(0, (int) totalNews).getContent();
+                    bangkokNewsRssFeedService.getPaginatedBangkokNews(0, (int) totalNews).getContent();
             return ResponseEntity.ok().body(allNews);
         }
     }
 
     @GetMapping(value = "/pattaya-news")
     public ResponseEntity<?> getAllPattayaNews(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "20") int size) throws InterruptedException {
+                                               @RequestParam(defaultValue = "20") int size) {
 
         if (size < 1) {
             size = 20;
         }
-        boolean areNewsAvailable = pattayaNewsScraperService.newsCheck();
+        boolean areNewsAvailable = pattayaNewsRssFeedService.newsCheck();
         if (!areNewsAvailable) {
-            pattayaNewsScraperService.fetchAndStoreLatestNews();
+            pattayaNewsRssFeedService.fetchAndStoreLatestNews();
         }
-        long totalNews = pattayaNewsScraperService.countAllPattyaNews();
+        long totalNews = pattayaNewsRssFeedService.countAllPattyaNews();
         if (totalNews > 1000) {
-            Page<PattayaNewsDto> pagedResult = pattayaNewsScraperService.getPaginatedPattayaNews(page, size);
+            Page<PattayaNewsDto> pagedResult = pattayaNewsRssFeedService.getPaginatedPattayaNews(page, size);
             return ResponseEntity.ok().body(pagedResult);
         } else {
             List<PattayaNewsDto> allNews =
-                    pattayaNewsScraperService.getPaginatedPattayaNews(0, (int) totalNews).getContent();
+                    pattayaNewsRssFeedService.getPaginatedPattayaNews(0, (int) totalNews).getContent();
             return ResponseEntity.ok().body(allNews);
         }
     }
 
     @GetMapping(value = "/phuket-news")
     public ResponseEntity<?> getAllPhuketNews(@RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "20") int size) throws InterruptedException {
+                                              @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
             size = 20;
         }
-        boolean areNewsAvailable = phuketNewsScraperService.newsCheck();
+        boolean areNewsAvailable = phuketNewsRssFeedService.newsCheck();
         if (!areNewsAvailable) {
-            phuketNewsScraperService.fetchAndStoreLatestNews();
+            phuketNewsRssFeedService.fetchAndStoreLatestNews();
         }
-        long totalNews = phuketNewsScraperService.countAllPhuketNews();
+        long totalNews = phuketNewsRssFeedService.countAllPhuketNews();
         if (totalNews > 1000) {
-            Page<PhuketNewsDto> pagedResult = phuketNewsScraperService.getPaginatedPhuketNews(page, size);
+            Page<PhuketNewsDto> pagedResult = phuketNewsRssFeedService.getPaginatedPhuketNews(page, size);
             return ResponseEntity.ok().body(pagedResult);
         } else {
             List<PhuketNewsDto> allNews =
-                    phuketNewsScraperService.getPaginatedPhuketNews(0, (int) totalNews).getContent();
+                    phuketNewsRssFeedService.getPaginatedPhuketNews(0, (int) totalNews).getContent();
+            return ResponseEntity.ok().body(allNews);
+        }
+    }
+
+    @GetMapping(value = "/chiangMai-news")
+    public ResponseEntity<?> getAllChiangMaiNews(@RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "20") int size) {
+        if (size < 1) {
+            size = 20;
+        }
+        System.out.println("received the call");
+        boolean areNewsAvailable = chiangMaiNewsRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            chiangMaiNewsRssFeedService.fetchAndStoreLatestNews();
+        }
+        long totalNews = chiangMaiNewsRssFeedService.countAllChiangMaiNews();
+        if (totalNews > 1000) {
+            Page<ChiangMaiNewsDto> pagedResult = chiangMaiNewsRssFeedService.getPaginatedChiangMaiNews(page, size);
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            List<ChiangMaiNewsDto> allNews =
+                    chiangMaiNewsRssFeedService.getPaginatedChiangMaiNews(0, (int) totalNews).getContent();
+            return ResponseEntity.ok().body(allNews);
+        }
+    }
+
+    @GetMapping(value = "/hatYai-news")
+    public ResponseEntity<?> getAllHatYaiNews(@RequestParam(defaultValue = "0") int page,
+                                              @RequestParam(defaultValue = "20") int size) {
+        if (size < 1) {
+            size = 20;
+        }
+        boolean areNewsAvailable = hatYaiNewsRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            hatYaiNewsRssFeedService.fetchAndStoreLatestNews();
+        }
+        long totalNews = hatYaiNewsRssFeedService.countAllHatYaiNews();
+        if (totalNews > 1000) {
+            Page<HatYaiNewsDto> pagedResult = hatYaiNewsRssFeedService.getPaginatedHatYaiNews(page, size);
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            List<HatYaiNewsDto> allNews =
+                    hatYaiNewsRssFeedService.getPaginatedHatYaiNews(0, (int) totalNews).getContent();
+            return ResponseEntity.ok().body(allNews);
+        }
+    }
+
+    @GetMapping(value = "/khonKaen-news")
+    public ResponseEntity<?> getAllKhonKaenNews(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "20") int size) {
+        if (size < 1) {
+            size = 20;
+        }
+        boolean areNewsAvailable = khonKaenNewsRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            khonKaenNewsRssFeedService.fetchAndStoreLatestNews();
+        }
+        long totalNews = khonKaenNewsRssFeedService.countAllKhonKaenNews();
+        if (totalNews > 1000) {
+            Page<KhonKaenNewsDto> pagedResult = khonKaenNewsRssFeedService.getPaginatedKhonKaenNews(page, size);
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            List<KhonKaenNewsDto> allNews =
+                    khonKaenNewsRssFeedService.getPaginatedKhonKaenNews(0, (int) totalNews).getContent();
+            return ResponseEntity.ok().body(allNews);
+        }
+    }
+
+    @GetMapping(value = "/nakhonRatchasima-news")
+    public ResponseEntity<?> getAllNakhonRatchasimaNews(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "20") int size) {
+        if (size < 1) {
+            size = 20;
+        }
+        boolean areNewsAvailable = nakhonRatchasimaNewsRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            nakhonRatchasimaNewsRssFeedService.fetchAndStoreLatestNews();
+        }
+        long totalNews = nakhonRatchasimaNewsRssFeedService.countAllNakhonRatchasimaNews();
+        if (totalNews > 1000) {
+            Page<NakhonRatchasimaNewsDto> pagedResult =
+                    nakhonRatchasimaNewsRssFeedService.getPaginatedNakhonRatchasimaNews(page, size);
+            return ResponseEntity.ok().body(pagedResult);
+        } else {
+            List<NakhonRatchasimaNewsDto> allNews =
+                    nakhonRatchasimaNewsRssFeedService.getPaginatedNakhonRatchasimaNews(0, (int) totalNews).getContent();
             return ResponseEntity.ok().body(allNews);
         }
     }

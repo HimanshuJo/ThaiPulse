@@ -3,11 +3,11 @@ import "../resources/navbar.css";
 
 const cities = [
   "Bangkok",
-  "Chiang Mai",
-  "Phuket",
   "Pattaya",
-  "Khon Kaen",
+  "Phuket",
+  "Chiang Mai",
   "Hat Yai",
+  "Khon Kaen",
   "Nakhon Ratchasima",
 ];
 

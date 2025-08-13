@@ -4,9 +4,9 @@ import PhuketNews from "../pages/phuketNews";
 
 export type PhuketArticle={
     title: string;
-    description: string;
+    source: string;
     link: string;
-    imageUrl?: string;
+    image?: string;
     publishedDate?: string;
 };
 

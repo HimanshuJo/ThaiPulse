@@ -6,7 +6,7 @@
             http://www.liquibase.org/xml/ns/dbchangelog
             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="1-drop-tables" author="himanshh" context="dev,test">
+    <changeSet id="drop-tables" author="himanshh" context="dev,test" runAlways="true">
         <sql>DROP TABLE IF EXISTS bangkok_news</sql>
         <sql>DROP TABLE IF EXISTS pattaya_news</sql>
         <sql>DROP TABLE IF EXISTS phuket_news</sql>

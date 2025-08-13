@@ -1,6 +1,6 @@
 package com.thaipulse.newsapp.scheduler;
 
-import com.thaipulse.newsapp.service.BangkokNewsScraperService;
+import com.thaipulse.newsapp.service.BangkokNewsRssFeedService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -11,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class BangkokNewsScheduler {
 
-    private final BangkokNewsScraperService scraperService;
+    private final BangkokNewsRssFeedService scraperService;
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-    public BangkokNewsScheduler(BangkokNewsScraperService scraperService) {
+    public BangkokNewsScheduler(BangkokNewsRssFeedService scraperService) {
         this.scraperService = scraperService;
     }
 
@@ -23,7 +23,7 @@ public class BangkokNewsScheduler {
         scheduler.schedule(this::runAndReschedule, 1, TimeUnit.MINUTES);
     }
 
-    private String getTableName(){
+    private String getTableName() {
         return "Bangkok News";
     }
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import Home from '../pages/legallyMarriedInThailandHome';
+import Home from '../pages/khonKaenNewsHome';
 
 export type Article = {
     title: string;
@@ -9,14 +9,14 @@ export type Article = {
     image?: string;
 }
 
-const LegallyMarriedInThailandService: React.FC = () => {
+const KhonKaenNewsService: React.FC = () => {
     const [articles, setArticles] = useState<Article[]>([]);
     const [page, setPage] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(1);
 
     const fetchArticles = async (pageNumber: number) => {
         try {
-            const response = await axios.get(`http://localhost:8080/legallyMarriedInThailand?page=${pageNumber}&size=500`);
+            const response = await axios.get(`http://localhost:8080/khonKaen-news?page=${pageNumber}&size=500`);
             const data = response.data;
             setArticles(data.content || data);
             setTotalPages(data.totalPages || 1);
@@ -48,4 +48,4 @@ const LegallyMarriedInThailandService: React.FC = () => {
     );
 };
 
-export default LegallyMarriedInThailandService;
+export default KhonKaenNewsService;

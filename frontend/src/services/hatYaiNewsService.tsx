@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import Home from '../pages/trailheadThailandHome';
+import Home from '../pages/hatYaiNewsHome';
 
 export type Article = {
     title: string;
@@ -9,14 +9,14 @@ export type Article = {
     image?: string;
 }
 
-const TrailheadThailandService: React.FC = () => {
+const HatYaiNewsService: React.FC = () => {
     const [articles, setArticles] = useState<Article[]>([]);
     const [page, setPage] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(1);
 
     const fetchArticles = async (pageNumber: number) => {
         try {
-            const response = await axios.get(`http://localhost:8080/trailheadThailand?page=${pageNumber}&size=500`);
+            const response = await axios.get(`http://localhost:8080/hatYai-news?page=${pageNumber}&size=500`);
             const data = response.data;
             setArticles(data.content || data);
             setTotalPages(data.totalPages || 1);
@@ -48,4 +48,4 @@ const TrailheadThailandService: React.FC = () => {
     );
 };
 
-export default TrailheadThailandService;
+export default HatYaiNewsService;

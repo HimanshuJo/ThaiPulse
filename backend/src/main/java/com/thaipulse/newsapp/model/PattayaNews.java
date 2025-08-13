@@ -14,12 +14,12 @@ public class PattayaNews {
     private String title;
 
     @Column(length = 5000)
-    private String description;
+    private String source;
 
     @Column(unique = true)
     private String link;
 
-    private String imageUrl;
+    private String image;
 
     private LocalDateTime publishedDate;
 
@@ -31,12 +31,12 @@ public class PattayaNews {
         this.title = title;
     }
 
-    public String getDescription() {
-        return this.description;
+    public String getSource() {
+        return this.source;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getLink() {
@@ -47,12 +47,12 @@ public class PattayaNews {
         this.link = link;
     }
 
-    public String getImageUrl() {
-        return this.imageUrl;
+    public String getImage() {
+        return this.image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public LocalDateTime getPublishedDate() {

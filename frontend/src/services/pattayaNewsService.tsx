@@ -4,9 +4,9 @@ import PattayaNews from "../pages/pattayaNews";
 
 export type PattayaArticle={
     title: string;
-    description: string;
+    source: string;
     link: string;
-    imageUrl?: string;
+    image?: string;
     publishedDate?: string;
 };
 

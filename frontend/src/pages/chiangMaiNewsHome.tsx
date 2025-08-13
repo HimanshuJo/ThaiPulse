@@ -1,5 +1,5 @@
 import React from "react";
-import type { Article } from "../services/weddingBoutiquePhuketService";
+import type { Article } from "../services/chiangMaiNewsService";
 import BreakingNews from "../components/breakingNews";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -13,7 +13,7 @@ interface HomeProps {
   totalPages: number;
 }
 
-const WeddingBoutiquePhuketHome: React.FC<HomeProps> = ({
+const ChiangMaiNewsHome: React.FC<HomeProps> = ({
   articles,
   onNext,
   onPrevious,
@@ -40,6 +40,7 @@ const WeddingBoutiquePhuketHome: React.FC<HomeProps> = ({
                   src={article.image}
                   alt={article.title}
                   className="article-image"
+                  loading="lazy"
                 />
               )}
               <h3 className="article-title">{article.title}</h3>
@@ -63,4 +64,4 @@ const WeddingBoutiquePhuketHome: React.FC<HomeProps> = ({
   );
 };
 
-export default WeddingBoutiquePhuketHome;
+export default ChiangMaiNewsHome;

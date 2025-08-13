@@ -40,6 +40,7 @@ const ThaiLadyDateFinderHome: React.FC<HomeProps> = ({
                   src={article.image}
                   alt={article.title}
                   className="article-image"
+                  loading="lazy"
                 />
               )}
               <h3 className="article-title">{article.title}</h3>

@@ -1,5 +1,5 @@
 import React from "react";
-import type { Article } from "../services/findThaiPropertyService";
+import type { Article } from "../services/nakhonRatchasimaNewsService";
 import BreakingNews from "../components/breakingNews";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
@@ -13,7 +13,7 @@ interface HomeProps {
   totalPages: number;
 }
 
-const FindThaiPropertyHome: React.FC<HomeProps> = ({
+const NakhonRatchasimaNewsHome: React.FC<HomeProps> = ({
   articles,
   onNext,
   onPrevious,
@@ -40,6 +40,7 @@ const FindThaiPropertyHome: React.FC<HomeProps> = ({
                   src={article.image}
                   alt={article.title}
                   className="article-image"
+                  loading="lazy"
                 />
               )}
               <h3 className="article-title">{article.title}</h3>
@@ -63,4 +64,4 @@ const FindThaiPropertyHome: React.FC<HomeProps> = ({
   );
 };
 
-export default FindThaiPropertyHome;
+export default NakhonRatchasimaNewsHome;

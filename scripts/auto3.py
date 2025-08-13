@@ -13,11 +13,10 @@ for d in dirs.values():
 
 # Class names
 base_names = [
-    "ThaiLadyDateFinder",
-    "FindThaiProperty",
-    "LegallyMarriedInThailand",
-    "WeddingBoutiquePhuket",
-    "TrailheadThailand"
+    "ChiangMai",
+    "KhonKaen",
+    "HatYai",
+    "NakhonRatchasima"
 ]
 
 # Templates
