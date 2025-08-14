@@ -1,6 +1,6 @@
 #FileLock
-#Thu Aug 14 16:06:27 CEST 2025
-server=172.20.10.3\:50235
-hostName=HemnshhJoshi
+#Thu Aug 14 20:25:19 CEST 2025
+server=172.24.144.1\:49877
+hostName=HemnshhJoshi.mshome.net
 method=file
-id=198a8e742ec9ee175973450aa69e993582611b1bfeb
+id=198a9d444bfe09e543eef0713d0510d62798626bab0
