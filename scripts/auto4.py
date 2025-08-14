@@ -126,10 +126,21 @@ export default {name}Home;
 '''
 
 services = [
-    "ChiangMaiNews",
-    "HatYaiNews",
-    "KhonKaenNews",
-    "NakhonRatchasimaNews"
+    "BicycleThailand",
+    "ThaiCapitalist",
+    "AboutThailandLiving",
+    "DaveTheRavesThailand",
+    "Thaifoodmaster",
+    "ThailandBail",
+    "TheSilomer",
+    "PattayaPI",
+    "BudgetCatcher",
+    "ThaiLawyers",
+    "MeanderingTales",
+    "LifestyleInThailand",
+    "ThatBangkokLife",
+    "ThinglishLifestyle",
+    "FashionGalleria",
 ]
 
 output_dir_services = "./services"

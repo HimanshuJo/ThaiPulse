@@ -233,4 +233,245 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="create-bicycle-thailand" author="himanshh">
+        <createTable tableName="bicyclethailand_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-thai-capitalist" author="himanshh">
+        <createTable tableName="thaicapitalist_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-about-thailand-living" author="himanshh">
+        <createTable tableName="aboutthailandliving_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-dave-the-raves-thailand" author="himanshh">
+        <createTable tableName="davetheravesthailand_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-thaifoodmaster" author="himanshh">
+        <createTable tableName="thaifoodmaster_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-thailand-bail" author="himanshh">
+        <createTable tableName="thailandbail_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-the-silomer" author="himanshh">
+        <createTable tableName="thesilomer_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-pattaya-pi" author="himanshh">
+        <createTable tableName="pattayapi_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-budget-catcher" author="himanshh">
+        <createTable tableName="budgetcatcher_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-thai-lawyers" author="himanshh">
+        <createTable tableName="thailawyers_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-meandering-tales" author="himanshh">
+        <createTable tableName="meanderingtales_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-lifestyle-in-thailand" author="himanshh">
+        <createTable tableName="lifestyleinthailand_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-that-bangkok-life" author="himanshh">
+        <createTable tableName="thatbangkoklife_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-thinglish-lifestyle" author="himanshh">
+        <createTable tableName="thinglishlifestyle_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-fashion-galleria" author="himanshh">
+        <createTable tableName="fashiongalleria_news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="source" type="VARCHAR(255)"/>
+            <column name="link" type="VARCHAR(500)">
+                <constraints unique="true"/>
+            </column>
+            <column name="image" type="VARCHAR(500)"/>
+        </createTable>
+    </changeSet>
+
+
 </databaseChangeLog>

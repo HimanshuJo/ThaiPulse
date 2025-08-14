@@ -13,10 +13,21 @@ for d in dirs.values():
 
 # Class names
 base_names = [
-    "ChiangMai",
-    "KhonKaen",
-    "HatYai",
-    "NakhonRatchasima"
+    "BicycleThailand",
+    "ThaiCapitalist",
+    "AboutThailandLiving",
+    "DaveTheRavesThailand",
+    "Thaifoodmaster",
+    "ThailandBail",
+    "TheSilomer",
+    "PattayaPI",
+    "BudgetCatcher",
+    "ThaiLawyers",
+    "MeanderingTales",
+    "LifestyleInThailand",
+    "ThatBangkokLife",
+    "ThinglishLifestyle",
+    "FashionGalleria",
 ]
 
 # Templates

@@ -12,10 +12,25 @@ const blogLinks: BlogLink[] = [
   { name: "Thailand Property", path: "/findThaiProperty" },
   { name: "Legally Married In Thailand", path: "/legallyMarriedInThailand" },
   { name: "Thai Lady Date Finder", path: "/thaiLadyDateFinder" },
+  { name: "Bicycle Thailand", path: "/bicycleThailand" },
+  { name: "Thai Capitalist", path: "/thaiCapitalist" },
+  { name: "About Thailand Living", path: "/aboutThailandLiving" },
+  { name: "Dave The Rave's Thailand", path: "/daveTheRavesThailand" },
+  { name: "Thai Food Master", path: "/thaiFoodMaster" },
+  { name: "Thailand Bail", path: "/thailandBail" },
+  { name: "The Silomer", path: "/theSilomer" },
+  { name: "Pattaya PI", path: "/pattayaPI" },
+  { name: "Budget Catcher", path: "/budgetCatcher" },
+  { name: "Thai Lawyers", path: "/thaiLawyers" },
+  { name: "Meandering Tales", path: "/meanderingTales" },
+  { name: "Lifestyle in Thailand", path: "/lifestyleInThailand" },
+  { name: "That Bangkok Life", path: "/thatBangkokLife" },
+  { name: "Thinglish Lifestyle", path: "/thinglishLifestyle" },
+  { name: "Fashion Galleria", path: "/fashionGalleria" }
 ];
 
 const SCROLL_STEP = 50;
-const SCROLL_INTERVAL = 30;
+const SCROLL_INTERVAL = 20;
 
 const OtherFeeds: React.FC = () => {
   const [autoScroll, setAutoScroll] = useState(true);
@@ -28,7 +43,7 @@ const OtherFeeds: React.FC = () => {
     const scrollStep = () => {
       if (!scrollRef.current) return;
 
-      scrollRef.current.scrollLeft += 1;
+      scrollRef.current.scrollLeft += 2;
 
       if (
         scrollRef.current.scrollLeft >=
@@ -52,6 +67,15 @@ const OtherFeeds: React.FC = () => {
     }
   };
 
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = Math.min(
+        scrollRef.current.scrollWidth,
+        scrollRef.current.scrollLeft + SCROLL_STEP
+      );
+    }
+  };
+
   return (
     <div
       className="other-feeds"
@@ -64,11 +88,15 @@ const OtherFeeds: React.FC = () => {
         setIsHovered(false);
       }}
     >
-      &nbsp;
       {isHovered && (
-        <button className="left-arrow" onClick={scrollLeft} aria-label="Scroll Left">
-          &#8592;
-        </button>
+        <>
+          <button className="left-arrow" onClick={scrollLeft} aria-label="Scroll Left">
+            &#8592;
+          </button>
+          <button className="right-arrow" onClick={scrollRight} aria-label="Scroll Right">
+            &#8594;
+          </button>
+        </>
       )}
 
       <ul ref={scrollRef}>
