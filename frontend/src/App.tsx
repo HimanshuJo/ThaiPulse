@@ -28,6 +28,7 @@ import ChiangMaiNewsService from "./services/chiangMaiNewsService";
 import HatYaiNewsService from "./services/hatYaiNewsService";
 import KhonKaenNewsService from "./services/khonKaenNewsService";
 import NakhonRatchasimaNewsService from "./services/nakhonRatchasimaNewsService";
+import PopularCitiesMap from "./components/popularCitiesMap";
 
 function App() {
   const path = window.location.pathname;
@@ -89,6 +90,8 @@ function App() {
     ComponentToRender = <ThinglishLifestyleService />;
   } else if (path === "/fashionGalleria") {
     ComponentToRender = <FashionGalleriaService />;
+  } else if (path === "/popular-cities-map") {
+    ComponentToRender = <PopularCitiesMap />;
   } else {
     ComponentToRender = <NewsService />;
   }

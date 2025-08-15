@@ -75,9 +75,12 @@ const Navbar: React.FC = () => {
       </ul>
 
       <div
-        className="burger-menu"
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        ref={burgerRef}
+          className="burger-menu"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          ref={burgerRef}
+          role="button"
+          tabIndex={0}
+          onKeyPress={(e) => e.key === "Enter" && setIsMenuOpen(!isMenuOpen)}
       >
         <div className="bar"></div>
         <div className="bar"></div>
@@ -93,7 +96,12 @@ const Navbar: React.FC = () => {
             <button onClick={() => setShowWeather(!showWeather)}>
               🌤 Weather
             </button>
+            <br />
+            <hr />
           </div>
+            <div className="dropdown-section">
+                <a href="/popular-cities-map">🗺️ Popular Cities Map</a>
+            </div>
         </div>
       )}
     </nav>

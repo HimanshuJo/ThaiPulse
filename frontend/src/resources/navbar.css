@@ -61,3 +61,22 @@
 .dropdown-menu a:hover{
     color: #ffb700;
 }
+
+.navbar, .nav-links, .burger-menu, .dropdown-menu, .dropdown-section {
+  user-select: none;
+}
+
+.nav-links li a,
+.dropdown-section a,
+.dropdown-section button,
+.burger-menu {
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+}
+
+.nav-links, .nav-links li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
