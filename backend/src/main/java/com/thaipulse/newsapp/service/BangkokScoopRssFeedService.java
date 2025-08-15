@@ -11,11 +11,17 @@ import com.thaipulse.newsapp.dto.BangkokScoopNewsDto;
 import com.thaipulse.newsapp.mapper.BangkokScoopNewsMapper;
 import com.thaipulse.newsapp.model.BangkokScoopNews;
 import com.thaipulse.newsapp.repository.BangkokScoopNewsRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,10 +30,16 @@ import java.util.stream.Collectors;
 @Service
 public class BangkokScoopRssFeedService {
 
+    private static final Logger logger = LoggerFactory.getLogger(BangkokScoopRssFeedService.class);
+
     private final BangkokScoopNewsRepository bangkokScoopNewsRepository;
 
     public BangkokScoopRssFeedService(BangkokScoopNewsRepository bangkokScoopNewsRepository) {
         this.bangkokScoopNewsRepository = bangkokScoopNewsRepository;
+    }
+
+    public boolean newsCheck() {
+        return bangkokScoopNewsRepository.count() >= 1;
     }
 
     private String extractImageFromHtml(String html) {
@@ -93,6 +105,44 @@ public class BangkokScoopRssFeedService {
         return newsList;
     }
 
+    public void fetchAndStoreLatestNews() {
+        List<BangkokScoopNews> fetchedNews = new ArrayList<>(getNewsFromRss("https://feeds" +
+                ".feedburner.com/bangkokscoop/UIwo"));
+        Collections.shuffle(fetchedNews);
+        List<BangkokScoopNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !bangkokScoopNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+
+        long count = bangkokScoopNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (BangkokScoopNews news : uniqueNews) {
+                    try {
+                        bangkokScoopNewsRepository.saveAll(uniqueNews);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            bangkokScoopNewsRepository.deleteAllInBatch();
+            for (BangkokScoopNews news : uniqueNews) {
+                try {
+                    bangkokScoopNewsRepository.saveAll(uniqueNews);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return bangkokScoopNewsRepository.count();
+    }
+
     public Page<BangkokScoopNewsDto> getPaginatedNews(int page, int size) {
         if (size < 1) {
             size = 20;
@@ -103,10 +153,6 @@ public class BangkokScoopRssFeedService {
                 .map(BangkokScoopNewsMapper::toDto)
                 .collect(Collectors.toList());
         return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
-    }
-
-    public long countAllNews() {
-        return bangkokScoopNewsRepository.count();
     }
 
 }

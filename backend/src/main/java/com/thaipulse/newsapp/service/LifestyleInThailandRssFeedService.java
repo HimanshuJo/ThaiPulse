@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.LifestyleInThailandNewsDto;
 import com.thaipulse.newsapp.mapper.LifestyleInThailandNewsMapper;
 import com.thaipulse.newsapp.model.LifestyleInThailandNews;
 import com.thaipulse.newsapp.repository.LifestyleInThailandNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class LifestyleInThailandRssFeedService {
         this.lifestyleInThailandNewsRepository = lifestyleInThailandNewsRepository;
     }
 
-    public long countAllNews() {
-        return lifestyleInThailandNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return lifestyleInThailandNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<LifestyleInThailandNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://lifestyleinthailand.com/en/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<LifestyleInThailandNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !lifestyleInThailandNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = lifestyleInThailandNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (LifestyleInThailandNews news : uniqueNews) {
-                    try {
-                        lifestyleInThailandNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            lifestyleInThailandNewsRepository.deleteAllInBatch();
-            for (LifestyleInThailandNews news : uniqueNews) {
-                try {
-                    lifestyleInThailandNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<LifestyleInThailandNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<LifestyleInThailandNews> newsPage = lifestyleInThailandNewsRepository.findAll(pageable);
-        List<LifestyleInThailandNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(LifestyleInThailandNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class LifestyleInThailandRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<LifestyleInThailandNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://lifestyleinthailand.com/en/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<LifestyleInThailandNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !lifestyleInThailandNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = lifestyleInThailandNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (LifestyleInThailandNews news : uniqueNews) {
+                    try {
+                        lifestyleInThailandNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            lifestyleInThailandNewsRepository.deleteAllInBatch();
+            for (LifestyleInThailandNews news : uniqueNews) {
+                try {
+                    lifestyleInThailandNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return lifestyleInThailandNewsRepository.count();
+    }
+
+    public Page<LifestyleInThailandNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<LifestyleInThailandNews> newsPage = lifestyleInThailandNewsRepository.findAll(pageable);
+        List<LifestyleInThailandNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(LifestyleInThailandNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

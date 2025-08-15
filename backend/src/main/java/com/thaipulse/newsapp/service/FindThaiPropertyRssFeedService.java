@@ -12,12 +12,17 @@ import com.thaipulse.newsapp.dto.FindThaiPropertyNewsDto;
 import com.thaipulse.newsapp.mapper.FindThaiPropertyNewsMapper;
 import com.thaipulse.newsapp.model.FindThaiPropertyNews;
 import com.thaipulse.newsapp.repository.FindThaiPropertyNewsRepository;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.URL;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +40,10 @@ public class FindThaiPropertyRssFeedService {
 
     public FindThaiPropertyRssFeedService(FindThaiPropertyNewsRepository findThaiPropertyNewsRepository) {
         this.findThaiPropertyNewsRepository = findThaiPropertyNewsRepository;
+    }
+
+    public boolean newsCheck() {
+        return findThaiPropertyNewsRepository.count() >= 1;
     }
 
     private String extractImageFromHtml(String html) {
@@ -100,6 +109,43 @@ public class FindThaiPropertyRssFeedService {
         return newsList;
     }
 
+    public void fetchAndStoreLatestNews() {
+        List<FindThaiPropertyNews> fetchedNews = new ArrayList<>(getNewsFromRss("https://www.findthaiproperty" +
+                ".com/blog-homepage/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<FindThaiPropertyNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !findThaiPropertyNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = findThaiPropertyNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (FindThaiPropertyNews news : uniqueNews) {
+                    try {
+                        findThaiPropertyNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException e) {
+                        logger.info("Skipping duplicate News {} ", e.getMessage());
+                    }
+                }
+            }
+        } else {
+            findThaiPropertyNewsRepository.deleteAllInBatch();
+            for (FindThaiPropertyNews news : uniqueNews) {
+                try {
+                    findThaiPropertyNewsRepository.save(news);
+                } catch (DataIntegrityViolationException e) {
+                    logger.info("Skipping duplicate News {} ", e.getMessage());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return findThaiPropertyNewsRepository.count();
+    }
+
     public Page<FindThaiPropertyNewsDto> getPaginatedNews(int page, int size) {
         if (size < 1) size = 20;
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
@@ -108,10 +154,6 @@ public class FindThaiPropertyRssFeedService {
                 .map(FindThaiPropertyNewsMapper::toDto)
                 .collect(Collectors.toList());
         return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
-    }
-
-    public long countAllNews() {
-        return findThaiPropertyNewsRepository.count();
     }
 
 }

@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.PattayaPINewsDto;
 import com.thaipulse.newsapp.mapper.PattayaPINewsMapper;
 import com.thaipulse.newsapp.model.PattayaPINews;
 import com.thaipulse.newsapp.repository.PattayaPINewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class PattayaPIRssFeedService {
         this.pattayaPINewsRepository = pattayaPINewsRepository;
     }
 
-    public long countAllNews() {
-        return pattayaPINewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return pattayaPINewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<PattayaPINews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://pattayapi.com/blog/rss.xml"));
-        Collections.shuffle(fetchedNews);
-        List<PattayaPINews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !pattayaPINewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = pattayaPINewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (PattayaPINews news : uniqueNews) {
-                    try {
-                        pattayaPINewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            pattayaPINewsRepository.deleteAllInBatch();
-            for (PattayaPINews news : uniqueNews) {
-                try {
-                    pattayaPINewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<PattayaPINewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<PattayaPINews> newsPage = pattayaPINewsRepository.findAll(pageable);
-        List<PattayaPINewsDto> newsDtos = newsPage.getContent().stream()
-                .map(PattayaPINewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class PattayaPIRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<PattayaPINews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://pattayapi.com/blog/rss.xml"));
+        Collections.shuffle(fetchedNews);
+        List<PattayaPINews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !pattayaPINewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = pattayaPINewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (PattayaPINews news : uniqueNews) {
+                    try {
+                        pattayaPINewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            pattayaPINewsRepository.deleteAllInBatch();
+            for (PattayaPINews news : uniqueNews) {
+                try {
+                    pattayaPINewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return pattayaPINewsRepository.count();
+    }
+
+    public Page<PattayaPINewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<PattayaPINews> newsPage = pattayaPINewsRepository.findAll(pageable);
+        List<PattayaPINewsDto> newsDtos = newsPage.getContent().stream()
+                .map(PattayaPINewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

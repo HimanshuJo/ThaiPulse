@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.KhonKaenNewsDto;
 import com.thaipulse.newsapp.mapper.KhonKaenNewsMapper;
 import com.thaipulse.newsapp.model.KhonKaenNews;
 import com.thaipulse.newsapp.repository.KhonKaenNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class KhonKaenNewsRssFeedService {
         this.khonKaenNewsRepository = khonKaenNewsRepository;
     }
 
-    public long countAllKhonKaenNews() {
-        return khonKaenNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return khonKaenNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<KhonKaenNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/NMnBedns2PTkq8st.xml"));
-        Collections.shuffle(fetchedNews);
-        List<KhonKaenNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !khonKaenNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = khonKaenNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (KhonKaenNews news : uniqueNews) {
-                    try {
-                        khonKaenNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            khonKaenNewsRepository.deleteAllInBatch();
-            for (KhonKaenNews news : uniqueNews) {
-                try {
-                    khonKaenNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<KhonKaenNewsDto> getPaginatedKhonKaenNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<KhonKaenNews> newsPage = khonKaenNewsRepository.findAll(pageable);
-        List<KhonKaenNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(KhonKaenNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -176,6 +132,53 @@ public class KhonKaenNewsRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<KhonKaenNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/NMnBedns2PTkq8st.xml"));
+        Collections.shuffle(fetchedNews);
+        List<KhonKaenNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !khonKaenNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = khonKaenNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (KhonKaenNews news : uniqueNews) {
+                    try {
+                        khonKaenNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            khonKaenNewsRepository.deleteAllInBatch();
+            for (KhonKaenNews news : uniqueNews) {
+                try {
+                    khonKaenNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllKhonKaenNews() {
+        return khonKaenNewsRepository.count();
+    }
+
+    public Page<KhonKaenNewsDto> getPaginatedKhonKaenNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<KhonKaenNews> newsPage = khonKaenNewsRepository.findAll(pageable);
+        List<KhonKaenNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(KhonKaenNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

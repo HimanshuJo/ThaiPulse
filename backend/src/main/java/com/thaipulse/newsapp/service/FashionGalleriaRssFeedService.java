@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.FashionGalleriaNewsDto;
 import com.thaipulse.newsapp.mapper.FashionGalleriaNewsMapper;
 import com.thaipulse.newsapp.model.FashionGalleriaNews;
 import com.thaipulse.newsapp.repository.FashionGalleriaNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class FashionGalleriaRssFeedService {
         this.fashionGalleriaNewsRepository = fashionGalleriaNewsRepository;
     }
 
-    public long countAllNews() {
-        return fashionGalleriaNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return fashionGalleriaNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<FashionGalleriaNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://fashiongalleria.biz/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<FashionGalleriaNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !fashionGalleriaNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = fashionGalleriaNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (FashionGalleriaNews news : uniqueNews) {
-                    try {
-                        fashionGalleriaNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            fashionGalleriaNewsRepository.deleteAllInBatch();
-            for (FashionGalleriaNews news : uniqueNews) {
-                try {
-                    fashionGalleriaNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<FashionGalleriaNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<FashionGalleriaNews> newsPage = fashionGalleriaNewsRepository.findAll(pageable);
-        List<FashionGalleriaNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(FashionGalleriaNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class FashionGalleriaRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<FashionGalleriaNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://fashiongalleria.biz/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<FashionGalleriaNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !fashionGalleriaNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = fashionGalleriaNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (FashionGalleriaNews news : uniqueNews) {
+                    try {
+                        fashionGalleriaNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            fashionGalleriaNewsRepository.deleteAllInBatch();
+            for (FashionGalleriaNews news : uniqueNews) {
+                try {
+                    fashionGalleriaNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return fashionGalleriaNewsRepository.count();
+    }
+
+    public Page<FashionGalleriaNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<FashionGalleriaNews> newsPage = fashionGalleriaNewsRepository.findAll(pageable);
+        List<FashionGalleriaNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(FashionGalleriaNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

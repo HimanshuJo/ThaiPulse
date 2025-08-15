@@ -9,13 +9,20 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import com.thaipulse.newsapp.dto.NewsDto;
 import com.thaipulse.newsapp.mapper.NewsMapper;
+import com.thaipulse.newsapp.model.BangkokNews;
 import com.thaipulse.newsapp.model.News;
 import com.thaipulse.newsapp.repository.NewsRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,10 +31,16 @@ import java.util.stream.Collectors;
 @Service
 public class RSSFeedService {
 
+    private static final Logger logger = LoggerFactory.getLogger(RSSFeedService.class);
+
     private final NewsRepository newsRepository;
 
     public RSSFeedService(NewsRepository newsRepository) {
         this.newsRepository = newsRepository;
+    }
+
+    public boolean newsCheck() {
+        return newsRepository.count() >= 1;
     }
 
     private String extractImageFromHtml(String html) {
@@ -38,7 +51,6 @@ public class RSSFeedService {
         }
         return null;
     }
-
 
     public List<News> getNewsFromRss(String rssUrl) {
         List<News> newsList = new ArrayList<>();
@@ -94,6 +106,45 @@ public class RSSFeedService {
         return newsList;
     }
 
+    public void fetchAndStoreLatestNews() {
+        List<News> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://thediplomat.com/feed"));
+        fetchedNews.addAll(getNewsFromRss("https://asiatimes.com/feed"));
+        fetchedNews.addAll(getNewsFromRss("https://southeastasiaglobe.com/feed"));
+        Collections.shuffle(fetchedNews);
+        List<News> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !newsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = newsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (News news : uniqueNews) {
+                    try {
+                        newsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            newsRepository.deleteAllInBatch();
+            for (News news : uniqueNews) {
+                try {
+                    newsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return newsRepository.count();
+    }
+
     public Page<NewsDto> getPaginatedNews(int page, int size) {
         if (size < 1) {
             size = 20;
@@ -104,10 +155,6 @@ public class RSSFeedService {
                 .map(NewsMapper::toDto)
                 .collect(Collectors.toList());
         return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
-    }
-
-    public long countAllNews() {
-        return newsRepository.count();
     }
 
 }

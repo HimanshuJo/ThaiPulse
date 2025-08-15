@@ -12,11 +12,15 @@ import com.thaipulse.newsapp.dto.ThailandIslandNewsDto;
 import com.thaipulse.newsapp.mapper.ThailandIslandNewsMapper;
 import com.thaipulse.newsapp.model.ThailandIslandNews;
 import com.thaipulse.newsapp.repository.ThailandIslandNewsRepository;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -35,6 +39,10 @@ public class ThailandIslandNewsRssFeedService {
 
     public ThailandIslandNewsRssFeedService(ThailandIslandNewsRepository thailandIslandNewsRepository) {
         this.thailandIslandNewsRepository = thailandIslandNewsRepository;
+    }
+
+    public boolean newsCheck() {
+        return thailandIslandNewsRepository.count() >= 1;
     }
 
     private String extractImageFromHtml(String html) {
@@ -100,6 +108,42 @@ public class ThailandIslandNewsRssFeedService {
         return newsList;
     }
 
+    public void fetchAndStoreLatestNews() {
+        List<ThailandIslandNews> fetchedNews = new ArrayList<>(getNewsFromRss("https" +
+                "://www.thailand-island.info/feed/"));
+        List<ThailandIslandNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !thailandIslandNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = thailandIslandNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (ThailandIslandNews news : uniqueNews) {
+                    try {
+                        thailandIslandNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            thailandIslandNewsRepository.deleteAll();
+            for (ThailandIslandNews news : uniqueNews) {
+                try {
+                    thailandIslandNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return thailandIslandNewsRepository.count();
+    }
+
     public Page<ThailandIslandNewsDto> getPaginatedNews(int page, int size) {
         if (size < 1) size = 20;
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
@@ -108,10 +152,6 @@ public class ThailandIslandNewsRssFeedService {
                 .map(ThailandIslandNewsMapper::toDto)
                 .collect(Collectors.toList());
         return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
-    }
-
-    public long countAllNews() {
-        return thailandIslandNewsRepository.count();
     }
 
 }

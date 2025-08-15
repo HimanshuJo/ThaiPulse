@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.HatYaiNewsDto;
 import com.thaipulse.newsapp.mapper.HatYaiNewsMapper;
 import com.thaipulse.newsapp.model.HatYaiNews;
 import com.thaipulse.newsapp.repository.HatYaiNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class HatYaiNewsRssFeedService {
         this.hatYaiNewsRepository = hatYaiNewsRepository;
     }
 
-    public long countAllHatYaiNews() {
-        return hatYaiNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return hatYaiNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<HatYaiNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/Xqqc5mrSQcXGb139.xml"));
-        Collections.shuffle(fetchedNews);
-        List<HatYaiNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !hatYaiNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = hatYaiNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (HatYaiNews news : uniqueNews) {
-                    try {
-                        hatYaiNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            hatYaiNewsRepository.deleteAllInBatch();
-            for (HatYaiNews news : uniqueNews) {
-                try {
-                    hatYaiNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<HatYaiNewsDto> getPaginatedHatYaiNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<HatYaiNews> newsPage = hatYaiNewsRepository.findAll(pageable);
-        List<HatYaiNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(HatYaiNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -176,6 +132,53 @@ public class HatYaiNewsRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<HatYaiNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/Xqqc5mrSQcXGb139.xml"));
+        Collections.shuffle(fetchedNews);
+        List<HatYaiNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !hatYaiNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = hatYaiNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (HatYaiNews news : uniqueNews) {
+                    try {
+                        hatYaiNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            hatYaiNewsRepository.deleteAllInBatch();
+            for (HatYaiNews news : uniqueNews) {
+                try {
+                    hatYaiNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllHatYaiNews() {
+        return hatYaiNewsRepository.count();
+    }
+
+    public Page<HatYaiNewsDto> getPaginatedHatYaiNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<HatYaiNews> newsPage = hatYaiNewsRepository.findAll(pageable);
+        List<HatYaiNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(HatYaiNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.ThaifoodmasterNewsDto;
 import com.thaipulse.newsapp.mapper.ThaifoodmasterNewsMapper;
 import com.thaipulse.newsapp.model.ThaifoodmasterNews;
 import com.thaipulse.newsapp.repository.ThaifoodmasterNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class ThaifoodmasterRssFeedService {
         this.thaifoodmasterNewsRepository = thaifoodmasterNewsRepository;
     }
 
-    public long countAllNews() {
-        return thaifoodmasterNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return thaifoodmasterNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<ThaifoodmasterNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://feeds.feedburner.com/Thaifoodmaster"));
-        Collections.shuffle(fetchedNews);
-        List<ThaifoodmasterNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !thaifoodmasterNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = thaifoodmasterNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (ThaifoodmasterNews news : uniqueNews) {
-                    try {
-                        thaifoodmasterNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            thaifoodmasterNewsRepository.deleteAllInBatch();
-            for (ThaifoodmasterNews news : uniqueNews) {
-                try {
-                    thaifoodmasterNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<ThaifoodmasterNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<ThaifoodmasterNews> newsPage = thaifoodmasterNewsRepository.findAll(pageable);
-        List<ThaifoodmasterNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(ThaifoodmasterNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class ThaifoodmasterRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<ThaifoodmasterNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://feeds.feedburner.com/Thaifoodmaster"));
+        Collections.shuffle(fetchedNews);
+        List<ThaifoodmasterNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !thaifoodmasterNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = thaifoodmasterNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (ThaifoodmasterNews news : uniqueNews) {
+                    try {
+                        thaifoodmasterNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            thaifoodmasterNewsRepository.deleteAllInBatch();
+            for (ThaifoodmasterNews news : uniqueNews) {
+                try {
+                    thaifoodmasterNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return thaifoodmasterNewsRepository.count();
+    }
+
+    public Page<ThaifoodmasterNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<ThaifoodmasterNews> newsPage = thaifoodmasterNewsRepository.findAll(pageable);
+        List<ThaifoodmasterNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(ThaifoodmasterNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

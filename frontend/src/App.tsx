@@ -68,7 +68,7 @@ function App() {
     ComponentToRender = <AboutThailandLivingService />;
   } else if (path === "/daveTheRavesThailand") {
     ComponentToRender = <DaveTheRavesThailandService />;
-  } else if (path === "/thaifoodmaster") {
+  } else if (path === "/thaiFoodMaster") {
     ComponentToRender = <ThaifoodmasterService />;
   } else if (path === "/thailandBail") {
     ComponentToRender = <ThailandBailService />;

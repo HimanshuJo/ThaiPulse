@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.ThinglishLifestyleNewsDto;
 import com.thaipulse.newsapp.mapper.ThinglishLifestyleNewsMapper;
 import com.thaipulse.newsapp.model.ThinglishLifestyleNews;
 import com.thaipulse.newsapp.repository.ThinglishLifestyleNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class ThinglishLifestyleRssFeedService {
         this.thinglishLifestyleNewsRepository = thinglishLifestyleNewsRepository;
     }
 
-    public long countAllNews() {
-        return thinglishLifestyleNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return thinglishLifestyleNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<ThinglishLifestyleNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://thinglishlifestyle.com/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<ThinglishLifestyleNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !thinglishLifestyleNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = thinglishLifestyleNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (ThinglishLifestyleNews news : uniqueNews) {
-                    try {
-                        thinglishLifestyleNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            thinglishLifestyleNewsRepository.deleteAllInBatch();
-            for (ThinglishLifestyleNews news : uniqueNews) {
-                try {
-                    thinglishLifestyleNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<ThinglishLifestyleNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<ThinglishLifestyleNews> newsPage = thinglishLifestyleNewsRepository.findAll(pageable);
-        List<ThinglishLifestyleNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(ThinglishLifestyleNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class ThinglishLifestyleRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<ThinglishLifestyleNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://thinglishlifestyle.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<ThinglishLifestyleNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !thinglishLifestyleNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = thinglishLifestyleNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (ThinglishLifestyleNews news : uniqueNews) {
+                    try {
+                        thinglishLifestyleNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            thinglishLifestyleNewsRepository.deleteAllInBatch();
+            for (ThinglishLifestyleNews news : uniqueNews) {
+                try {
+                    thinglishLifestyleNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return thinglishLifestyleNewsRepository.count();
+    }
+
+    public Page<ThinglishLifestyleNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<ThinglishLifestyleNews> newsPage = thinglishLifestyleNewsRepository.findAll(pageable);
+        List<ThinglishLifestyleNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(ThinglishLifestyleNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

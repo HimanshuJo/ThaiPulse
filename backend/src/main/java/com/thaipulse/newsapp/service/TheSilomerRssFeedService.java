@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.TheSilomerNewsDto;
 import com.thaipulse.newsapp.mapper.TheSilomerNewsMapper;
 import com.thaipulse.newsapp.model.TheSilomerNews;
 import com.thaipulse.newsapp.repository.TheSilomerNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class TheSilomerRssFeedService {
         this.theSilomerNewsRepository = theSilomerNewsRepository;
     }
 
-    public long countAllNews() {
-        return theSilomerNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return theSilomerNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<TheSilomerNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://thesilomer.com/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<TheSilomerNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !theSilomerNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = theSilomerNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (TheSilomerNews news : uniqueNews) {
-                    try {
-                        theSilomerNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            theSilomerNewsRepository.deleteAllInBatch();
-            for (TheSilomerNews news : uniqueNews) {
-                try {
-                    theSilomerNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<TheSilomerNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<TheSilomerNews> newsPage = theSilomerNewsRepository.findAll(pageable);
-        List<TheSilomerNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(TheSilomerNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class TheSilomerRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<TheSilomerNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://thesilomer.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<TheSilomerNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !theSilomerNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = theSilomerNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (TheSilomerNews news : uniqueNews) {
+                    try {
+                        theSilomerNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            theSilomerNewsRepository.deleteAllInBatch();
+            for (TheSilomerNews news : uniqueNews) {
+                try {
+                    theSilomerNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return theSilomerNewsRepository.count();
+    }
+
+    public Page<TheSilomerNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<TheSilomerNews> newsPage = theSilomerNewsRepository.findAll(pageable);
+        List<TheSilomerNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(TheSilomerNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

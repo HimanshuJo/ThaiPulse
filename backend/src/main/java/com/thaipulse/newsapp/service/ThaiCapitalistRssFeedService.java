@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.ThaiCapitalistNewsDto;
 import com.thaipulse.newsapp.mapper.ThaiCapitalistNewsMapper;
 import com.thaipulse.newsapp.model.ThaiCapitalistNews;
 import com.thaipulse.newsapp.repository.ThaiCapitalistNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class ThaiCapitalistRssFeedService {
         this.thaiCapitalistNewsRepository = thaiCapitalistNewsRepository;
     }
 
-    public long countAllNews() {
-        return thaiCapitalistNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return thaiCapitalistNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<ThaiCapitalistNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://www.thaicapitalist.com/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<ThaiCapitalistNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !thaiCapitalistNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = thaiCapitalistNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (ThaiCapitalistNews news : uniqueNews) {
-                    try {
-                        thaiCapitalistNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            thaiCapitalistNewsRepository.deleteAllInBatch();
-            for (ThaiCapitalistNews news : uniqueNews) {
-                try {
-                    thaiCapitalistNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<ThaiCapitalistNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<ThaiCapitalistNews> newsPage = thaiCapitalistNewsRepository.findAll(pageable);
-        List<ThaiCapitalistNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(ThaiCapitalistNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class ThaiCapitalistRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<ThaiCapitalistNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://www.thaicapitalist.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<ThaiCapitalistNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !thaiCapitalistNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = thaiCapitalistNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (ThaiCapitalistNews news : uniqueNews) {
+                    try {
+                        thaiCapitalistNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            thaiCapitalistNewsRepository.deleteAllInBatch();
+            for (ThaiCapitalistNews news : uniqueNews) {
+                try {
+                    thaiCapitalistNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return thaiCapitalistNewsRepository.count();
+    }
+
+    public Page<ThaiCapitalistNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<ThaiCapitalistNews> newsPage = thaiCapitalistNewsRepository.findAll(pageable);
+        List<ThaiCapitalistNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(ThaiCapitalistNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

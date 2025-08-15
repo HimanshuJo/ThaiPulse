@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.DaveTheRavesThailandNewsDto;
 import com.thaipulse.newsapp.mapper.DaveTheRavesThailandNewsMapper;
 import com.thaipulse.newsapp.model.DaveTheRavesThailandNews;
 import com.thaipulse.newsapp.repository.DaveTheRavesThailandNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class DaveTheRavesThailandRssFeedService {
         this.daveTheRavesThailandNewsRepository = daveTheRavesThailandNewsRepository;
     }
 
-    public long countAllNews() {
-        return daveTheRavesThailandNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return daveTheRavesThailandNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<DaveTheRavesThailandNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://davetheravebangkok.com/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<DaveTheRavesThailandNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !daveTheRavesThailandNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = daveTheRavesThailandNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (DaveTheRavesThailandNews news : uniqueNews) {
-                    try {
-                        daveTheRavesThailandNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            daveTheRavesThailandNewsRepository.deleteAllInBatch();
-            for (DaveTheRavesThailandNews news : uniqueNews) {
-                try {
-                    daveTheRavesThailandNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<DaveTheRavesThailandNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<DaveTheRavesThailandNews> newsPage = daveTheRavesThailandNewsRepository.findAll(pageable);
-        List<DaveTheRavesThailandNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(DaveTheRavesThailandNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class DaveTheRavesThailandRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<DaveTheRavesThailandNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://davetheravebangkok.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<DaveTheRavesThailandNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !daveTheRavesThailandNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = daveTheRavesThailandNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (DaveTheRavesThailandNews news : uniqueNews) {
+                    try {
+                        daveTheRavesThailandNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            daveTheRavesThailandNewsRepository.deleteAllInBatch();
+            for (DaveTheRavesThailandNews news : uniqueNews) {
+                try {
+                    daveTheRavesThailandNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return daveTheRavesThailandNewsRepository.count();
+    }
+
+    public Page<DaveTheRavesThailandNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<DaveTheRavesThailandNews> newsPage = daveTheRavesThailandNewsRepository.findAll(pageable);
+        List<DaveTheRavesThailandNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(DaveTheRavesThailandNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

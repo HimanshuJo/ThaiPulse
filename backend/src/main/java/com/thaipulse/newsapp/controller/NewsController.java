@@ -137,6 +137,10 @@ public class NewsController {
         if (size < 1) {
             size = 20;
         }
+        boolean areNewsAvailable = rssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            rssFeedService.fetchAndStoreLatestNews();
+        }
         long totalNews = rssFeedService.countAllNews();
         if (totalNews > 1000) {
             Page<NewsDto> pagedResult = rssFeedService.getPaginatedNews(page, size);
@@ -151,6 +155,10 @@ public class NewsController {
     public ResponseEntity<?> getAllBangkokScoopNews(@RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "20") int size) {
         if (size < 1) size = 20;
+        boolean areNewsAvailable = bangkokScoopRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            bangkokScoopRssFeedService.fetchAndStoreLatestNews();
+        }
         long totalNews = bangkokScoopRssFeedService.countAllNews();
         if (totalNews > 1000) {
             Page<BangkokScoopNewsDto> pagedResult = bangkokScoopRssFeedService.getPaginatedNews(page, size);
@@ -167,6 +175,10 @@ public class NewsController {
                                                       @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
             size = 20;
+        }
+        boolean areNewsAvailable = thailandIslandNewsRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            thailandIslandNewsRssFeedService.fetchAndStoreLatestNews();
         }
         long totalNews = thailandIslandNewsRssFeedService.countAllNews();
         if (totalNews > 1000) {
@@ -185,6 +197,10 @@ public class NewsController {
         if (size < 1) {
             size = 20;
         }
+        boolean areNewsAvailable = findThaiPropertyRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            findThaiPropertyRssFeedService.fetchAndStoreLatestNews();
+        }
         long totalNews = findThaiPropertyRssFeedService.countAllNews();
         if (totalNews > 1000) {
             Page<FindThaiPropertyNewsDto> pagedResult = findThaiPropertyRssFeedService.getPaginatedNews(page, size);
@@ -201,6 +217,10 @@ public class NewsController {
                                                              @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
             size = 20;
+        }
+        boolean areNewsAvailable = legallyMarriedInThailandRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            legallyMarriedInThailandRssFeedService.fetchAndStoreLatestNews();
         }
         long totalNews = legallyMarriedInThailandRssFeedService.countAllNews();
         if (totalNews > 1000) {
@@ -220,6 +240,10 @@ public class NewsController {
         if (size < 1) {
             size = 20;
         }
+        boolean areNewsAvailable = thaiLadyDateFinderRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            thaiLadyDateFinderRssFeedService.fetchAndStoreLatestNews();
+        }
         long totalNews = thaiLadyDateFinderRssFeedService.countAllNews();
         if (totalNews > 1000) {
             Page<ThaiLadyDateFinderNewsDto> pagedResult = thaiLadyDateFinderRssFeedService.getPaginatedNews(page, size);
@@ -236,6 +260,10 @@ public class NewsController {
                                                           @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
             size = 20;
+        }
+        boolean areNewsAvailable = weddingBoutiquePhuketRssFeedService.newsCheck();
+        if (!areNewsAvailable) {
+            weddingBoutiquePhuketRssFeedService.fetchAndStoreLatestNews();
         }
         long totalNews = weddingBoutiquePhuketRssFeedService.countAllNews();
         if (totalNews > 1000) {

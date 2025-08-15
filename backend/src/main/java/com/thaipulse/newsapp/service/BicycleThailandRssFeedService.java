@@ -12,11 +12,13 @@ import com.thaipulse.newsapp.dto.BicycleThailandNewsDto;
 import com.thaipulse.newsapp.mapper.BicycleThailandNewsMapper;
 import com.thaipulse.newsapp.model.BicycleThailandNews;
 import com.thaipulse.newsapp.repository.BicycleThailandNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,55 +43,8 @@ public class BicycleThailandRssFeedService {
         this.bicycleThailandNewsRepository = bicycleThailandNewsRepository;
     }
 
-    public long countAllNews() {
-        return bicycleThailandNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return bicycleThailandNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<BicycleThailandNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://bicyclethailand.com/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<BicycleThailandNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !bicycleThailandNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = bicycleThailandNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (BicycleThailandNews news : uniqueNews) {
-                    try {
-                        bicycleThailandNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            bicycleThailandNewsRepository.deleteAllInBatch();
-            for (BicycleThailandNews news : uniqueNews) {
-                try {
-                    bicycleThailandNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<BicycleThailandNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BicycleThailandNews> newsPage = bicycleThailandNewsRepository.findAll(pageable);
-        List<BicycleThailandNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(BicycleThailandNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +132,53 @@ public class BicycleThailandRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<BicycleThailandNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://bicyclethailand.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<BicycleThailandNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !bicycleThailandNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = bicycleThailandNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (BicycleThailandNews news : uniqueNews) {
+                    try {
+                        bicycleThailandNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            bicycleThailandNewsRepository.deleteAllInBatch();
+            for (BicycleThailandNews news : uniqueNews) {
+                try {
+                    bicycleThailandNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return bicycleThailandNewsRepository.count();
+    }
+
+    public Page<BicycleThailandNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<BicycleThailandNews> newsPage = bicycleThailandNewsRepository.findAll(pageable);
+        List<BicycleThailandNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(BicycleThailandNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.NakhonRatchasimaNewsDto;
 import com.thaipulse.newsapp.mapper.NakhonRatchasimaNewsMapper;
 import com.thaipulse.newsapp.model.NakhonRatchasimaNews;
 import com.thaipulse.newsapp.repository.NakhonRatchasimaNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class NakhonRatchasimaNewsRssFeedService {
         this.nakhonRatchasimaNewsRepository = nakhonRatchasimaNewsRepository;
     }
 
-    public long countAllNakhonRatchasimaNews() {
-        return nakhonRatchasimaNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return nakhonRatchasimaNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<NakhonRatchasimaNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/Qr24KisGPohngIuC.xml"));
-        Collections.shuffle(fetchedNews);
-        List<NakhonRatchasimaNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !nakhonRatchasimaNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = nakhonRatchasimaNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (NakhonRatchasimaNews news : uniqueNews) {
-                    try {
-                        nakhonRatchasimaNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            nakhonRatchasimaNewsRepository.deleteAllInBatch();
-            for (NakhonRatchasimaNews news : uniqueNews) {
-                try {
-                    nakhonRatchasimaNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<NakhonRatchasimaNewsDto> getPaginatedNakhonRatchasimaNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<NakhonRatchasimaNews> newsPage = nakhonRatchasimaNewsRepository.findAll(pageable);
-        List<NakhonRatchasimaNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(NakhonRatchasimaNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -176,6 +132,53 @@ public class NakhonRatchasimaNewsRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<NakhonRatchasimaNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/Qr24KisGPohngIuC.xml"));
+        Collections.shuffle(fetchedNews);
+        List<NakhonRatchasimaNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !nakhonRatchasimaNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = nakhonRatchasimaNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (NakhonRatchasimaNews news : uniqueNews) {
+                    try {
+                        nakhonRatchasimaNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            nakhonRatchasimaNewsRepository.deleteAllInBatch();
+            for (NakhonRatchasimaNews news : uniqueNews) {
+                try {
+                    nakhonRatchasimaNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNakhonRatchasimaNews() {
+        return nakhonRatchasimaNewsRepository.count();
+    }
+
+    public Page<NakhonRatchasimaNewsDto> getPaginatedNakhonRatchasimaNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<NakhonRatchasimaNews> newsPage = nakhonRatchasimaNewsRepository.findAll(pageable);
+        List<NakhonRatchasimaNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(NakhonRatchasimaNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

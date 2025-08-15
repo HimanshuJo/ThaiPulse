@@ -12,12 +12,17 @@ import com.thaipulse.newsapp.dto.WeddingBoutiquePhuketNewsDto;
 import com.thaipulse.newsapp.mapper.WeddingBoutiquePhuketNewsMapper;
 import com.thaipulse.newsapp.model.WeddingBoutiquePhuketNews;
 import com.thaipulse.newsapp.repository.WeddingBoutiquePhuketNewsRepository;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.URL;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +40,10 @@ public class WeddingBoutiquePhuketRssFeedService {
 
     public WeddingBoutiquePhuketRssFeedService(WeddingBoutiquePhuketNewsRepository weddingBoutiquePhuketNewsRepository) {
         this.weddingBoutiquePhuketNewsRepository = weddingBoutiquePhuketNewsRepository;
+    }
+
+    public boolean newsCheck() {
+        return weddingBoutiquePhuketNewsRepository.count() >= 1;
     }
 
     private String extractImageFromHtml(String html) {
@@ -100,6 +109,44 @@ public class WeddingBoutiquePhuketRssFeedService {
         return newsList;
     }
 
+    public void fetchAndStoreLatestNews() {
+        List<WeddingBoutiquePhuketNews> fetchedNews = new ArrayList<>(getNewsFromRss("https://weddingboutiquephuket" +
+                ".com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<WeddingBoutiquePhuketNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !weddingBoutiquePhuketNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+
+        long count = weddingBoutiquePhuketNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (WeddingBoutiquePhuketNews news : uniqueNews) {
+                    try {
+                        weddingBoutiquePhuketNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException e) {
+                        logger.info("Skipping Duplicate News {} ", e.getMessage());
+                    }
+                }
+            }
+        } else {
+            weddingBoutiquePhuketNewsRepository.deleteAllInBatch();
+            for (WeddingBoutiquePhuketNews news : uniqueNews) {
+                try {
+                    weddingBoutiquePhuketNewsRepository.save(news);
+                } catch (DataIntegrityViolationException e) {
+                    logger.info("Skipping Duplicate News {} ", e.getMessage());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return weddingBoutiquePhuketNewsRepository.count();
+    }
+
     public Page<WeddingBoutiquePhuketNewsDto> getPaginatedNews(int page, int size) {
         if (size < 1) size = 20;
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
@@ -108,10 +155,6 @@ public class WeddingBoutiquePhuketRssFeedService {
                 .map(WeddingBoutiquePhuketNewsMapper::toDto)
                 .collect(Collectors.toList());
         return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
-    }
-
-    public long countAllNews() {
-        return weddingBoutiquePhuketNewsRepository.count();
     }
 
 }

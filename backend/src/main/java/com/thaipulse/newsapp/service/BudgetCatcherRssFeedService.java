@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.BudgetCatcherNewsDto;
 import com.thaipulse.newsapp.mapper.BudgetCatcherNewsMapper;
 import com.thaipulse.newsapp.model.BudgetCatcherNews;
 import com.thaipulse.newsapp.repository.BudgetCatcherNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class BudgetCatcherRssFeedService {
         this.budgetCatcherNewsRepository = budgetCatcherNewsRepository;
     }
 
-    public long countAllNews() {
-        return budgetCatcherNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return budgetCatcherNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<BudgetCatcherNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://www.budgetcatcher.com/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<BudgetCatcherNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !budgetCatcherNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = budgetCatcherNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (BudgetCatcherNews news : uniqueNews) {
-                    try {
-                        budgetCatcherNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            budgetCatcherNewsRepository.deleteAllInBatch();
-            for (BudgetCatcherNews news : uniqueNews) {
-                try {
-                    budgetCatcherNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<BudgetCatcherNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BudgetCatcherNews> newsPage = budgetCatcherNewsRepository.findAll(pageable);
-        List<BudgetCatcherNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(BudgetCatcherNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class BudgetCatcherRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<BudgetCatcherNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://www.budgetcatcher.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<BudgetCatcherNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !budgetCatcherNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = budgetCatcherNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (BudgetCatcherNews news : uniqueNews) {
+                    try {
+                        budgetCatcherNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            budgetCatcherNewsRepository.deleteAllInBatch();
+            for (BudgetCatcherNews news : uniqueNews) {
+                try {
+                    budgetCatcherNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return budgetCatcherNewsRepository.count();
+    }
+
+    public Page<BudgetCatcherNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<BudgetCatcherNews> newsPage = budgetCatcherNewsRepository.findAll(pageable);
+        List<BudgetCatcherNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(BudgetCatcherNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

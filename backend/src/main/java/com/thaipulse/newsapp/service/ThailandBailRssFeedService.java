@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.ThailandBailNewsDto;
 import com.thaipulse.newsapp.mapper.ThailandBailNewsMapper;
 import com.thaipulse.newsapp.model.ThailandBailNews;
 import com.thaipulse.newsapp.repository.ThailandBailNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class ThailandBailRssFeedService {
         this.thailandBailNewsRepository = thailandBailNewsRepository;
     }
 
-    public long countAllNews() {
-        return thailandBailNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return thailandBailNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<ThailandBailNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://www.thailandbail.com/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<ThailandBailNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !thailandBailNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = thailandBailNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (ThailandBailNews news : uniqueNews) {
-                    try {
-                        thailandBailNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            thailandBailNewsRepository.deleteAllInBatch();
-            for (ThailandBailNews news : uniqueNews) {
-                try {
-                    thailandBailNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<ThailandBailNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<ThailandBailNews> newsPage = thailandBailNewsRepository.findAll(pageable);
-        List<ThailandBailNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(ThailandBailNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class ThailandBailRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<ThailandBailNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://www.thailandbail.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<ThailandBailNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !thailandBailNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = thailandBailNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (ThailandBailNews news : uniqueNews) {
+                    try {
+                        thailandBailNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            thailandBailNewsRepository.deleteAllInBatch();
+            for (ThailandBailNews news : uniqueNews) {
+                try {
+                    thailandBailNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return thailandBailNewsRepository.count();
+    }
+
+    public Page<ThailandBailNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<ThailandBailNews> newsPage = thailandBailNewsRepository.findAll(pageable);
+        List<ThailandBailNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(ThailandBailNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

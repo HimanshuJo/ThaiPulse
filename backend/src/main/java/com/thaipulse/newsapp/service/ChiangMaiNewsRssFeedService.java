@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.ChiangMaiNewsDto;
 import com.thaipulse.newsapp.mapper.ChiangMaiNewsMapper;
 import com.thaipulse.newsapp.model.ChiangMaiNews;
 import com.thaipulse.newsapp.repository.ChiangMaiNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class ChiangMaiNewsRssFeedService {
         this.chiangMaiNewsRepository = chiangMaiNewsRepository;
     }
 
-    public long countAllChiangMaiNews() {
-        return chiangMaiNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return chiangMaiNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<ChiangMaiNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/kpqhQBTHu6vUALi0.xml"));
-        Collections.shuffle(fetchedNews);
-        List<ChiangMaiNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !chiangMaiNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = chiangMaiNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (ChiangMaiNews news : uniqueNews) {
-                    try {
-                        chiangMaiNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            chiangMaiNewsRepository.deleteAllInBatch();
-            for (ChiangMaiNews news : uniqueNews) {
-                try {
-                    chiangMaiNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<ChiangMaiNewsDto> getPaginatedChiangMaiNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<ChiangMaiNews> newsPage = chiangMaiNewsRepository.findAll(pageable);
-        List<ChiangMaiNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(ChiangMaiNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -176,6 +132,53 @@ public class ChiangMaiNewsRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<ChiangMaiNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/kpqhQBTHu6vUALi0.xml"));
+        Collections.shuffle(fetchedNews);
+        List<ChiangMaiNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !chiangMaiNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = chiangMaiNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (ChiangMaiNews news : uniqueNews) {
+                    try {
+                        chiangMaiNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            chiangMaiNewsRepository.deleteAllInBatch();
+            for (ChiangMaiNews news : uniqueNews) {
+                try {
+                    chiangMaiNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllChiangMaiNews() {
+        return chiangMaiNewsRepository.count();
+    }
+
+    public Page<ChiangMaiNewsDto> getPaginatedChiangMaiNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<ChiangMaiNews> newsPage = chiangMaiNewsRepository.findAll(pageable);
+        List<ChiangMaiNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(ChiangMaiNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

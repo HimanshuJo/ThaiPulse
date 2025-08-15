@@ -11,12 +11,14 @@ import com.thaipulse.newsapp.dto.BangkokNewsDto;
 import com.thaipulse.newsapp.mapper.BangkokNewsMapper;
 import com.thaipulse.newsapp.model.BangkokNews;
 import com.thaipulse.newsapp.repository.BangkokNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,58 +41,8 @@ public class BangkokNewsRssFeedService {
         this.bangkokNewsRepository = bangkokNewsRepository;
     }
 
-    public long countAllBangkokNews() {
-        return bangkokNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return bangkokNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<BangkokNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://www.indothainews.com/feed/"));
-        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/tIKepB4ZE1Wx3DF3.xml"));
-        Collections.shuffle(fetchedNews);
-        List<BangkokNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !bangkokNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = bangkokNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (BangkokNews news : uniqueNews) {
-                    try {
-                        bangkokNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            bangkokNewsRepository.deleteAllInBatch();
-            for (BangkokNews news : uniqueNews) {
-                try {
-                    bangkokNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<BangkokNewsDto> getPaginatedBangkokNews(int page, int size) {
-        if (size < 1) {
-            size = 20;
-        }
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<BangkokNews> newsPage = bangkokNewsRepository.findAll(pageable);
-        List<BangkokNewsDto> newsDto = newsPage.getContent().stream()
-                .map(BangkokNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDto, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -181,6 +133,56 @@ public class BangkokNewsRssFeedService {
             e.printStackTrace();
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<BangkokNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://www.indothainews.com/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/tIKepB4ZE1Wx3DF3.xml"));
+        Collections.shuffle(fetchedNews);
+        List<BangkokNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !bangkokNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = bangkokNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (BangkokNews news : uniqueNews) {
+                    try {
+                        bangkokNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            bangkokNewsRepository.deleteAllInBatch();
+            for (BangkokNews news : uniqueNews) {
+                try {
+                    bangkokNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllBangkokNews() {
+        return bangkokNewsRepository.count();
+    }
+
+    public Page<BangkokNewsDto> getPaginatedBangkokNews(int page, int size) {
+        if (size < 1) {
+            size = 20;
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<BangkokNews> newsPage = bangkokNewsRepository.findAll(pageable);
+        List<BangkokNewsDto> newsDto = newsPage.getContent().stream()
+                .map(BangkokNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDto, pageable, newsPage.getTotalElements());
     }
 
 }

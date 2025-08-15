@@ -12,13 +12,16 @@ import com.thaipulse.newsapp.dto.MeanderingTalesNewsDto;
 import com.thaipulse.newsapp.mapper.MeanderingTalesNewsMapper;
 import com.thaipulse.newsapp.model.MeanderingTalesNews;
 import com.thaipulse.newsapp.repository.MeanderingTalesNewsRepository;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,55 +44,8 @@ public class MeanderingTalesRssFeedService {
         this.meanderingTalesNewsRepository = meanderingTalesNewsRepository;
     }
 
-    public long countAllNews() {
-        return meanderingTalesNewsRepository.count();
-    }
-
     public boolean newsCheck() {
         return meanderingTalesNewsRepository.count() >= 1;
-    }
-
-    public void fetchAndStoreLatestNews() {
-        List<MeanderingTalesNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://meanderingtales.com/feed/"));
-        Collections.shuffle(fetchedNews);
-        List<MeanderingTalesNews> uniqueNews = fetchedNews;
-        if (newsCheck()) {
-            uniqueNews = fetchedNews.stream()
-                    .filter(news -> !meanderingTalesNewsRepository.existsByLink(news.getLink()))
-                    .toList();
-        }
-        long count = meanderingTalesNewsRepository.count();
-        if (count < 2000) {
-            if (!uniqueNews.isEmpty()) {
-                for (MeanderingTalesNews news : uniqueNews) {
-                    try {
-                        meanderingTalesNewsRepository.save(news);
-                    } catch (DataIntegrityViolationException dive) {
-                        logger.info("Duplicate news skipped: {} " + news.getLink());
-                    }
-                }
-            }
-        } else {
-            meanderingTalesNewsRepository.deleteAllInBatch();
-            for (MeanderingTalesNews news : uniqueNews) {
-                try {
-                    meanderingTalesNewsRepository.save(news);
-                } catch (DataIntegrityViolationException dive) {
-                    logger.info("Duplicate news skipped: {} " + news.getLink());
-                }
-            }
-        }
-    }
-
-    public Page<MeanderingTalesNewsDto> getPaginatedNews(int page, int size) {
-        if (size < 1) size = 20;
-        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
-        Page<MeanderingTalesNews> newsPage = meanderingTalesNewsRepository.findAll(pageable);
-        List<MeanderingTalesNewsDto> newsDtos = newsPage.getContent().stream()
-                .map(MeanderingTalesNewsMapper::toDto)
-                .collect(Collectors.toList());
-        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
     private String extractImageFromHtml(String html) {
@@ -177,6 +133,53 @@ public class MeanderingTalesRssFeedService {
             throw new RuntimeException(e);
         }
         return newsList;
+    }
+
+    public void fetchAndStoreLatestNews() {
+        List<MeanderingTalesNews> fetchedNews = new ArrayList<>();
+        fetchedNews.addAll(getNewsFromRss("https://meanderingtales.com/feed/"));
+        Collections.shuffle(fetchedNews);
+        List<MeanderingTalesNews> uniqueNews = fetchedNews;
+        if (newsCheck()) {
+            uniqueNews = fetchedNews.stream()
+                    .filter(news -> !meanderingTalesNewsRepository.existsByLink(news.getLink()))
+                    .toList();
+        }
+        long count = meanderingTalesNewsRepository.count();
+        if (count < 10000) {
+            if (!uniqueNews.isEmpty()) {
+                for (MeanderingTalesNews news : uniqueNews) {
+                    try {
+                        meanderingTalesNewsRepository.save(news);
+                    } catch (DataIntegrityViolationException dive) {
+                        logger.info("Duplicate news skipped: {} " + news.getLink());
+                    }
+                }
+            }
+        } else {
+            meanderingTalesNewsRepository.deleteAllInBatch();
+            for (MeanderingTalesNews news : uniqueNews) {
+                try {
+                    meanderingTalesNewsRepository.save(news);
+                } catch (DataIntegrityViolationException dive) {
+                    logger.info("Duplicate news skipped: {} " + news.getLink());
+                }
+            }
+        }
+    }
+
+    public long countAllNews() {
+        return meanderingTalesNewsRepository.count();
+    }
+
+    public Page<MeanderingTalesNewsDto> getPaginatedNews(int page, int size) {
+        if (size < 1) size = 20;
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<MeanderingTalesNews> newsPage = meanderingTalesNewsRepository.findAll(pageable);
+        List<MeanderingTalesNewsDto> newsDtos = newsPage.getContent().stream()
+                .map(MeanderingTalesNewsMapper::toDto)
+                .collect(Collectors.toList());
+        return new PageImpl<>(newsDtos, pageable, newsPage.getTotalElements());
     }
 
 }

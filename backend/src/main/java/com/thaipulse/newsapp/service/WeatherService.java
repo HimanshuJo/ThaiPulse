@@ -64,4 +64,5 @@ public class WeatherService {
         dto.setUpdatedAt(Instant.now());
         return dto;
     }
+
 }
