@@ -7,6 +7,12 @@ interface BlogLink {
 }
 
 const blogLinks: BlogLink[] = [
+  { name: "About Thailand Living", path: "/aboutThailandLiving" },
+  { name: "Thailand Bail", path: "/thailandBail" },
+  { name: "The Silomer", path: "/theSilomer" },
+  { name: "Thai Lawyers", path: "/thaiLawyers" },
+  { name: "Thinglish Lifestyle", path: "/thinglishLifestyle" },
+  { name: "That Bangkok Life", path: "/thatBangkokLife" },
   { name: "Bangkok Scoop News", path: "/bangkokScoopNews" },
   { name: "Thailand Islands", path: "/thailandIslandNews" },
   { name: "Thailand Property", path: "/findThaiProperty" },
@@ -14,19 +20,14 @@ const blogLinks: BlogLink[] = [
   { name: "Thai Lady Date Finder", path: "/thaiLadyDateFinder" },
   { name: "Bicycle Thailand", path: "/bicycleThailand" },
   { name: "Thai Capitalist", path: "/thaiCapitalist" },
-  { name: "About Thailand Living", path: "/aboutThailandLiving" },
   { name: "Dave The Rave's Thailand", path: "/daveTheRavesThailand" },
   { name: "Thai Food Master", path: "/thaiFoodMaster" },
-  { name: "Thailand Bail", path: "/thailandBail" },
-  { name: "The Silomer", path: "/theSilomer" },
   { name: "Pattaya PI", path: "/pattayaPI" },
   { name: "Budget Catcher", path: "/budgetCatcher" },
-  { name: "Thai Lawyers", path: "/thaiLawyers" },
   { name: "Meandering Tales", path: "/meanderingTales" },
   { name: "Lifestyle in Thailand", path: "/lifestyleInThailand" },
-  { name: "That Bangkok Life", path: "/thatBangkokLife" },
-  { name: "Thinglish Lifestyle", path: "/thinglishLifestyle" },
-  { name: "Fashion Galleria", path: "/fashionGalleria" }
+  { name: "Fashion Galleria", path: "/fashionGalleria" },
+  { name: "Wedding Boutique Phuket", path: "/weddingBoutiquePhuket" }
 ];
 
 const SCROLL_STEP = 50;

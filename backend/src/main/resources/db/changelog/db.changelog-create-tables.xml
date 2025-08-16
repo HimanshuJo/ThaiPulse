@@ -18,7 +18,7 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
             <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
@@ -35,7 +35,7 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
             <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
@@ -52,7 +52,7 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
             <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
@@ -69,7 +69,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -85,7 +86,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -101,7 +103,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -117,7 +120,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -133,7 +137,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -149,7 +154,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -165,7 +171,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -181,7 +188,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -197,7 +205,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -213,7 +222,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -229,7 +239,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -245,7 +256,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -261,7 +273,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -277,7 +290,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -293,7 +307,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -309,7 +324,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -325,7 +341,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -341,7 +358,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -357,7 +375,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -373,7 +392,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -389,7 +409,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -405,7 +426,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -421,7 +443,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -437,7 +460,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -453,7 +477,8 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
 
@@ -469,9 +494,9 @@
             <column name="link" type="VARCHAR(500)">
                 <constraints unique="true"/>
             </column>
-            <column name="image" type="VARCHAR(500)"/>
+            <column name="image" type="VARCHAR(5000)"/>
+            <column name="published_date" type="VARCHAR(500)"/>
         </createTable>
     </changeSet>
-
 
 </databaseChangeLog>

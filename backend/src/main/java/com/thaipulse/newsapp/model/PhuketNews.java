@@ -62,4 +62,5 @@ public class PhuketNews {
     public void setPublishedDate(LocalDateTime publishedDate) {
         this.publishedDate = publishedDate;
     }
+
 }

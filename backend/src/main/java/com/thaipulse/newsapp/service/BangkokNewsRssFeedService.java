@@ -5,20 +5,23 @@ import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.feed.synd.SyndFeedImpl;
 import com.rometools.rome.io.SyndFeedInput;
-import com.rometools.rome.io.XmlReader;
 import com.thaipulse.newsapp.dto.BangkokNewsDto;
 import com.thaipulse.newsapp.mapper.BangkokNewsMapper;
 import com.thaipulse.newsapp.model.BangkokNews;
 import com.thaipulse.newsapp.repository.BangkokNewsRepository;
-
+import org.jdom2.Document;
+import org.jdom2.input.SAXBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,9 +29,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class BangkokNewsRssFeedService {
@@ -54,12 +54,35 @@ public class BangkokNewsRssFeedService {
         return null;
     }
 
+    private SyndFeed readFeed(URL url) {
+        SyndFeedInput input = new SyndFeedInput();
+        try (InputStream in = url.openStream()) {
+            SAXBuilder saxBuilder = new SAXBuilder();
+
+            saxBuilder.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            saxBuilder.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            saxBuilder.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
+            Document doc = saxBuilder.build(in);
+            return input.build(doc);
+        } catch (Exception e) {
+            logger.error("Failed to read RSS feed from URL: {}", url, e);
+            SyndFeed emptyFeed = new SyndFeedImpl();
+            emptyFeed.setFeedType("rss_2.0");
+            emptyFeed.setTitle("Empty Feed");
+            emptyFeed.setLink(url.toString());
+            emptyFeed.setDescription("No items found due to parsing error.");
+            emptyFeed.setEntries(Collections.emptyList());
+            return emptyFeed;
+        }
+    }
+
     public List<BangkokNews> getNewsFromRss(String rssUrl) {
         List<BangkokNews> newsList = new ArrayList<>();
         try {
             URL url = new URL(rssUrl);
-            SyndFeedInput input = new SyndFeedInput();
-            SyndFeed feed = input.build(new XmlReader(url));
+            SyndFeed feed = readFeed(url);
+            if(feed.getTitle().equals("Empty Feed")) return newsList;
             for (SyndEntry entry : feed.getEntries()) {
                 BangkokNews news = new BangkokNews();
                 news.setTitle(entry.getTitle());
@@ -127,7 +150,6 @@ public class BangkokNewsRssFeedService {
                 }
                 logger.info("Bangkok News Added: " + news.getTitle());
                 newsList.add(news);
-                if (newsList.size() >= 10) break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,7 +159,6 @@ public class BangkokNewsRssFeedService {
 
     public void fetchAndStoreLatestNews() {
         List<BangkokNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://www.indothainews.com/feed/"));
         fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/tIKepB4ZE1Wx3DF3.xml"));
         Collections.shuffle(fetchedNews);
         List<BangkokNews> uniqueNews = fetchedNews;

@@ -1,37 +1,35 @@
 package com.thaipulse.newsapp.service;
 
 import com.rometools.modules.mediarss.MediaEntryModule;
+import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
-import com.rometools.rome.feed.module.Module;
 import com.thaipulse.newsapp.dto.ThaifoodmasterNewsDto;
 import com.thaipulse.newsapp.mapper.ThaifoodmasterNewsMapper;
 import com.thaipulse.newsapp.model.ThaifoodmasterNews;
 import com.thaipulse.newsapp.repository.ThaifoodmasterNewsRepository;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class ThaifoodmasterRssFeedService {
@@ -46,6 +44,40 @@ public class ThaifoodmasterRssFeedService {
 
     public boolean newsCheck() {
         return thaifoodmasterNewsRepository.count() >= 1;
+    }
+
+    private String generatePlaceholderImageBase64(String title) {
+        try {
+            int width = 600, height = 300;
+            BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = bufferedImage.createGraphics();
+
+            g2d.setColor(new Color(50, 50, 50));
+            g2d.fillRect(0, 0, width, height);
+
+            g2d.setFont(new Font("Arial", Font.BOLD, 28));
+            g2d.setColor(Color.WHITE);
+
+            String text = title.length() > 40 ? title.substring(0, 40) + "..." : title;
+            FontMetrics fm = g2d.getFontMetrics();
+            int textWidth = fm.stringWidth(text);
+
+            g2d.drawString(text, (width - textWidth) / 2, height / 2);
+            g2d.dispose();
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "png", baos);
+            byte[] bytes = baos.toByteArray();
+
+            String base64 = Base64.getEncoder().encodeToString(bytes);
+            String uniqueId = UUID.randomUUID().toString().substring(0, 8);
+
+            return "data:image/png;base64," + base64 + "#id=" + uniqueId;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private String extractImageFromHtml(String html) {
@@ -124,10 +156,14 @@ public class ThaifoodmasterRssFeedService {
                         }
                     }
                 }
-                if (!imageSet) continue;
+                if (!imageSet) {
+                    String placeholder = generatePlaceholderImageBase64(news.getTitle());
+                    if (placeholder != null) {
+                        news.setImage(placeholder);
+                    }
+                }
                 newsList.add(news);
                 logger.info("Added ThaifoodmasterNews: " + news.getTitle());
-                if (newsList.size() >= 10) break;
             }
         } catch (IOException | FeedException e) {
             throw new RuntimeException(e);

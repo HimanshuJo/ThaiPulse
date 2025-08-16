@@ -26,4 +26,5 @@ public class CitiesController {
 
         return cities;
     }
+
 }

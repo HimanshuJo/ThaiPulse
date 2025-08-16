@@ -49,11 +49,15 @@ public class LifestyleInThailandRssFeedService {
     }
 
     private String extractImageFromHtml(String html) {
-        if (html == null) return null;
-        Matcher matcher = Pattern.compile("<img[^>]+src=[\"']([^\"']+)[\"']").matcher(html);
+        if (html == null || html.isEmpty()) return null;
+
+        Pattern pattern = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
+        Matcher matcher = pattern.matcher(html);
+
         if (matcher.find()) {
             return matcher.group(1);
         }
+
         return null;
     }
 
@@ -127,7 +131,6 @@ public class LifestyleInThailandRssFeedService {
                 if (!imageSet) continue;
                 newsList.add(news);
                 logger.info("Added LifestyleInThailandNews: " + news.getTitle());
-                if (newsList.size() >= 10) break;
             }
         } catch (IOException | FeedException e) {
             throw new RuntimeException(e);

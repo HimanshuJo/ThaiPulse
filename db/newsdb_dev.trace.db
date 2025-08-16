@@ -127,3 +127,267 @@ SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
 2025-08-15 21:57:50 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
 SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 16:42:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 16:42:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 16:42:33 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 17:22:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 17:22:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 17:22:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:13:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:13:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:13:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:33:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:33:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:33:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANLElEQVR4X... (4594)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM+ElEQVR4X... (4526)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAMn0lEQVR4X... (4406)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANc0lEQVR4X... (4690)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM1UlEQVR4X... (4478)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAALKUlEQVR4X... (3910)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANhUlEQVR4X... (4714)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANaklEQVR4X... (4678)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANt0lEQVR4X... (4782)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAALN0lEQVR4X... (3926)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANTElEQVR4X... (4638)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAMeklEQVR4X... (4358)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANUUlEQVR4X... (4646)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANHklEQVR4X... (4578)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANHElEQVR4X... (4574)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANK0lEQVR4X... (4594)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANFElEQVR4X... (4562)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANj0lEQVR4X... (4726)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM7UlEQVR4X... (4510)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:36:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM3ElEQVR4X... (4490)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANd0lEQVR4X... (4694)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAMNklEQVR4X... (4266)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANN0lEQVR4X... (4610)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANcklEQVR4X... (4690)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANgElEQVR4X... (4706)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANfUlEQVR4X... (4702)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANNElEQVR4X... (4606)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAMeUlEQVR4X... (4358)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANiklEQVR4X... (4722)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANiElEQVR4X... (4718)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANQElEQVR4X... (4622)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANH0lEQVR4X... (4578)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANJUlEQVR4X... (4586)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM2ElEQVR4X... (4482)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:37:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANtklEQVR4X... (4778)"; SQL statement:
+insert into thaifoodmaster_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:46:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:46:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:46:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANCklEQVR4X... (4562)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM1UlEQVR4X... (4490)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM/ElEQVR4X... (4542)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANUElEQVR4X... (4654)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANPElEQVR4X... (4630)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANpklEQVR4X... (4770)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAALiUlEQVR4X... (4050)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM9UlEQVR4X... (4534)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAALUElEQVR4X... (3974)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAMUElEQVR4X... (4314)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM20lEQVR4X... (4498)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM70lEQVR4X... (4526)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANUUlEQVR4X... (4658)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAN0ElEQVR4X... (4826)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM9ElEQVR4X... (4534)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANPUlEQVR4X... (4630)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAM+klEQVR4X... (4542)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANCElEQVR4X... (4558)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAAMgElEQVR4X... (4378)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 18:49:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Value too long for column "IMAGE CHARACTER VARYING(500)": "'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAEsCAIAAACQX1rBAAANZUlEQVR4X... (4682)"; SQL statement:
+insert into davetheravesthailand_news (id, image, link, source, title) values (default, ?, ?, ?, ?) [22001-214]
+2025-08-16 19:09:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:09:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:09:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:26:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:26:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:26:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:31:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:31:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:31:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:37:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:37:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:37:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:51:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:51:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:51:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:53:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:53:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]
+2025-08-16 19:53:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "DATABASECHANGELOGLOCK" not found (this database is empty); SQL statement:
+SELECT COUNT(*) FROM PUBLIC.DATABASECHANGELOGLOCK [42104-214]

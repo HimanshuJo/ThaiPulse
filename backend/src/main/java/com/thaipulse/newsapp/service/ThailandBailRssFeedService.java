@@ -127,7 +127,6 @@ public class ThailandBailRssFeedService {
                 if (!imageSet) continue;
                 newsList.add(news);
                 logger.info("Added ThailandBailNews: " + news.getTitle());
-                if (newsList.size() >= 10) break;
             }
         } catch (IOException | FeedException e) {
             throw new RuntimeException(e);

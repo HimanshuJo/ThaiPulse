@@ -127,7 +127,6 @@ public class MeanderingTalesRssFeedService {
                 if (!imageSet) continue;
                 newsList.add(news);
                 logger.info("Added MeanderingTalesNews: " + news.getTitle());
-                if (newsList.size() >= 10) break;
             }
         } catch (IOException | FeedException e) {
             throw new RuntimeException(e);

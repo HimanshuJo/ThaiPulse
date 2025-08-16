@@ -126,7 +126,6 @@ public class BicycleThailandRssFeedService {
                 if (!imageSet) continue;
                 newsList.add(news);
                 logger.info("Added BicycleThailandNews: " + news.getTitle());
-                if (newsList.size() >= 10) break;
             }
         } catch (IOException | FeedException e) {
             throw new RuntimeException(e);

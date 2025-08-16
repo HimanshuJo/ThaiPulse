@@ -127,7 +127,6 @@ public class AboutThailandLivingRssFeedService {
                 if (!imageSet) continue;
                 newsList.add(news);
                 logger.info("Added AboutThailandLivingNews: " + news.getTitle());
-                if (newsList.size() >= 10) break;
             }
         } catch (IOException | FeedException e) {
             throw new RuntimeException(e);

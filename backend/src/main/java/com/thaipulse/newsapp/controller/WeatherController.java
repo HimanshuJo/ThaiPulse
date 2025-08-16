@@ -44,4 +44,5 @@ public class WeatherController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("{\"error\":\"" + e.getMessage().replace("\"", "'") + "\"}");
     }
+
 }

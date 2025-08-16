@@ -99,6 +99,7 @@ public class RSSFeedService {
                 }
                 if (!imageSet) continue;
                 newsList.add(news);
+                if (newsList.size() >= 50) break;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,6 +112,21 @@ public class RSSFeedService {
         fetchedNews.addAll(getNewsFromRss("https://thediplomat.com/feed"));
         fetchedNews.addAll(getNewsFromRss("https://asiatimes.com/feed"));
         fetchedNews.addAll(getNewsFromRss("https://southeastasiaglobe.com/feed"));
+        fetchedNews.addAll(getNewsFromRss("https://www.asianscientist.com/feed/?x=1"));
+        fetchedNews.addAll(getNewsFromRss("https://www.newmandala.org/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://www.asiasentinel.com/feed"));
+        fetchedNews.addAll(getNewsFromRss("https://www.scmp.com/rss/91/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://newsnblogs.com/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://hrmasia.com/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://nwasianweekly.com/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://asiasamachar.com/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://www.iaasiaonline.com/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://asia361.com/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://www.retailnews.asia/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://www.asianexpress.co.uk/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://southeastasiaglobe.com/feed/"));
+        fetchedNews.addAll(getNewsFromRss("https://tyre-asia.com/feed"));
+        fetchedNews.addAll(getNewsFromRss("https://jamestown.org/feed/"));
         Collections.shuffle(fetchedNews);
         List<News> uniqueNews = fetchedNews;
         if (newsCheck()) {

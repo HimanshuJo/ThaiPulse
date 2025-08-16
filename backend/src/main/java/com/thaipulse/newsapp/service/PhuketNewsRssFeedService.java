@@ -127,7 +127,6 @@ public class PhuketNewsRssFeedService {
                 }
                 logger.info("Phuket News Added: " + news.getTitle());
                 newsList.add(news);
-                if (newsList.size() >= 10) break;
             }
         } catch (Exception e) {
             e.printStackTrace();

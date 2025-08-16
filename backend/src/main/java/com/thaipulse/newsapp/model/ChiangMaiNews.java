@@ -1,6 +1,7 @@
 package com.thaipulse.newsapp.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chiangmai_news")
@@ -9,10 +10,16 @@ public class ChiangMaiNews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
+
     private String source;
+
     private String link;
+
     private String image;
+
+    private LocalDateTime publishedDate;
 
     public ChiangMaiNews() {
     }
@@ -63,4 +70,13 @@ public class ChiangMaiNews {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public LocalDateTime getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(LocalDateTime publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
 }

@@ -1,21 +1,32 @@
 package com.thaipulse.newsapp.scheduler;
 
-import com.thaipulse.newsapp.repository.NewsRepository;
 import com.thaipulse.newsapp.service.RSSFeedService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
+
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 @Component
-@RequiredArgsConstructor
 public class NewsScheduler {
 
     private final RSSFeedService rssFeedService;
-    private final NewsRepository newsRepository;
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
-    @Scheduled(fixedRate = 700000)
-    public void refreshNews() {
-        return;
+    public NewsScheduler(RSSFeedService rssFeedService) {
+        this.rssFeedService = rssFeedService;
     }
-}
 
+    @PostConstruct
+    public void scheduleScraping() {
+        scheduler.schedule(this::runAndReschedule, 10, TimeUnit.MINUTES);
+    }
+
+    private void runAndReschedule() {
+        rssFeedService.fetchAndStoreLatestNews();
+    }
+
+}

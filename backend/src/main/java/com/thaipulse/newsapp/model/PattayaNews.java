@@ -62,4 +62,5 @@ public class PattayaNews {
     public void setPublishedDate(LocalDateTime publishedDate) {
         this.publishedDate = publishedDate;
     }
+
 }
