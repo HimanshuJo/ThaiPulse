@@ -18,7 +18,7 @@ const PattayaNewsService: React.FC=()=>{
     const fetchArticles=async(pageNumber: number)=>{
         try{
             const response=await axios.get(
-                `http://localhost:8080/pattaya-news?page=${pageNumber}&size=500`
+                `${import.meta.env.VITE_API_BASE_URL}/pattaya-news?page=${pageNumber}&size=500`
             );
             const data=response.data;
             setArticles(data.content||data);

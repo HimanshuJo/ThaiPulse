@@ -16,7 +16,7 @@ const NewsService: React.FC=()=>{
 
     const fetchArticles=async(pageNumber: number)=>{
         try{
-            const response=await axios.get(`http://localhost:8080/news?page=${pageNumber}&size=500`);
+            const response=await axios.get(`${import.meta.env.VITE_API_BASE_URL}/news?page=${pageNumber}&size=500`);
             const data=response.data;
             setArticles(data.content||data);
             setTotalPages(data.totalPages||1);

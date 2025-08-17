@@ -2,16 +2,21 @@ package com.thaipulse.newsapp.controller;
 
 import com.thaipulse.newsapp.dto.*;
 import com.thaipulse.newsapp.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class NewsController {
+
+    private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
+
+    private static final Logger frontendLogger = LoggerFactory.getLogger("frontend-errors");
 
     private final RSSFeedService rssFeedService;
 
@@ -743,6 +748,11 @@ public class NewsController {
                     nakhonRatchasimaNewsRssFeedService.getPaginatedNakhonRatchasimaNews(0, (int) totalNews).getContent();
             return ResponseEntity.ok().body(allNews);
         }
+    }
+
+    @PostMapping("/log-frontend-client-error")
+    public void logFrontEndClientError(@RequestBody Map<String, Object> payload) {
+        frontendLogger.error("Frontend error: {}", payload);
     }
 
 }

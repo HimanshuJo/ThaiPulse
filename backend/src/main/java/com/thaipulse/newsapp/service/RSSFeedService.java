@@ -9,10 +9,8 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import com.thaipulse.newsapp.dto.NewsDto;
 import com.thaipulse.newsapp.mapper.NewsMapper;
-import com.thaipulse.newsapp.model.BangkokNews;
 import com.thaipulse.newsapp.model.News;
 import com.thaipulse.newsapp.repository.NewsRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

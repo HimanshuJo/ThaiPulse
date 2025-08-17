@@ -19,5 +19,36 @@
 <script type="module" src="/src/main.tsx"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+<script>
+    window.onerror = function(message, source, lineno, colno, error) {
+        fetch('/news/log-client-error', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: message,
+                source: source,
+                lineno: lineno,
+                colno: colno,
+                error: error ? error.stack : null
+            })
+        }).catch(err => {
+            console.error("Failed to log frontend error:", err);
+        });
+    };
+
+    window.onunhandledrejection = function(event) {
+        fetch('/news/log-client-error', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                message: event.reason?.message || 'Unhandled promise rejection',
+                error: event.reason?.stack || null
+            })
+        }).catch(err => {
+            console.error("Failed to log unhandled promise rejection:", err);
+        });
+    };
+</script>
 </body>
 </html>
