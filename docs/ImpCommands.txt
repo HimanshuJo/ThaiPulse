@@ -43,3 +43,13 @@ Oracle:
     Get constraints on news table (like primary key):
 
         SELECT constraint_name, constraint_type, status FROM user_constraints WHERE table_name = 'NEWS';
+
+-------
+
+NPM:
+
+    sudo rm -rf /var/www/thaipulse/*
+    
+    sudo cp -r dist/* /var/www/thaipulse/
+
+    sudo systemctl restart nginx

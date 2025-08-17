@@ -4,6 +4,11 @@ import Footer from "../components/footer";
 
 declare const L: any;
 
+const API_BASE =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "https://thaipulsetimes.com";
+
 const PopularCitiesMap: React.FC = () => {
   const [cities, setCities] = useState<any[]>([]);
   const [startCity, setStartCity] = useState<string>("");
@@ -30,7 +35,7 @@ const PopularCitiesMap: React.FC = () => {
       mapRef.current = map;
     }
 
-    fetch("http://localhost:8080/api/cities")
+    fetch(`${API_BASE}/api/cities`)
       .then((res) => {
         if (!res.ok) return res.json().then((text) => Promise.reject(text));
         return res.json();
