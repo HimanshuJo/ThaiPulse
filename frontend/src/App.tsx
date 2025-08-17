@@ -1,4 +1,6 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import NewsService from "./services/newsService";
 import BangkokScoopNewsService from "./services/bangkokScoopNewsService";
 import ThailandIslandNewsService from "./services/thailandIslandNewsService";
@@ -21,6 +23,7 @@ import ThatBangkokLifeService from "./services/thatBangkokLifeService";
 import ThinglishLifestyleService from "./services/thinglishLifestyleService";
 import FashionGalleriaService from "./services/fashionGalleriaService";
 import ThaiLadyDateFinderService from "./services/thaiLadyDateFinderService";
+
 import BangkokNewsService from "./services/bangkokNewsService";
 import PattayaNewsService from "./services/pattayaNewsService";
 import PhuketNewsService from "./services/phuketNewsService";
@@ -28,75 +31,77 @@ import ChiangMaiNewsService from "./services/chiangMaiNewsService";
 import HatYaiNewsService from "./services/hatYaiNewsService";
 import KhonKaenNewsService from "./services/khonKaenNewsService";
 import NakhonRatchasimaNewsService from "./services/nakhonRatchasimaNewsService";
+
 import PopularCitiesMap from "./components/popularCitiesMap";
 
 function App() {
-  const path = window.location.pathname;
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<NewsService />} />
 
-  let ComponentToRender;
-  if (path === "/city/bangkok") {
-    ComponentToRender = <BangkokNewsService />;
-  } else if (path === "/city/pattaya") {
-    ComponentToRender = <PattayaNewsService />;
-  } else if (path === "/city/phuket") {
-    ComponentToRender = <PhuketNewsService />;
-  } else if (path === "/city/chiang-mai") {
-    ComponentToRender = <ChiangMaiNewsService />;
-  } else if (path === "/city/hat-yai") {
-    ComponentToRender = <HatYaiNewsService />;
-  } else if (path === "/city/khon-kaen") {
-    ComponentToRender = <KhonKaenNewsService />;
-  } else if (path === "/city/nakhon-ratchasima") {
-    ComponentToRender = <NakhonRatchasimaNewsService />;
-  } else if (path === "/bangkokScoopNews") {
-    ComponentToRender = <BangkokScoopNewsService />;
-  } else if (path === "/thailandIslandNews") {
-    ComponentToRender = <ThailandIslandNewsService />;
-  } else if (path === "/findThaiProperty") {
-    ComponentToRender = <FindThaiPropertyService />;
-  } else if (path === "/legallyMarriedInThailand") {
-    ComponentToRender = <LegallyMarriedInThailandService />;
-  } else if (path === "/thaiLadyDateFinder") {
-    ComponentToRender = <ThaiLadyDateFinderService />;
-  } else if (path === "/weddingBoutiquePhuket") {
-    ComponentToRender = <WeddingBoutiquePhuketService />;
-  } else if (path === "/bicycleThailand") {
-    ComponentToRender = <BicycleThailandService />;
-  } else if (path === "/thaiCapitalist") {
-    ComponentToRender = <ThaiCapitalistService />;
-  } else if (path === "/aboutThailandLiving") {
-    ComponentToRender = <AboutThailandLivingService />;
-  } else if (path === "/daveTheRavesThailand") {
-    ComponentToRender = <DaveTheRavesThailandService />;
-  } else if (path === "/thaiFoodMaster") {
-    ComponentToRender = <ThaifoodmasterService />;
-  } else if (path === "/thailandBail") {
-    ComponentToRender = <ThailandBailService />;
-  } else if (path === "/theSilomer") {
-    ComponentToRender = <TheSilomerService />;
-  } else if (path === "/pattayaPI") {
-    ComponentToRender = <PattayaPIService />;
-  } else if (path === "/budgetCatcher") {
-    ComponentToRender = <BudgetCatcherService />;
-  } else if (path === "/thaiLawyers") {
-    ComponentToRender = <ThaiLawyersService />;
-  } else if (path === "/meanderingTales") {
-    ComponentToRender = <MeanderingTalesService />;
-  } else if (path === "/lifestyleInThailand") {
-    ComponentToRender = <LifestyleInThailandService />;
-  } else if (path === "/thatBangkokLife") {
-    ComponentToRender = <ThatBangkokLifeService />;
-  } else if (path === "/thinglishLifestyle") {
-    ComponentToRender = <ThinglishLifestyleService />;
-  } else if (path === "/fashionGalleria") {
-    ComponentToRender = <FashionGalleriaService />;
-  } else if (path === "/popular-cities-map") {
-    ComponentToRender = <PopularCitiesMap />;
-  } else {
-    ComponentToRender = <NewsService />;
-  }
+          <Route path="/city/bangkok" element={<BangkokNewsService />} />
+          <Route path="/city/pattaya" element={<PattayaNewsService />} />
+          <Route path="/city/phuket" element={<PhuketNewsService />} />
+          <Route path="/city/chiang-mai" element={<ChiangMaiNewsService />} />
+          <Route path="/city/hat-yai" element={<HatYaiNewsService />} />
+          <Route path="/city/khon-kaen" element={<KhonKaenNewsService />} />
+          <Route
+            path="/city/nakhon-ratchasima"
+            element={<NakhonRatchasimaNewsService />}
+          />
 
-  return <div className="App">{ComponentToRender}</div>;
+          <Route path="/bangkokScoopNews" element={<BangkokScoopNewsService />} />
+          <Route path="/thailandIslandNews" element={<ThailandIslandNewsService />} />
+          <Route path="/findThaiProperty" element={<FindThaiPropertyService />} />
+          <Route
+            path="/legallyMarriedInThailand"
+            element={<LegallyMarriedInThailandService />}
+          />
+          <Route
+            path="/weddingBoutiquePhuket"
+            element={<WeddingBoutiquePhuketService />}
+          />
+          <Route path="/bicycleThailand" element={<BicycleThailandService />} />
+          <Route path="/thaiCapitalist" element={<ThaiCapitalistService />} />
+          <Route
+            path="/aboutThailandLiving"
+            element={<AboutThailandLivingService />}
+          />
+          <Route
+            path="/daveTheRavesThailand"
+            element={<DaveTheRavesThailandService />}
+          />
+          <Route path="/thaiFoodMaster" element={<ThaifoodmasterService />} />
+          <Route path="/thailandBail" element={<ThailandBailService />} />
+          <Route path="/theSilomer" element={<TheSilomerService />} />
+          <Route path="/pattayaPI" element={<PattayaPIService />} />
+          <Route path="/budgetCatcher" element={<BudgetCatcherService />} />
+          <Route path="/thaiLawyers" element={<ThaiLawyersService />} />
+          <Route path="/meanderingTales" element={<MeanderingTalesService />} />
+          <Route
+            path="/lifestyleInThailand"
+            element={<LifestyleInThailandService />}
+          />
+          <Route path="/thatBangkokLife" element={<ThatBangkokLifeService />} />
+          <Route
+            path="/thinglishLifestyle"
+            element={<ThinglishLifestyleService />}
+          />
+          <Route path="/fashionGalleria" element={<FashionGalleriaService />} />
+          <Route
+            path="/thaiLadyDateFinder"
+            element={<ThaiLadyDateFinderService />}
+          />
+
+          <Route path="/popular-cities-map" element={<PopularCitiesMap />} />
+
+          <Route path="*" element={<NewsService />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default App;
