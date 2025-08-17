@@ -21,7 +21,7 @@ const CITIES = [
   "Nakhon Ratchasima"
 ];
 
-const API_BASE = "http://localhost:8080";
+const API_BASE = "https://thaipulsetimes.com";
 
 const WeatherWidget: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [city, setCity] = useState("Bangkok");
