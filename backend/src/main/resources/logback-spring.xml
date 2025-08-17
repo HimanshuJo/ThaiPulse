@@ -1,5 +1,5 @@
 <configuration>
-    <property name="PROJECT_HOME" value="${PROJECT_HOME:-/mnt/c/Imps/Repos/ThaiPulse}"/>
+    <property name="PROJECT_HOME" value="/home/isaac_hah_joshua/ThaiPulse/"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
