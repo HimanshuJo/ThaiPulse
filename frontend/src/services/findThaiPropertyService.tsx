@@ -9,6 +9,11 @@ export type Article = {
     image?: string;
 }
 
+const API_BASE =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "https://thaipulsetimes.com";
+
 const FindThaiPropertyService: React.FC = () => {
     const [articles, setArticles] = useState<Article[]>([]);
     const [page, setPage] = useState<number>(0);
@@ -16,7 +21,7 @@ const FindThaiPropertyService: React.FC = () => {
 
     const fetchArticles = async (pageNumber: number) => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/findThaiProperty?page=${pageNumber}&size=500`);
+            const response = await axios.get(`${API_BASE}/findThaiProperty?page=${pageNumber}&size=500`);
             const data = response.data;
             setArticles(data.content || data);
             setTotalPages(data.totalPages || 1);

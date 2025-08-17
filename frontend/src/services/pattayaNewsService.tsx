@@ -10,6 +10,11 @@ export type PattayaArticle={
     publishedDate?: string;
 };
 
+const API_BASE =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "https://thaipulsetimes.com";
+
 const PattayaNewsService: React.FC=()=>{
     const [articles, setArticles]=useState<PattayaArticle[]>([]);
     const [page, setPage]=useState<number>(0);
@@ -18,7 +23,7 @@ const PattayaNewsService: React.FC=()=>{
     const fetchArticles=async(pageNumber: number)=>{
         try{
             const response=await axios.get(
-                `${import.meta.env.VITE_API_BASE_URL}/pattaya-news?page=${pageNumber}&size=500`
+                `${API_BASE}/pattaya-news?page=${pageNumber}&size=500`
             );
             const data=response.data;
             setArticles(data.content||data);

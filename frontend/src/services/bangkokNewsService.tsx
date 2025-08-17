@@ -10,6 +10,11 @@ export type BangkokArticle={
     publishedDate?:string;
 };
 
+const API_BASE =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:8080"
+    : "https://thaipulsetimes.com";
+
 const BangkokNewsService:React.FC=()=>{
     const [articles, setArticles]=useState<BangkokArticle[]>([]);
     const [page, setPage]=useState<number>(0);
@@ -17,7 +22,7 @@ const BangkokNewsService:React.FC=()=>{
     const fetchArticles=async(pageNumber: number)=>{
         try{
             const response=await axios.get(
-               `${import.meta.env.VITE_API_BASE_URL}/bangkok-news?page=${pageNumber}&size=500`
+               `${API_BASE}/bangkok-news?page=${pageNumber}&size=500`
             );
             const data=response.data;
             setArticles(data.content||data);
