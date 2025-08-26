@@ -31,15 +31,14 @@ import NakhonRatchasimaNewsService from "./services/nakhonRatchasimaNewsService"
 import PopularCitiesMap from "./components/popularCitiesMap";
 
 const getNormalizedPath = () => {
-  const { hostname, pathname } = window.location;
-
-  const cleanPath = pathname.replace(/\/$/, "");
-
+  const hostname = window.location.hostname;
+  const path = window.location.pathname;
   if (hostname === "thaipulsetimes.com") {
-    return `https://thaipulsetimes.com${cleanPath}`;
+    console.log("Forming prod path: "+"https://thaipulsetimes.com"+path)
+    return "https://thaipulsetimes.com"+path;
   }
-
-  return cleanPath;
+  console.log("path name is: "+path);
+  return path;
 };
 
 function App() {
@@ -103,8 +102,8 @@ function App() {
     case "https://thaipulsetimes.com/bicycleThailand":
       ComponentToRender = <BicycleThailandService />;
       break;
-    case "/thaiCapitalist":
-    case "https://thaipulsetimes.com/thaiCapitalist":
+    case "/feeds/thaiCapitalist":
+    case "https://thaipulsetimes.com/feeds/thaiCapitalist":
       ComponentToRender = <ThaiCapitalistService />;
       break;
     case "/aboutThailandLiving":

@@ -25,7 +25,7 @@ const blogLinks: BlogLink[] = [
   { name: "Legally Married In Thailand", href: `${BASE_URL}/legallyMarriedInThailand` },
   { name: "Thai Lady Date Finder", href: `${BASE_URL}/thaiLadyDateFinder` },
   { name: "Bicycle Thailand", href: `${BASE_URL}/bicycleThailand` },
-  { name: "Thai Capitalist", href: `${BASE_URL}/thaiCapitalist` },
+  { name: "Thai Capitalist", href: `${BASE_URL}/feeds/thaiCapitalist` },
   { name: "Dave The Rave's Thailand", href: `${BASE_URL}/daveTheRavesThailand` },
   { name: "Thai Food Master", href: `${BASE_URL}/thaiFoodMaster` },
   { name: "Pattaya PI", href: `${BASE_URL}/pattayaPI` },
