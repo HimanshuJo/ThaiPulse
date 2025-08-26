@@ -46,32 +46,32 @@ function App() {
 
   let ComponentToRender;
   switch (path) {
-    case "/city/bangkok":
-    case "https://thaipulsetimes.com/city/bangkok":
+    case "/navFeeds/city/bangkok":
+    case "https://thaipulsetimes.com/navFeeds/city/bangkok":
       ComponentToRender = <BangkokNewsService />;
       break;
-    case "/city/pattaya":
-    case "https://thaipulsetimes.com/city/pattaya":
+    case "/navFeeds/city/pattaya":
+    case "https://thaipulsetimes.com/navFeeds/city/pattaya":
       ComponentToRender = <PattayaNewsService />;
       break;
-    case "/city/phuket":
-    case "https://thaipulsetimes.com/city/phuket":
+    case "/navFeeds/city/phuket":
+    case "https://thaipulsetimes.com/navFeeds/city/phuket":
       ComponentToRender = <PhuketNewsService />;
       break;
-    case "/city/chiang-mai":
-    case "https://thaipulsetimes.com/city/chiang-mai":
+    case "/navFeeds/city/chiang-mai":
+    case "https://thaipulsetimes.com/navFeeds/city/chiang-mai":
       ComponentToRender = <ChiangMaiNewsService />;
       break;
-    case "/city/hat-yai":
-    case "https://thaipulsetimes.com/city/hat-yai":
+    case "/navFeeds/city/hat-yai":
+    case "https://thaipulsetimes.com/navFeeds/city/hat-yai":
       ComponentToRender = <HatYaiNewsService />;
       break;
-    case "/city/khon-kaen":
-    case "https://thaipulsetimes.com/city/khon-kaen":
+    case "/navFeeds/city/khon-kaen":
+    case "https://thaipulsetimes.com/city/navFeeds/khon-kaen":
       ComponentToRender = <KhonKaenNewsService />;
       break;
-    case "/city/nakhon-ratchasima":
-    case "https://thaipulsetimes.com/city/nakhon-ratchasima":
+    case "/navFeeds/city/nakhon-ratchasima":
+    case "https://thaipulsetimes.com/city/navFeeds/nakhon-ratchasima":
       ComponentToRender = <NakhonRatchasimaNewsService />;
       break;
     case "/feeds/thaiCapitalist":

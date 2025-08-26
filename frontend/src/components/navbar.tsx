@@ -38,41 +38,50 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="navbar">
-      <ul className="nav-links">
-        <li>
-          <a
-            href="/"
-            onClick={(e) => {
-              const currentPath = window.location.pathname;
-              if (currentPath === "/") e.preventDefault();
-            }}
-          >
-            Home
-          </a>
-        </li>
-        {cities.map((city, index) => {
-          const formattedCity = city.toLowerCase().replace(/\s+/g, "-");
-          const cityPath = `/city/${formattedCity}`;
-          const currentPath = window.location.pathname;
-          const isActive = currentPath === cityPath;
 
-          return (
-            <li key={index}>
-              <a
-                href={cityPath}
-                className={isActive ? "active" : ""}
-                onClick={(e) => {
-                  if (location.pathname === cityPath) {
-                    e.preventDefault();
-                  }
-                }}
-              >
-                {city}
-              </a>
-            </li>
-          );
-        })}
-      </ul>
+        <ul className="nav-links">
+          <li>
+            <a
+              href="/"
+              onClick={(e) => {
+                const currentPath = window.location.pathname;
+                if (currentPath === "/") e.preventDefault();
+              }}
+            >
+              Home
+            </a>
+          </li>
+          {cities.map((city, index) => {
+            const formattedCity = city.toLowerCase().replace(/\s+/g, "-");
+
+            const cityPath = `/navFeeds/city/${formattedCity}`;
+
+            const hostname = window.location.hostname;
+            const fullCityPath =
+              hostname === "thaipulsetimes.com"
+                ? `https://thaipulsetimes.com${cityPath}`
+                : cityPath;
+
+            const currentPath = window.location.pathname;
+            const isActive = currentPath === cityPath;
+
+            return (
+              <li key={index}>
+                <a
+                  href={fullCityPath}
+                  className={isActive ? "active" : ""}
+                  onClick={(e) => {
+                    if (location.pathname === cityPath) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
+                  {city}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
 
       <div
           className="burger-menu"
