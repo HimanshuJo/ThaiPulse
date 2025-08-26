@@ -158,8 +158,7 @@ public class BangkokNewsRssFeedService {
     }
 
     public void fetchAndStoreLatestNews() {
-        List<BangkokNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/tIKepB4ZE1Wx3DF3.xml"));
+        List<BangkokNews> fetchedNews = new ArrayList<>(getNewsFromRss("https://rss.app/feeds/tIKepB4ZE1Wx3DF3.xml"));
         Collections.shuffle(fetchedNews);
         List<BangkokNews> uniqueNews = fetchedNews;
         if (newsCheck()) {

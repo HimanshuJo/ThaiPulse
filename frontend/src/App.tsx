@@ -48,6 +48,7 @@ function App() {
   switch (path) {
     case "/navFeeds/city/bangkok":
     case "https://thaipulsetimes.com/navFeeds/city/bangkok":
+    console.log("Reached here !!");
       ComponentToRender = <BangkokNewsService />;
       break;
     case "/navFeeds/city/pattaya":

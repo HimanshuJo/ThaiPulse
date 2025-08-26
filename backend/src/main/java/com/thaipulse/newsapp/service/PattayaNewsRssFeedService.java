@@ -137,8 +137,7 @@ public class PattayaNewsRssFeedService {
     @Transactional
     public void fetchAndStoreLatestNews() {
 
-        List<PattayaNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/oHqaJXd9t6VndNaj.xml"));
+        List<PattayaNews> fetchedNews = new ArrayList<>(getNewsFromRss("https://rss.app/feeds/oHqaJXd9t6VndNaj.xml"));
         Collections.shuffle(fetchedNews);
         List<PattayaNews> uniqueNews = fetchedNews;
         if (newsCheck()) {
