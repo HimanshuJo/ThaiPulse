@@ -34,10 +34,10 @@ const getNormalizedPath = () => {
   const hostname = window.location.hostname;
   const path = window.location.pathname;
   if (hostname === "thaipulsetimes.com") {
-    console.log("Forming prod path: "+"https://thaipulsetimes.com"+path)
-    return "https://thaipulsetimes.com"+path;
+    console.log("Forming prod path: " + "https://thaipulsetimes.com" + path);
+    return "https://thaipulsetimes.com" + path;
   }
-  console.log("path name is: "+path);
+  console.log("path name is: " + path);
   return path;
 };
 
@@ -74,94 +74,116 @@ function App() {
     case "https://thaipulsetimes.com/city/nakhon-ratchasima":
       ComponentToRender = <NakhonRatchasimaNewsService />;
       break;
-    case "/bangkokScoopNews":
-    case "https://thaipulsetimes.com/bangkokScoopNews":
-      ComponentToRender = <BangkokScoopNewsService />;
-      break;
-    case "/thailandIslandNews":
-    case "https://thaipulsetimes.com/thailandIslandNews":
-      ComponentToRender = <ThailandIslandNewsService />;
-      break;
-    case "/findThaiProperty":
-    case "https://thaipulsetimes.com/findThaiProperty":
-      ComponentToRender = <FindThaiPropertyService />;
-      break;
-    case "/legallyMarriedInThailand":
-    case "https://thaipulsetimes.com/legallyMarriedInThailand":
-      ComponentToRender = <LegallyMarriedInThailandService />;
-      break;
-    case "/thaiLadyDateFinder":
-    case "https://thaipulsetimes.com/thaiLadyDateFinder":
-      ComponentToRender = <ThaiLadyDateFinderService />;
-      break;
-    case "/weddingBoutiquePhuket":
-    case "https://thaipulsetimes.com/weddingBoutiquePhuket":
-      ComponentToRender = <WeddingBoutiquePhuketService />;
-      break;
-    case "/bicycleThailand":
-    case "https://thaipulsetimes.com/bicycleThailand":
-      ComponentToRender = <BicycleThailandService />;
-      break;
     case "/feeds/thaiCapitalist":
     case "https://thaipulsetimes.com/feeds/thaiCapitalist":
       ComponentToRender = <ThaiCapitalistService />;
       break;
-    case "/aboutThailandLiving":
-    case "https://thaipulsetimes.com/aboutThailandLiving":
+
+    case "/feeds/bangkokScoopNews":
+    case "https://thaipulsetimes.com/feeds/bangkokScoopNews":
+      ComponentToRender = <BangkokScoopNewsService />;
+      break;
+
+    case "/feeds/thailandIslandNews":
+    case "https://thaipulsetimes.com/feeds/thailandIslandNews":
+      ComponentToRender = <ThailandIslandNewsService />;
+      break;
+
+    case "/feeds/findThaiProperty":
+    case "https://thaipulsetimes.com/feeds/findThaiProperty":
+      ComponentToRender = <FindThaiPropertyService />;
+      break;
+
+    case "/feeds/legallyMarriedInThailand":
+    case "https://thaipulsetimes.com/feeds/legallyMarriedInThailand":
+      ComponentToRender = <LegallyMarriedInThailandService />;
+      break;
+
+    case "/feeds/thaiLadyDateFinder":
+    case "https://thaipulsetimes.com/feeds/thaiLadyDateFinder":
+      ComponentToRender = <ThaiLadyDateFinderService />;
+      break;
+
+    case "/feeds/weddingBoutiquePhuket":
+    case "https://thaipulsetimes.com/feeds/weddingBoutiquePhuket":
+      ComponentToRender = <WeddingBoutiquePhuketService />;
+      break;
+
+    case "/feeds/bicycleThailand":
+    case "https://thaipulsetimes.com/feeds/bicycleThailand":
+      ComponentToRender = <BicycleThailandService />;
+      break;
+
+    case "/feeds/aboutThailandLiving":
+    case "https://thaipulsetimes.com/feeds/aboutThailandLiving":
       ComponentToRender = <AboutThailandLivingService />;
       break;
-    case "/daveTheRavesThailand":
-    case "https://thaipulsetimes.com/daveTheRavesThailand":
+
+    case "/feeds/daveTheRavesThailand":
+    case "https://thaipulsetimes.com/feeds/daveTheRavesThailand":
       ComponentToRender = <DaveTheRavesThailandService />;
       break;
-    case "/thaiFoodMaster":
-    case "https://thaipulsetimes.com/thaiFoodMaster":
+
+    case "/feeds/thaiFoodMaster":
+    case "https://thaipulsetimes.com/feeds/thaiFoodMaster":
       ComponentToRender = <ThaifoodmasterService />;
       break;
-    case "/thailandBail":
-    case "https://thaipulsetimes.com/thailandBail":
+
+    case "/feeds/thailandBail":
+    case "https://thaipulsetimes.com/feeds/thailandBail":
       ComponentToRender = <ThailandBailService />;
       break;
-    case "/theSilomer":
-    case "https://thaipulsetimes.com/theSilomer":
+
+    case "/feeds/theSilomer":
+    case "https://thaipulsetimes.com/feeds/theSilomer":
       ComponentToRender = <TheSilomerService />;
       break;
-    case "/pattayaPI":
-    case "https://thaipulsetimes.com/pattayaPI":
+
+    case "/feeds/pattayaPI":
+    case "https://thaipulsetimes.com/feeds/pattayaPI":
       ComponentToRender = <PattayaPIService />;
       break;
-    case "/budgetCatcher":
-    case "https://thaipulsetimes.com/budgetCatcher":
+
+    case "/feeds/budgetCatcher":
+    case "https://thaipulsetimes.com/feeds/budgetCatcher":
       ComponentToRender = <BudgetCatcherService />;
       break;
-    case "/thaiLawyers":
-    case "https://thaipulsetimes.com/thaiLawyers":
+
+    case "/feeds/thaiLawyers":
+    case "https://thaipulsetimes.com/feeds/thaiLawyers":
       ComponentToRender = <ThaiLawyersService />;
       break;
-    case "/meanderingTales":
-    case "https://thaipulsetimes.com/meanderingTales":
+
+    case "/feeds/meanderingTales":
+    case "https://thaipulsetimes.com/feeds/meanderingTales":
       ComponentToRender = <MeanderingTalesService />;
       break;
-    case "/lifestyleInThailand":
-    case "https://thaipulsetimes.com/lifestyleInThailand":
+
+    case "/feeds/lifestyleInThailand":
+    case "https://thaipulsetimes.com/feeds/lifestyleInThailand":
       ComponentToRender = <LifestyleInThailandService />;
       break;
-    case "/thatBangkokLife":
-    case "https://thaipulsetimes.com/thatBangkokLife":
+
+    case "/feeds/thatBangkokLife":
+    case "https://thaipulsetimes.com/feeds/thatBangkokLife":
       ComponentToRender = <ThatBangkokLifeService />;
       break;
-    case "/thinglishLifestyle":
-    case "https://thaipulsetimes.com/thinglishLifestyle":
+
+    case "/feeds/thinglishLifestyle":
+    case "https://thaipulsetimes.com/feeds/thinglishLifestyle":
       ComponentToRender = <ThinglishLifestyleService />;
       break;
-    case "/fashionGalleria":
-    case "https://thaipulsetimes.com/fashionGalleria":
+
+    case "/feeds/fashionGalleria":
+    case "https://thaipulsetimes.com/feeds/fashionGalleria":
       ComponentToRender = <FashionGalleriaService />;
       break;
+
     case "/popular-cities-map":
     case "https://thaipulsetimes.com/popular-cities-map":
       ComponentToRender = <PopularCitiesMap />;
       break;
+
     default:
       ComponentToRender = <NewsService />;
       break;

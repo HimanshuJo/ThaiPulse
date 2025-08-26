@@ -3,37 +3,38 @@ import "../resources/otherFeeds.css";
 
 interface BlogLink {
   name: string;
-  href: string; // now stores full href instead of just path
+  href: string;
 }
 
-// ✅ base URL logic
 const BASE_URL =
   window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
-    ? "" // in local React dev, we want relative links
+    ? ""
     : "https://thaipulsetimes.com";
 
+const PREFIX = "feeds";
+
 const blogLinks: BlogLink[] = [
-  { name: "About Thailand Living", href: `${BASE_URL}/aboutThailandLiving` },
-  { name: "Thailand Bail", href: `${BASE_URL}/thailandBail` },
-  { name: "The Silomer", href: `${BASE_URL}/theSilomer` },
-  { name: "Thai Lawyers", href: `${BASE_URL}/thaiLawyers` },
-  { name: "Thinglish Lifestyle", href: `${BASE_URL}/thinglishLifestyle` },
-  { name: "That Bangkok Life", href: `${BASE_URL}/thatBangkokLife` },
-  { name: "Bangkok Scoop News", href: `${BASE_URL}/bangkokScoopNews` },
-  { name: "Thailand Islands", href: `${BASE_URL}/thailandIslandNews` },
-  { name: "Thailand Property", href: `${BASE_URL}/findThaiProperty` },
-  { name: "Legally Married In Thailand", href: `${BASE_URL}/legallyMarriedInThailand` },
-  { name: "Thai Lady Date Finder", href: `${BASE_URL}/thaiLadyDateFinder` },
-  { name: "Bicycle Thailand", href: `${BASE_URL}/bicycleThailand` },
-  { name: "Thai Capitalist", href: `${BASE_URL}/feeds/thaiCapitalist` },
-  { name: "Dave The Rave's Thailand", href: `${BASE_URL}/daveTheRavesThailand` },
-  { name: "Thai Food Master", href: `${BASE_URL}/thaiFoodMaster` },
-  { name: "Pattaya PI", href: `${BASE_URL}/pattayaPI` },
-  { name: "Budget Catcher", href: `${BASE_URL}/budgetCatcher` },
-  { name: "Meandering Tales", href: `${BASE_URL}/meanderingTales` },
-  { name: "Lifestyle in Thailand", href: `${BASE_URL}/lifestyleInThailand` },
-  { name: "Fashion Galleria", href: `${BASE_URL}/fashionGalleria` },
-  { name: "Wedding Boutique Phuket", href: `${BASE_URL}/weddingBoutiquePhuket` }
+  { name: "About Thailand Living", href: `${BASE_URL}/${PREFIX}/aboutThailandLiving` },
+  { name: "Thailand Bail", href: `${BASE_URL}/${PREFIX}/thailandBail` },
+  { name: "The Silomer", href: `${BASE_URL}/${PREFIX}/theSilomer` },
+  { name: "Thai Lawyers", href: `${BASE_URL}/${PREFIX}/thaiLawyers` },
+  { name: "Thinglish Lifestyle", href: `${BASE_URL}/${PREFIX}/thinglishLifestyle` },
+  { name: "That Bangkok Life", href: `${BASE_URL}/${PREFIX}/thatBangkokLife` },
+  { name: "Bangkok Scoop News", href: `${BASE_URL}/${PREFIX}/bangkokScoopNews` },
+  { name: "Thailand Islands", href: `${BASE_URL}/${PREFIX}/thailandIslandNews` },
+  { name: "Thailand Property", href: `${BASE_URL}/${PREFIX}/findThaiProperty` },
+  { name: "Legally Married In Thailand", href: `${BASE_URL}/${PREFIX}/legallyMarriedInThailand` },
+  { name: "Thai Lady Date Finder", href: `${BASE_URL}/${PREFIX}/thaiLadyDateFinder` },
+  { name: "Bicycle Thailand", href: `${BASE_URL}/${PREFIX}/bicycleThailand` },
+  { name: "Thai Capitalist", href: `${BASE_URL}/${PREFIX}/thaiCapitalist` },
+  { name: "Dave The Rave's Thailand", href: `${BASE_URL}/${PREFIX}/daveTheRavesThailand` },
+  { name: "Thai Food Master", href: `${BASE_URL}/${PREFIX}/thaiFoodMaster` },
+  { name: "Pattaya PI", href: `${BASE_URL}/${PREFIX}/pattayaPI` },
+  { name: "Budget Catcher", href: `${BASE_URL}/${PREFIX}/budgetCatcher` },
+  { name: "Meandering Tales", href: `${BASE_URL}/${PREFIX}/meanderingTales` },
+  { name: "Lifestyle in Thailand", href: `${BASE_URL}/${PREFIX}/lifestyleInThailand` },
+  { name: "Fashion Galleria", href: `${BASE_URL}/${PREFIX}/fashionGalleria` },
+  { name: "Wedding Boutique Phuket", href: `${BASE_URL}/${PREFIX}/weddingBoutiquePhuket` }
 ];
 
 const SCROLL_STEP = 50;
