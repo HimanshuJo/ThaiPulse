@@ -30,70 +30,142 @@ import KhonKaenNewsService from "./services/khonKaenNewsService";
 import NakhonRatchasimaNewsService from "./services/nakhonRatchasimaNewsService";
 import PopularCitiesMap from "./components/popularCitiesMap";
 
+const getNormalizedPath = () => {
+  const { hostname, pathname } = window.location;
+
+  const cleanPath = pathname.replace(/\/$/, "");
+
+  if (hostname === "thaipulsetimes.com") {
+    return `https://thaipulsetimes.com${cleanPath}`;
+  }
+
+  return cleanPath;
+};
+
 function App() {
-  const path = window.location.pathname;
+  const path = getNormalizedPath();
 
   let ComponentToRender;
-  if (path === "/city/bangkok") {
-    ComponentToRender = <BangkokNewsService />;
-  } else if (path === "/city/pattaya") {
-    ComponentToRender = <PattayaNewsService />;
-  } else if (path === "/city/phuket") {
-    ComponentToRender = <PhuketNewsService />;
-  } else if (path === "/city/chiang-mai") {
-    ComponentToRender = <ChiangMaiNewsService />;
-  } else if (path === "/city/hat-yai") {
-    ComponentToRender = <HatYaiNewsService />;
-  } else if (path === "/city/khon-kaen") {
-    ComponentToRender = <KhonKaenNewsService />;
-  } else if (path === "/city/nakhon-ratchasima") {
-    ComponentToRender = <NakhonRatchasimaNewsService />;
-  } else if (path === "/bangkokScoopNews") {
-    ComponentToRender = <BangkokScoopNewsService />;
-  } else if (path === "/thailandIslandNews") {
-    ComponentToRender = <ThailandIslandNewsService />;
-  } else if (path === "/findThaiProperty") {
-    ComponentToRender = <FindThaiPropertyService />;
-  } else if (path === "/legallyMarriedInThailand") {
-    ComponentToRender = <LegallyMarriedInThailandService />;
-  } else if (path === "/thaiLadyDateFinder") {
-    ComponentToRender = <ThaiLadyDateFinderService />;
-  } else if (path === "/weddingBoutiquePhuket") {
-    ComponentToRender = <WeddingBoutiquePhuketService />;
-  } else if (path === "/bicycleThailand") {
-    ComponentToRender = <BicycleThailandService />;
-  } else if (path === "/thaiCapitalist") {
-    ComponentToRender = <ThaiCapitalistService />;
-  } else if (path === "/aboutThailandLiving") {
-    ComponentToRender = <AboutThailandLivingService />;
-  } else if (path === "/daveTheRavesThailand") {
-    ComponentToRender = <DaveTheRavesThailandService />;
-  } else if (path === "/thaiFoodMaster") {
-    ComponentToRender = <ThaifoodmasterService />;
-  } else if (path === "/thailandBail") {
-    ComponentToRender = <ThailandBailService />;
-  } else if (path === "/theSilomer") {
-    ComponentToRender = <TheSilomerService />;
-  } else if (path === "/pattayaPI") {
-    ComponentToRender = <PattayaPIService />;
-  } else if (path === "/budgetCatcher") {
-    ComponentToRender = <BudgetCatcherService />;
-  } else if (path === "/thaiLawyers") {
-    ComponentToRender = <ThaiLawyersService />;
-  } else if (path === "/meanderingTales") {
-    ComponentToRender = <MeanderingTalesService />;
-  } else if (path === "/lifestyleInThailand") {
-    ComponentToRender = <LifestyleInThailandService />;
-  } else if (path === "/thatBangkokLife") {
-    ComponentToRender = <ThatBangkokLifeService />;
-  } else if (path === "/thinglishLifestyle") {
-    ComponentToRender = <ThinglishLifestyleService />;
-  } else if (path === "/fashionGalleria") {
-    ComponentToRender = <FashionGalleriaService />;
-  } else if (path === "/popular-cities-map") {
-    ComponentToRender = <PopularCitiesMap />;
-  } else {
-    ComponentToRender = <NewsService />;
+  switch (path) {
+    case "/city/bangkok":
+    case "https://thaipulsetimes.com/city/bangkok":
+      ComponentToRender = <BangkokNewsService />;
+      break;
+    case "/city/pattaya":
+    case "https://thaipulsetimes.com/city/pattaya":
+      ComponentToRender = <PattayaNewsService />;
+      break;
+    case "/city/phuket":
+    case "https://thaipulsetimes.com/city/phuket":
+      ComponentToRender = <PhuketNewsService />;
+      break;
+    case "/city/chiang-mai":
+    case "https://thaipulsetimes.com/city/chiang-mai":
+      ComponentToRender = <ChiangMaiNewsService />;
+      break;
+    case "/city/hat-yai":
+    case "https://thaipulsetimes.com/city/hat-yai":
+      ComponentToRender = <HatYaiNewsService />;
+      break;
+    case "/city/khon-kaen":
+    case "https://thaipulsetimes.com/city/khon-kaen":
+      ComponentToRender = <KhonKaenNewsService />;
+      break;
+    case "/city/nakhon-ratchasima":
+    case "https://thaipulsetimes.com/city/nakhon-ratchasima":
+      ComponentToRender = <NakhonRatchasimaNewsService />;
+      break;
+    case "/bangkokScoopNews":
+    case "https://thaipulsetimes.com/bangkokScoopNews":
+      ComponentToRender = <BangkokScoopNewsService />;
+      break;
+    case "/thailandIslandNews":
+    case "https://thaipulsetimes.com/thailandIslandNews":
+      ComponentToRender = <ThailandIslandNewsService />;
+      break;
+    case "/findThaiProperty":
+    case "https://thaipulsetimes.com/findThaiProperty":
+      ComponentToRender = <FindThaiPropertyService />;
+      break;
+    case "/legallyMarriedInThailand":
+    case "https://thaipulsetimes.com/legallyMarriedInThailand":
+      ComponentToRender = <LegallyMarriedInThailandService />;
+      break;
+    case "/thaiLadyDateFinder":
+    case "https://thaipulsetimes.com/thaiLadyDateFinder":
+      ComponentToRender = <ThaiLadyDateFinderService />;
+      break;
+    case "/weddingBoutiquePhuket":
+    case "https://thaipulsetimes.com/weddingBoutiquePhuket":
+      ComponentToRender = <WeddingBoutiquePhuketService />;
+      break;
+    case "/bicycleThailand":
+    case "https://thaipulsetimes.com/bicycleThailand":
+      ComponentToRender = <BicycleThailandService />;
+      break;
+    case "/thaiCapitalist":
+    case "https://thaipulsetimes.com/thaiCapitalist":
+      ComponentToRender = <ThaiCapitalistService />;
+      break;
+    case "/aboutThailandLiving":
+    case "https://thaipulsetimes.com/aboutThailandLiving":
+      ComponentToRender = <AboutThailandLivingService />;
+      break;
+    case "/daveTheRavesThailand":
+    case "https://thaipulsetimes.com/daveTheRavesThailand":
+      ComponentToRender = <DaveTheRavesThailandService />;
+      break;
+    case "/thaiFoodMaster":
+    case "https://thaipulsetimes.com/thaiFoodMaster":
+      ComponentToRender = <ThaifoodmasterService />;
+      break;
+    case "/thailandBail":
+    case "https://thaipulsetimes.com/thailandBail":
+      ComponentToRender = <ThailandBailService />;
+      break;
+    case "/theSilomer":
+    case "https://thaipulsetimes.com/theSilomer":
+      ComponentToRender = <TheSilomerService />;
+      break;
+    case "/pattayaPI":
+    case "https://thaipulsetimes.com/pattayaPI":
+      ComponentToRender = <PattayaPIService />;
+      break;
+    case "/budgetCatcher":
+    case "https://thaipulsetimes.com/budgetCatcher":
+      ComponentToRender = <BudgetCatcherService />;
+      break;
+    case "/thaiLawyers":
+    case "https://thaipulsetimes.com/thaiLawyers":
+      ComponentToRender = <ThaiLawyersService />;
+      break;
+    case "/meanderingTales":
+    case "https://thaipulsetimes.com/meanderingTales":
+      ComponentToRender = <MeanderingTalesService />;
+      break;
+    case "/lifestyleInThailand":
+    case "https://thaipulsetimes.com/lifestyleInThailand":
+      ComponentToRender = <LifestyleInThailandService />;
+      break;
+    case "/thatBangkokLife":
+    case "https://thaipulsetimes.com/thatBangkokLife":
+      ComponentToRender = <ThatBangkokLifeService />;
+      break;
+    case "/thinglishLifestyle":
+    case "https://thaipulsetimes.com/thinglishLifestyle":
+      ComponentToRender = <ThinglishLifestyleService />;
+      break;
+    case "/fashionGalleria":
+    case "https://thaipulsetimes.com/fashionGalleria":
+      ComponentToRender = <FashionGalleriaService />;
+      break;
+    case "/popular-cities-map":
+    case "https://thaipulsetimes.com/popular-cities-map":
+      ComponentToRender = <PopularCitiesMap />;
+      break;
+    default:
+      ComponentToRender = <NewsService />;
+      break;
   }
 
   return <div className="App">{ComponentToRender}</div>;

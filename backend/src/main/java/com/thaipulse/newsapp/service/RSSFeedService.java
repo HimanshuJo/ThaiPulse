@@ -122,7 +122,6 @@ public class RSSFeedService {
         fetchedNews.addAll(getNewsFromRss("https://www.retailnews.asia/feed/"));
         fetchedNews.addAll(getNewsFromRss("https://www.asianexpress.co.uk/feed/"));
         fetchedNews.addAll(getNewsFromRss("https://southeastasiaglobe.com/feed/"));
-        fetchedNews.addAll(getNewsFromRss("https://tyre-asia.com/feed"));
         fetchedNews.addAll(getNewsFromRss("https://jamestown.org/feed/"));
         Collections.shuffle(fetchedNews);
         List<News> uniqueNews = fetchedNews;
