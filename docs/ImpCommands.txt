@@ -51,6 +51,8 @@ NPM:
     cd /etc/nginx/sites-available
 
     sudo rm -rf /var/www/thaipulse/*
+
+    npm run build
     
     sudo cp -r dist/* /var/www/thaipulse/
 
