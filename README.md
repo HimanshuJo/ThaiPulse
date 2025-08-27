@@ -1,11 +1,11 @@
-ThaiPulse
+# ThaiPulse
 
   ThaiPulse is a modern news aggregation and publishing platform focused on Thailand.
   It delivers curated content from multiple feeds and presents them with a clean, responsive frontend and a robust backend API.
 
 <======= ####### =======>
 
-🚀 Tech Stack
+# 🚀 Tech Stack
 
   Frontend: Vue / React (SPA, built with npm run build)
   
@@ -19,62 +19,62 @@ ThaiPulse
 
 <======= ####### =======>
 
-🖥️ Deployment Guide
+# 🖥️ Deployment Guide
 
-🔹 Frontend Setup
+# Frontend Setup
 
-  # Navigate to Nginx config
+🔹 Navigate to Nginx config
   cd /etc/nginx/sites-available
   
-  # Clear old build
+🔹 Clear old build
   sudo rm -rf /var/www/thaipulse/*
   
-  # Move into project frontend
+🔹 Move into project frontend
   cd ThaiPulse/frontend
   
-  # Build frontend
+🔹 Build frontend
   npm run build
   
-  # Deploy build to web root
+🔹 Deploy build to web root
   sudo cp -r dist/* /var/www/thaipulse/
   
-  # Verify Nginx configuration
+🔹 Verify Nginx configuration
   sudo nginx -t
   
-  # Restart Nginx
+🔹 Restart Nginx
   sudo systemctl restart nginx
 
 <======= ####### =======>
 
-🔹 Backend Setup
+# Backend Setup
 
-  # Navigate to systemd services
+  🔹 Navigate to systemd services
   cd /etc/systemd/system/
   
-  # Edit backend service (if needed)
+  🔹 Edit backend service (if needed)
   sudo nano thai-pulse-backend.service
   
-  # Check service status
+  🔹 Check service status
   sudo systemctl status thai-pulse-backend
   
-  # Build backend
+  🔹 Build backend
   cd ThaiPulse/backend
   mvn clean install
   mvn clean package
   
-  # Reload systemd and restart backend service
+  🔹 Reload systemd and restart backend service
   sudo systemctl daemon-reload
   sudo systemctl restart thai-pulse-backend.service
   
-  # Check backend logs (live)
+  🔹 Check backend logs (live)
   sudo journalctl -u thai-pulse-backend.service -f
   
-  # Restart Nginx (if required)
+  🔹 Restart Nginx (if required)
   sudo systemctl restart nginx
 
 <======= ####### =======>
 
-🔧 Service File Example
+# 🔧 Service File Example
 
 [Unit]
 Description=ThaiPulse Backend Service
@@ -96,7 +96,7 @@ WantedBy=multi-user.target
 
 <======= ####### =======>
 
-📡 Access
+# 📡 Access
 
   Frontend: http://your-server-ip/
 
@@ -104,7 +104,7 @@ WantedBy=multi-user.target
 
 <======= ####### =======>
 
-📝 Notes
+# 📝 Notes
 
   Every time the frontend changes → npm run build + copy to /var/www/thaipulse/.
 
@@ -116,6 +116,7 @@ WantedBy=multi-user.target
 
 <======= ####### =======>
 
-❤️ Contributing
+# ❤️ Contributing
 
   Pull requests are welcome! Please open an issue first to discuss major changes.
+
