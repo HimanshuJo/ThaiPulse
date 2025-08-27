@@ -599,7 +599,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping(value = "/bangkok-news")
+    @GetMapping(value = "/bangkokNews")
     public ResponseEntity<?> getAllBangkokNews(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "20") int size) {
 

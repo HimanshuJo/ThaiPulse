@@ -46,7 +46,7 @@ Oracle:
 
 -------
 
-NPM:
+Frontend:
 
     cd /etc/nginx/sites-available
 
@@ -63,3 +63,29 @@ NPM:
     sudo nginx -t
 
     sudo systemctl restart nginx
+
+-------
+
+Backend:
+
+    cd /etc/systemd/system/
+
+    sudo nano thai-pulse-backend.service
+
+    sudo systemctl status thai-pulse-backend
+
+    cd backend
+
+        mvn clean install
+
+        mvn clean package
+
+        sudo systemctl daemon-reload
+
+        sudo systemctl restart thai-pulse-backend.service
+
+        sudo systemctl status thai-pulse-backend
+
+        sudo journalctl -u thai-pulse-backend.service -f
+
+        sudo systemctl restart nginx
