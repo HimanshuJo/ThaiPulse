@@ -77,47 +77,48 @@
 # 🔧 Service File Example
 
 [Unit]
-Description=ThaiPulse Backend Service
-After=syslog.target
-After=network.target
+Description=ThaiPulse Backend Service \
+After=syslog.target \
+After=network.target \
 
 [Service]
-User=ubuntu
-ExecStart=/usr/bin/java -jar /home/ubuntu/ThaiPulse/backend/target/backend-0.0.1-SNAPSHOT.jar
-SuccessExitStatus=143
-Restart=always
-RestartSec=10
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=thai-pulse-backend
+User=ubuntu \
+ExecStart=/usr/bin/java -jar /home/ubuntu/ThaiPulse/backend/target/backend-0.0.1-SNAPSHOT.jar \
+SuccessExitStatus=143 \
+Restart=always \
+RestartSec=10 \
+StandardOutput=syslog \
+StandardError=syslog \
+SyslogIdentifier=thai-pulse-backend \
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-user.target \
 
 <======= ####### =======>
 
 # 📡 Access
 
-  Frontend: http://your-server-ip/ \
+  Frontend: http://your-server-ip/
 
-  Backend API: http://your-server-ip:8080/ \
+  Backend API: http://your-server-ip:8080/
 
 <======= ####### =======>
 
 # 📝 Notes
 
-  Every time the frontend changes → npm run build + copy to /var/www/thaipulse/. \
+  Every time the frontend changes → npm run build + copy to /var/www/thaipulse/.
 
-  Every time the backend changes → mvn clean package + restart the service. \
+  Every time the backend changes → mvn clean package + restart the service.
 
-  Logs can be monitored via journalctl. \
+  Logs can be monitored via journalctl.
 
-  Make sure ports 80 (HTTP) and 8080 (Backend API) are open. \
+  Make sure ports 80 (HTTP) and 8080 (Backend API) are open.
 
 <======= ####### =======>
 
 # ❤️ Contributing
 
   Pull requests are welcome! Please open an issue first to discuss major changes.
+
 
 
