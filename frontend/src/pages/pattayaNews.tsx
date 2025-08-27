@@ -1,19 +1,19 @@
 import React from "react";
-import type { PattayaArticle } from "../services/pattayaNewsService";
+import type { Article } from "../services/pattayaNewsService";
 import BreakingNews from "../components/breakingNews";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
-import "../resources/pattayaNews.css";
+import "../resources/home.css";
 
-interface PattayaNewsProps {
-  articles: PattayaArticle[];
+interface HomeProps {
+  articles: Article[];
   onNext: () => void;
   onPrevious: () => void;
   currentPage: number;
   totalPages: number;
 }
 
-const PattayaNews: React.FC<PattayaNewsProps> = ({
+const PattayaNewsHome: React.FC<HomeProps> = ({
   articles,
   onNext,
   onPrevious,
@@ -42,18 +42,16 @@ const PattayaNews: React.FC<PattayaNewsProps> = ({
                 loading="lazy"
               />
               <h3 className="article-title">{article.title}</h3>
-              <p className="source">{article.publishedDate}</p>
             </a>
           </div>
         ))}
       </div>
-
       <div className="pagination">
         <button onClick={onPrevious} disabled={currentPage === 0}>
           Previous
         </button>
         <span>
-          Page {currentPage + 1} of {totalPages}
+          Page&nbsp;{currentPage + 1} of {totalPages}
         </span>
         <button onClick={onNext} disabled={currentPage === totalPages - 1}>
           Next
@@ -64,4 +62,4 @@ const PattayaNews: React.FC<PattayaNewsProps> = ({
   );
 };
 
-export default PattayaNews;
+export default PattayaNewsHome;

@@ -621,7 +621,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping(value = "/pattaya-news")
+    @GetMapping(value = "/pattayaNews")
     public ResponseEntity<?> getAllPattayaNews(@RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "20") int size) {
 
@@ -643,7 +643,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping(value = "/phuket-news")
+    @GetMapping(value = "/phuketNews")
     public ResponseEntity<?> getAllPhuketNews(@RequestParam(defaultValue = "0") int page,
                                               @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
@@ -664,7 +664,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping(value = "/chiangMai-news")
+    @GetMapping(value = "/chiangMaiNews")
     public ResponseEntity<?> getAllChiangMaiNews(@RequestParam(defaultValue = "0") int page,
                                                  @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
@@ -686,7 +686,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping(value = "/hatYai-news")
+    @GetMapping(value = "/hatYaiNews")
     public ResponseEntity<?> getAllHatYaiNews(@RequestParam(defaultValue = "0") int page,
                                               @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
@@ -707,7 +707,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping(value = "/khonKaen-news")
+    @GetMapping(value = "/khonKaenNews")
     public ResponseEntity<?> getAllKhonKaenNews(@RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {
@@ -728,7 +728,7 @@ public class NewsController {
         }
     }
 
-    @GetMapping(value = "/nakhonRatchasima-news")
+    @GetMapping(value = "/nakhonRatchasimaNews")
     public ResponseEntity<?> getAllNakhonRatchasimaNews(@RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "20") int size) {
         if (size < 1) {

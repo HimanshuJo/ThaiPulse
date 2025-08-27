@@ -1,37 +1,29 @@
 package com.thaipulse.newsapp.service;
 
 import com.rometools.modules.mediarss.MediaEntryModule;
+import com.rometools.rome.feed.module.Module;
 import com.rometools.rome.feed.synd.SyndContent;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
-import com.rometools.rome.feed.module.Module;
 import com.thaipulse.newsapp.dto.KhonKaenNewsDto;
 import com.thaipulse.newsapp.mapper.KhonKaenNewsMapper;
 import com.thaipulse.newsapp.model.KhonKaenNews;
 import com.thaipulse.newsapp.repository.KhonKaenNewsRepository;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-
-import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class KhonKaenNewsRssFeedService {
@@ -66,31 +58,9 @@ public class KhonKaenNewsRssFeedService {
             for (SyndEntry entry : feed.getEntries()) {
                 KhonKaenNews news = new KhonKaenNews();
                 news.setTitle(entry.getTitle());
-                try {
-                    URL articleUrl = new URL(entry.getLink());
-                    String host = articleUrl.getHost();
-                    if (host.startsWith("www.")) {
-                        host = host.substring(4);
-                    }
-                    String mainPart = host.split("\\.")[0];
-                    String formattedSource = Arrays.stream(mainPart.split("(?=[A-Z])|(?<=\\D)(?=\\d)|(?<=\\D)(?=News)" +
-                                    "|(?<=news)(?=[A-Z])|(?<=\\p{Lower})(?=\\p{Upper})|(?<=\\p{Lower})(?=\\d)|" +
-                                    "(?<=\\p{Lower})(?=\\p{Upper})"))
-                            .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
-                            .collect(Collectors.joining(" "));
-
-                    if (formattedSource.equals(mainPart)) {
-                        formattedSource = Arrays.stream(mainPart.split("(?<=news)|(?<=daily)|(?<=post)|(?<=times)|" +
-                                        "(?<=review)|(?<=mail)"))
-                                .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
-                                .collect(Collectors.joining(" "));
-                    }
-
-                    news.setSource(formattedSource.trim());
-                } catch (MalformedURLException e) {
-                    news.setSource("Unknown");
-                }
+                news.setSource(feed.getTitle());
                 news.setLink(entry.getLink());
+
                 boolean imageSet = false;
                 if (entry.getModules() != null) {
                     for (Module module : entry.getModules()) {
@@ -126,17 +96,15 @@ public class KhonKaenNewsRssFeedService {
                 }
                 if (!imageSet) continue;
                 newsList.add(news);
-                logger.info("Added KhonKaenNews: " + news.getTitle());
             }
-        } catch (IOException | FeedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return newsList;
     }
 
     public void fetchAndStoreLatestNews() {
-        List<KhonKaenNews> fetchedNews = new ArrayList<>();
-        fetchedNews.addAll(getNewsFromRss("https://rss.app/feeds/NMnBedns2PTkq8st.xml"));
+        List<KhonKaenNews> fetchedNews = new ArrayList<>(getNewsFromRss("https://rss.app/feeds/NMnBedns2PTkq8st.xml"));
         Collections.shuffle(fetchedNews);
         List<KhonKaenNews> uniqueNews = fetchedNews;
         if (newsCheck()) {

@@ -22,7 +22,12 @@ import ThinglishLifestyleService from "./services/thinglishLifestyleService";
 import FashionGalleriaService from "./services/fashionGalleriaService";
 import ThaiLadyDateFinderService from "./services/thaiLadyDateFinderService";
 import BangkokNewsService from "./services/bangkokNewsService";
-
+import PattayaNewsService from "./services/pattayaNewsService";
+import PhuketNewsService from "./services/phuketNewsService";
+import ChiangMaiNewsService from "./services/chiangMaiNewsService";
+import HatYaiNewsService from "./services/hatYaiNewsService";
+import KhonKaenNewsService from "./services/khonKaenNewsService";
+import NakhonRatchasimaNewsService from "./services/nakhonRatchasimaNewsService";
 import PopularCitiesMap from "./components/popularCitiesMap";
 
 const getNormalizedPath = () => {
@@ -45,6 +50,36 @@ function App() {
     case "https://thaipulsetimes.com/navFeeds/city/bangkok":
       ComponentToRender = <BangkokNewsService />;
       break;
+
+     case "/navFeeds/city/pattaya":
+      case "https://thaipulsetimes.com/navFeeds/city/pattaya":
+        ComponentToRender = <PattayaNewsService />;
+        break;
+
+     case "/navFeeds/city/phuket":
+      case "https://thaipulsetimes.com/navFeeds/city/phuket":
+        ComponentToRender = <PhuketNewsService />;
+        break;
+
+     case "/navFeeds/city/chiang-mai":
+      case "https://thaipulsetimes.com/navFeeds/city/chiang-mai":
+        ComponentToRender = <ChiangMaiNewsService />;
+        break;
+
+     case "/navFeeds/city/hat-yai":
+      case "https://thaipulsetimes.com/navFeeds/city/hat-yai":
+        ComponentToRender = <HatYaiNewsService />;
+        break;
+
+     case "/navFeeds/city/khon-kaen":
+      case "https://thaipulsetimes.com/navFeeds/city/khon-kaen":
+        ComponentToRender = <KhonKaenNewsService />;
+        break;
+
+     case "/navFeeds/city/nakhon-ratchasima":
+      case "https://thaipulsetimes.com/navFeeds/city/nakhon-ratchasima":
+        ComponentToRender = <NakhonRatchasimaNewsService />;
+        break;
 
     case "/feeds/thaiCapitalist":
     case "https://thaipulsetimes.com/feeds/thaiCapitalist":

@@ -35,14 +35,12 @@ const HatYaiNewsHome: React.FC<HomeProps> = ({
               rel="noopener noreferrer"
               className="article-link"
             >
-              {article.image && (
-                <img
-                  src={article.image}
-                  alt={article.title}
-                  className="article-image"
-                  loading="lazy"
-                />
-              )}
+              <img
+                src={article.image}
+                alt={article.title}
+                className="article-image"
+                loading="lazy"
+              />
               <h3 className="article-title">{article.title}</h3>
             </a>
           </div>

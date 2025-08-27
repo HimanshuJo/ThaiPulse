@@ -11,7 +11,6 @@ import com.thaipulse.newsapp.dto.PattayaNewsDto;
 import com.thaipulse.newsapp.mapper.PattayaNewsMapper;
 import com.thaipulse.newsapp.model.PattayaNews;
 import com.thaipulse.newsapp.repository.PattayaNewsRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,11 +18,8 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -63,30 +59,7 @@ public class PattayaNewsRssFeedService {
             for (SyndEntry entry : feed.getEntries()) {
                 PattayaNews news = new PattayaNews();
                 news.setTitle(entry.getTitle());
-                try {
-                    URL articleUrl = new URL(entry.getLink());
-                    String host = articleUrl.getHost();
-                    if (host.startsWith("www.")) {
-                        host = host.substring(4);
-                    }
-                    String mainPart = host.split("\\.")[0];
-                    String formattedSource = Arrays.stream(mainPart.split("(?=[A-Z])|(?<=\\D)(?=\\d)|(?<=\\D)(?=News)" +
-                                    "|(?<=news)(?=[A-Z])|(?<=\\p{Lower})(?=\\p{Upper})|(?<=\\p{Lower})(?=\\d)|" +
-                                    "(?<=\\p{Lower})(?=\\p{Upper})"))
-                            .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
-                            .collect(Collectors.joining(" "));
-
-                    if (formattedSource.equals(mainPart)) {
-                        formattedSource = Arrays.stream(mainPart.split("(?<=news)|(?<=daily)|(?<=post)|(?<=times)|" +
-                                        "(?<=review)|(?<=mail)"))
-                                .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
-                                .collect(Collectors.joining(" "));
-                    }
-
-                    news.setSource(formattedSource.trim());
-                } catch (MalformedURLException e) {
-                    news.setSource("Unknown");
-                }
+                news.setSource(feed.getTitle());
                 news.setLink(entry.getLink());
 
                 boolean imageSet = false;
@@ -122,10 +95,7 @@ public class PattayaNewsRssFeedService {
                         }
                     }
                 }
-                if (!imageSet) {
-                    continue;
-                }
-                logger.info("Pattaya News Added: " + news.getTitle());
+                if (!imageSet) continue;
                 newsList.add(news);
             }
         } catch (Exception e) {
@@ -136,7 +106,6 @@ public class PattayaNewsRssFeedService {
 
     @Transactional
     public void fetchAndStoreLatestNews() {
-
         List<PattayaNews> fetchedNews = new ArrayList<>(getNewsFromRss("https://rss.app/feeds/oHqaJXd9t6VndNaj.xml"));
         Collections.shuffle(fetchedNews);
         List<PattayaNews> uniqueNews = fetchedNews;
