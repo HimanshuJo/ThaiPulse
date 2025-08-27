@@ -60,17 +60,17 @@
   🔹 Build backend \
   cd ThaiPulse/backend \
   mvn clean install \
-  mvn clean package \
+  mvn clean package
   
   🔹 Reload systemd and restart backend service \
   sudo systemctl daemon-reload \
-  sudo systemctl restart thai-pulse-backend.service \
+  sudo systemctl restart thai-pulse-backend.service
   
   🔹 Check backend logs (live) \
-  sudo journalctl -u thai-pulse-backend.service -f \
+  sudo journalctl -u thai-pulse-backend.service -f
   
   🔹 Restart Nginx (if required) \
-  sudo systemctl restart nginx \
+  sudo systemctl restart nginx
 
 <======= ####### =======>
 
@@ -79,7 +79,7 @@
 [Unit]
 Description=ThaiPulse Backend Service \
 After=syslog.target \
-After=network.target \
+After=network.target
 
 [Service]
 User=ubuntu \
@@ -89,10 +89,10 @@ Restart=always \
 RestartSec=10 \
 StandardOutput=syslog \
 StandardError=syslog \
-SyslogIdentifier=thai-pulse-backend \
+SyslogIdentifier=thai-pulse-backend
 
 [Install]
-WantedBy=multi-user.target \
+WantedBy=multi-user.target
 
 <======= ####### =======>
 
@@ -119,6 +119,3 @@ WantedBy=multi-user.target \
 # ❤️ Contributing
 
   Pull requests are welcome! Please open an issue first to discuss major changes.
-
-
-
