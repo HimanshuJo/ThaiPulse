@@ -17,6 +17,16 @@ const PopularCitiesMap: React.FC = () => {
   const mapRef = useRef<any>(null);
   const routingControlRef = useRef<any>(null);
 
+    const burgerMenu = document.querySelector(".burger-menu") as HTMLElement | null;
+
+    if(burgerMenu){
+      if (window.location.pathname.includes("popular-cities-map")) {
+        burgerMenu.style.display = "none";
+      } else {
+        burgerMenu.style.display = "flex";
+      }
+    }
+
   useEffect(() => {
     if (!mapRef.current) {
       const map = L.map("popular-cities-map", {
@@ -85,7 +95,7 @@ const PopularCitiesMap: React.FC = () => {
     <div
       style={{
         height: "300vh",
-        width: "90vw",
+        width: "80vw",
         display: "flex",
         flexDirection: "column",
         margin: 0,
@@ -94,7 +104,7 @@ const PopularCitiesMap: React.FC = () => {
       }}
     >
       <Navbar />
-      <div style={{ padding: "10px 20px", background: "#f0f0f0", zIndex: 1000 }}>
+      <div style={{ padding: "10px 20px", background: "#f0f0f0", zIndex: 2000, position: "relative", justifyContent: "flex-end" }}>
         <select value={startCity} onChange={(e) => setStartCity(e.target.value)} style={{ marginRight: 10 }}>
           <option value="">Select Start City</option>
           {cities.map((city) => (
