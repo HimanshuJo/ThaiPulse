@@ -14,9 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 class RSSFeedServiceIT {
 
     @Autowired
