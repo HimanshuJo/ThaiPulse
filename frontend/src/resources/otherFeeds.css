@@ -109,3 +109,47 @@
   background: #a0d3d7;
 }
 
+@media (max-width: 768px) {
+  .other-feeds {
+    width: 80vw !important;
+    padding: 0.5rem 0.5rem !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  .other-feeds ul {
+    gap: 0.8rem !important;
+    padding: 0.5rem !important;
+  }
+
+  .other-feeds a {
+    font-size: 1rem !important;
+    padding: 0.6rem 1rem !important;
+  }
+
+  .left-arrow,
+  .right-arrow {
+    width: 36px !important;
+    height: 28px !important;
+    font-size: 16px !important;
+    opacity: 0.9 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .other-feeds ul {
+    gap: 0.6rem !important;
+  }
+
+  .other-feeds a {
+    font-size: 0.9rem !important;
+    padding: 0.5rem 0.8rem !important;
+  }
+
+  .left-arrow,
+  .right-arrow {
+    width: 32px !important;
+    height: 26px !important;
+    font-size: 15px !important;
+  }
+}

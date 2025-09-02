@@ -120,7 +120,10 @@ const PopularCitiesMap: React.FC = () => {
         </select>
       </div>
 
-      <div id="popular-cities-map" style={{ flex: 1 }}></div>
+      <div id="popular-cities-map" style={{
+         flex: 1,
+        }}>
+      </div>
 
       <footer
         style={{

@@ -1,3 +1,10 @@
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+}
+
 .container {
   padding: 20px;
 }
@@ -88,4 +95,45 @@
 
 .pagination span {
   font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        width: 80vw !important;
+        height: 50% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .card {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        flex: 1 1 auto !important;
+    }
+
+    .article-image {
+        width: 100% !important;
+        height: 60% !important;
+        object-fit: cover !important;
+        margin-bottom: 0 !important;
+    }
+
+    .article-title {
+        font-size: 1.2rem !important;
+    }
+
+    .source {
+        font-size: 1rem !important;
+    }
+
+    .content-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
 }
