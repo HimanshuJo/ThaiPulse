@@ -17,8 +17,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -59,6 +61,32 @@ public class NakhonRatchasimaNewsRssFeedService {
                 NakhonRatchasimaNews news = new NakhonRatchasimaNews();
                 news.setTitle(entry.getTitle());
                 news.setSource(feed.getTitle());
+
+                try {
+                    URL articleUrl = new URL(entry.getLink());
+                    String host = articleUrl.getHost();
+                    if (host.startsWith("www.")) {
+                        host = host.substring(4);
+                    }
+                    String mainPart = host.split("\\.")[0];
+                    String formattedSource = Arrays.stream(mainPart.split("(?=[A-Z])|(?<=\\D)(?=\\d)|(?<=\\D)(?=News)" +
+                                    "|(?<=news)(?=[A-Z])|(?<=\\p{Lower})(?=\\p{Upper})|(?<=\\p{Lower})(?=\\d)|" +
+                                    "(?<=\\p{Lower})(?=\\p{Upper})"))
+                            .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
+                            .collect(Collectors.joining(" "));
+
+                    if (formattedSource.equals(mainPart)) {
+                        formattedSource = Arrays.stream(mainPart.split("(?<=news)|(?<=daily)|(?<=post)|(?<=times)|" +
+                                        "(?<=review)|(?<=mail)"))
+                                .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
+                                .collect(Collectors.joining(" "));
+                    }
+
+                    news.setSource(formattedSource.trim());
+                } catch (MalformedURLException e) {
+                    news.setSource(feed.getTitle());
+                }
+
                 news.setLink(entry.getLink());
 
                 boolean imageSet = false;

@@ -670,7 +670,6 @@ public class NewsController {
         if (size < 1) {
             size = 20;
         }
-        System.out.println("received the call");
         boolean areNewsAvailable = chiangMaiNewsRssFeedService.newsCheck();
         if (!areNewsAvailable) {
             chiangMaiNewsRssFeedService.fetchAndStoreLatestNews();

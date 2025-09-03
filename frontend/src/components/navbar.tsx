@@ -85,11 +85,20 @@ const Navbar: React.FC = () => {
 
       <div
           className="burger-menu"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={() => {
+            setIsMenuOpen(!isMenuOpen);
+            document.body.classList.toggle("menu-open", !isMenuOpen);
+          }}
           ref={burgerRef}
           role="button"
           tabIndex={0}
-          onKeyPress={(e) => e.key === "Enter" && setIsMenuOpen(!isMenuOpen)}
+          onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                const newState = !isMenuOpen;
+                setIsMenuOpen(newState);
+                document.body.classList.toggle("menu-open", newState);
+              }
+          }}
       >
         <div className="bar"></div>
         <div className="bar"></div>
@@ -108,6 +117,33 @@ const Navbar: React.FC = () => {
             <br />
             <hr />
           </div>
+          <div className="dropdown-section">
+              <a href="/">🏠 Home</a>
+              {cities.map((city, index) => {
+                const formattedCity = city.toLowerCase().replace(/\s+/g, "-");
+                const cityPath = `/navFeeds/city/${formattedCity}`;
+                const hostname = window.location.hostname;
+                const fullCityPath =
+                  hostname === "thaipulsetimes.com"
+                    ? `https://thaipulsetimes.com${cityPath}`
+                    : cityPath;
+                const isActive = window.location.pathname === cityPath;
+
+                return (
+                  <a
+                    key={index}
+                    href={fullCityPath}
+                    className={isActive ? "active" : ""}
+                    onClick={(e) => {
+                      if (location.pathname === cityPath) e.preventDefault();
+                    }}
+                  >
+                    {city}
+                  </a>
+                );
+              })}
+              <hr />
+            </div>
             <div className="dropdown-section">
                 <a href="/popular-cities-map">🗺️ Popular Cities Map</a>
             </div>
