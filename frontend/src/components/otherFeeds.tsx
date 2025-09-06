@@ -25,7 +25,7 @@ const blogLinks: BlogLink[] = [
   { name: "Thailand Property", href: `${BASE_URL}/${PREFIX}/findThaiProperty` },
   { name: "Legally Married In Thailand", href: `${BASE_URL}/${PREFIX}/legallyMarriedInThailand` },
   { name: "Thai Lady Date Finder", href: `${BASE_URL}/${PREFIX}/thaiLadyDateFinder` },
-  { name: "Bicycle Thailand", href: `${BASE_URL}/${PREFIX}/bicycleThailand` },
+  { name: "Pattaya Soi 6", href: `${BASE_URL}/${PREFIX}/pattayaSoi6` },
   { name: "Thai Capitalist", href: `${BASE_URL}/${PREFIX}/thaiCapitalist` },
   { name: "Dave The Rave's Thailand", href: `${BASE_URL}/${PREFIX}/daveTheRavesThailand` },
   { name: "Thai Food Master", href: `${BASE_URL}/${PREFIX}/thaiFoodMaster` },
@@ -109,7 +109,6 @@ const OtherFeeds: React.FC = () => {
 
       <ul ref={scrollRef}>
         {blogLinks.map((blog, index) => {
-          // For active detection: normalize without BASE_URL
           const currentPath = window.location.pathname;
           const blogPath = new URL(blog.href, window.location.origin).pathname;
           const isActive = currentPath === blogPath;

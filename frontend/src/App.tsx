@@ -5,7 +5,7 @@ import ThailandIslandNewsService from "./services/thailandIslandNewsService";
 import FindThaiPropertyService from "./services/findThaiPropertyService";
 import LegallyMarriedInThailandService from "./services/legallyMarriedInThailandService";
 import WeddingBoutiquePhuketService from "./services/weddingBoutiquePhuketService";
-import BicycleThailandService from "./services/bicycleThailandService";
+import PattayaSoi6Service from "./services/pattayaSoi6Service";
 import ThaiCapitalistService from "./services/thaiCapitalistService";
 import AboutThailandLivingService from "./services/aboutThailandLivingService";
 import DaveTheRavesThailandService from "./services/daveTheRavesThailandService";
@@ -116,9 +116,9 @@ function App() {
       ComponentToRender = <WeddingBoutiquePhuketService />;
       break;
 
-    case "/feeds/bicycleThailand":
-    case "https://thaipulsetimes.com/feeds/bicycleThailand":
-      ComponentToRender = <BicycleThailandService />;
+    case "/feeds/pattayaSoi6":
+    case "https://thaipulsetimes.com/feeds/pattayaSoi6":
+      ComponentToRender = <PattayaSoi6Service />;
       break;
 
     case "/feeds/aboutThailandLiving":
